@@ -1,0 +1,8 @@
+{
+   "python.defaultInterpreterPath": "${workspaceFolder}/bin/python3",
+   "python.terminal.activateEnvironment": true,
+   "files.exclude": {
+      "**/.git": false,
+      "**/.DS_Store": false,
+   },
+}
