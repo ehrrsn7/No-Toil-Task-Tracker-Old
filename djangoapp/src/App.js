@@ -14,53 +14,58 @@ import "./App.css"
 export default function App() {
    const context = useContext()
 
-   // initialize context variables
-   // setScreenSize(window.innerWidth)
+   
+   // helper functions
+   function isMobileWidth(mobileWidth = 600) {
+      return window.innerWidth < mobileWidth
+   }
+
+   function onNonSidebarClick() {
+      // don't close sidebar on click #nonSidebar
+      if (!isMobileWidth()) return 
+      // click outside #sidebar to hide it (mobile only)
+      if (context.activeSidebar) 
+         context.setActiveSidebar(false)
+   }
 
    // set event listeners
    useEffect(() => {
+
       // dimension events
       function resize() { context.setScreenSize(window.innerWidth) }
       window.addEventListener("resize", resize) // runtime
       context.setScreenSize(window.innerWidth) // on construct
 
+      function onEscape(event) {
+         if (event.code === "Escape" || event.isComposing) 
+            context.setActiveSidebar(false)
+      } document.addEventListener("keydown", onEscape)
+   
       // media query events
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener(
-         "change", (event) => console.log(event)
-      )
+      function handleDarkMode(event) {
+         context.setDarkMode(event.matches)
+         console.log("dark mode", event.matches)
+      } window.matchMedia(
+         "(prefers-color-scheme: dark)"
+      ).addEventListener("change", handleDarkMode)
 
       // destruct
       return () => {
          window.removeEventListener("resize", resize)
-         window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", () => {})
+         window.matchMedia(
+            "(prefers-color-scheme: dark)"
+         ).removeEventListener("change", handleDarkMode)
+         document.removeEventListener("keydown", onEscape)
       }
-   }, [context.setScreenSize])
-
-   function isCssDarkMode(window) {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches
-   }
-
-   function setCssDarkMode(window, contextDarkMode) {
-      console.log("set css dark mode", window, contextDarkMode)
-   }
-
-   function toggleDarkMode() {
-      console.log("set dark mode, current context dark mode:", context.darkMode)
-      context.setDarkMode(!isCssDarkMode(window))
-      setCssDarkMode(window, context.darkMode)
-   }
-
-   document.addEventListener("keydown", (event) => {
-      if (event.code === "Escape" || event.isComposing) 
-         console.log("what")
-   }) // runtime
+   }, [ context ])
 
    return (
       <div id="App">
          <BrowserRouter>
             <Sidebar />
     
-            <div id="nonSidebar" className={context.activeSidebar ? "activeSidebar" : ""} >
+            <div id="nonSidebar" className={context.activeSidebar ? "activeSidebar" : ""} 
+            onClick={onNonSidebarClick} >
     
                <Header />
        

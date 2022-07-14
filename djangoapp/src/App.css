@@ -1,37 +1,3 @@
-/* React Styles */
-#App {
-   /* text-align: center; */
-}
-
-@media (prefers-reduced-motion: no-preference) {
-   .App-logo {
-      animation: App-logo-spin infinite 20s linear;
-   }
-}
-
-::-webkit-scrollbar-thumb:hover {
-   background: #555;
-}
-
-.App-link {
-   color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-   from {
-      transform: rotate(0deg);
-   }
-   to {
-      transform: rotate(360deg);
-   }
-}
-
-* {
-
-}
-
-/* App Styles */
-
 :root {
    /* dimensions */
    --headerHeight: 50px;
@@ -42,9 +8,27 @@
    --cornerButtonsWidth: 50px;
 
    /* colors */
+   --primary: #222222;
+   --secondary: #444444;
+   --tertiary: #666666;
+   --primary-background: #EEEEEE;
+   --secondary-background: #CCCCCC;
+   --tertiary-background: #AAAAAA;
    --gray: #f5f5f5;
 }
 
+html, body, #App {
+   background-color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+   html, body, #App {
+      color: var(--secondary-background);
+      background-color: var(--secondary);
+   }
+}
+
+/* App Styles */
 button {
    border: none;
 }
@@ -57,6 +41,13 @@ a {
    background-color: var(--gray);
    min-height: var(--headerHeight);
    padding: var(--defaultPadding);
+}
+
+@media (prefers-color-scheme: dark) {
+   #header {
+      color: var(--teriary-background);
+      background-color: var(--tertiary);
+   }
 }
 
 #headerTitle {
@@ -88,8 +79,30 @@ a {
    left: 15px;
 }
 
+@media only screen and (max-width: 600px) {
+   #headerTitle {
+      margin-left: var(--toggleSidebarOffset);
+   }
+   
+   #headerTitle.activeSidebar {
+      margin-left: 0;
+   }
+
+   #toggleSidebarButton {
+      position: absolute;
+      left: calc(var(--sidebarWidth) - 4em);
+      transition: .3s all;
+      z-index: 1000;
+   }
+
+   #toggleSidebarButton.activeSidebar {
+      left: 15px;
+   }
+}
+
 #sidebar {
    position: fixed;
+   border-right: 1px rgba(0,0,0,.1) solid;
    width: var(--sidebarWidth);
    min-width: 150px;
    height: 100%;
@@ -100,7 +113,7 @@ a {
    padding:var(--defaultPadding);
    overflow: hidden;
    overflow-y: auto;
-   box-shadow: inset 0 0 20px #BBBBBB45;
+   /* box-shadow: inset 0 0 20px #BBBBBB45; */
    background-color: var(--gray);
    transition: all .3s;
    z-index: 1000;
@@ -143,6 +156,13 @@ a {
    letter-spacing: -0.025em;
 }
 
+@media (prefers-color-scheme: dark) {
+   #sidebar, #sidebar.activeSidebar {
+      color: var(--tertiary-dark);
+      background-color: var(--tertiary);
+   }
+}
+
 #nonSidebar {
    position: absolute;
    min-height: calc(100% - 28px);
@@ -161,13 +181,24 @@ a {
    transition: all .3s;
 }
 
+@media only screen and (max-width: 600px) {
+   #nonSidebar.activeSidebar {
+      position: absolute;
+      min-height: calc(100% - 28px);
+      height: calc(100% - 28px);
+      width: 100%;
+      margin-left: 0;
+      filter: blur(4px);
+      transition: all .3s;
+   }
+}
+
 #content {
    position: relative;
    width: 100%;
    min-height: calc(100% - var(--headerHeight) - var(--defaultPadding) * 9.7);
    height: fit-content;
    padding: var(--defaultPadding);
-   background-color: white;
 }
 
 #settingsButton {
@@ -201,5 +232,35 @@ a {
    margin-right: 0;
 }
 
+@media (prefers-color-scheme: dark) {
+   #footer {
+      color: var(--tertiary-dark);
+      background-color: var(--tertiary);
+   }
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+   .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+   }
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background: #555;
+}
+
+.App-link {
+   color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+   from {
+      transform: rotate(0deg);
+   }
+   to {
+      transform: rotate(360deg);
+   }
+}
 
 
