@@ -1,8 +1,12 @@
 import React from "react"
-import logo from "../images/icons/logo.svg"
+import logo from "../images/logo.svg"
 import { Tooltip } from "@mui/material"
 
 export default function Footer() {
+   React.useEffect(() => {
+      document.title = "Dashboard"
+   }, [])
+   
    return <div id="footer">
       <div>
          <p>Made by elijah harrison</p>

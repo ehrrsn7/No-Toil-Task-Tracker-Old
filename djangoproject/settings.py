@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -34,6 +33,7 @@ ALLOWED_HOSTS = [ '*' ]
 
 INSTALLED_APPS = [
     # my apps
+    'djangoapp.apps.DjangoappConfig',
 
     # django
     'django.contrib.admin',
@@ -124,10 +124,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
+STATIC_ROOT = ""
 STATICFILES_DIRS = [
-    # include different static directories here
-    # note: run manage.py collectstatic command to build
+    BASE_DIR / STATIC_URL,
+    '/var/www/static/',
 ]
 
 # Default primary key field type

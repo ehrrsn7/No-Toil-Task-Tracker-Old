@@ -8,7 +8,7 @@ module.exports = {
    },
    
    output: {
-      path: path.resolve(__dirname, './static/djangoapp/build/'),
+      path: path.resolve(__dirname, './static/djangoapp/'),
       filename: '[name].js',
    },
 
@@ -24,21 +24,10 @@ module.exports = {
          use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
       {
-         test: /\.svg$/,
-         use: [
-            {
-               loader: 'svg-url-loader',
-               options: {
-                  limit: 10000,
-               },
-            },
-         ],
-      },
-      {
          test: /\.(jpe?g|png|gif|svg)$/i, 
          loader: 'file-loader',
          options: {
-            name: 'images/[name].[ext]',
+            name: 'images/[path][name].[ext]',
             limit: 10000,
          },
       },

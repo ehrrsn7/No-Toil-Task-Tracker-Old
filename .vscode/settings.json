@@ -5,4 +5,5 @@
       "**/.git": false,
       "**/.DS_Store": false,
    },
+   "git.ignoreLimitWarning": true,
 }
