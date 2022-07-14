@@ -1,10 +1,11 @@
 .svn
 .vscode
+.DS_Store
 bin
 node_modules
-.DS_Store
+djangoapp/node_modules
+private
 djangoproject/private
-djangoapp/private
 db.sqlite3
 ftp.duck
 pyvenv.cfg
