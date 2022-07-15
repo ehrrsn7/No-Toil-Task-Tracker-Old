@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [ '*' ]
 INSTALLED_APPS = [
     # my apps
     'djangoapp.apps.DjangoappConfig',
+    "api.apps.ApiConfig",
 
     # django
     'django.contrib.admin',
@@ -89,6 +90,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'djangoproject.wsgi.application'
 ASGI_APPLICATION = 'djangoproject.asgi.application'
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -125,11 +134,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = ""
-STATICFILES_DIRS = [
-    BASE_DIR / STATIC_URL,
-    '/var/www/static/',
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

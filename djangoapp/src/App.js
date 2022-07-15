@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import SettingsIcon from "@mui/icons-material/Settings"
 import { Tooltip } from "@mui/material"
 import { DarkModeSwitch } from "react-toggle-dark-mode"
+
 import { useContext } from "./contexts/contextProvider"
 import Example from "./pages/example"
 import Dashboard from "./pages/dashboard"
@@ -11,9 +12,10 @@ import Header from "./components/header"
 import Footer from "./components/footer"
 import "./App.css"
 
+const djangoappName = "djangoapp"
+
 export default function App() {
    const context = useContext()
-
    
    // helper functions
    function isMobileWidth(mobileWidth = 600) {
@@ -61,7 +63,7 @@ export default function App() {
 
    return (
       <div id="App">
-         <BrowserRouter>
+         <BrowserRouter basename={djangoappName}>
             <Sidebar />
     
             <div id="nonSidebar" className={context.activeSidebar ? "activeSidebar" : ""} 
@@ -73,9 +75,9 @@ export default function App() {
                {/* <div id="content" style={darkMode ? styles.contentDark : styles.content}> */}
                <div id="content">
                   <Routes>
-                     <Route path="/" element={<Dashboard />} />
-                     <Route path="/dashboard" element={<Dashboard />} />
-                     <Route path="/example" element={<Example />} />
+                     <Route path={`/`} element={<Dashboard />} />
+                     <Route path={`/dashboard`} element={<Dashboard />} />
+                     <Route path={`/example`} element={<Example />} />
                   </Routes>
 
                   <Tooltip title="Open Settings Pane">

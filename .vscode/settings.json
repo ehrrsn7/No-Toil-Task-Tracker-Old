@@ -1,9 +1,10 @@
 {
-   "python.defaultInterpreterPath": "${workspaceFolder}/bin/python3",
+   "python.defaultInterpreterPath": "${workspaceFolder}/bin/python3.10",
    "python.terminal.activateEnvironment": true,
    "files.exclude": {
       "**/.git": false,
       "**/.DS_Store": false,
+      "**/.env": false,
    },
    "git.ignoreLimitWarning": true,
 }

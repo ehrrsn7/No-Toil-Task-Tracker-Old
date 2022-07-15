@@ -1,4 +1,4 @@
-#!/Users/ehrrsn7/Documents/Code/Heroku/No-Toil-Task-Tracker/bin/python3
+#!/Users/ehrrsn7/Documents/Code/Django+React/No-Toil-Task-Tracker/bin/python3.10
 # -*- coding: utf-8 -*-
 import re
 import sys

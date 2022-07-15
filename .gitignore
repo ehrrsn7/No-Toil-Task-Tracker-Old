@@ -9,3 +9,4 @@ djangoproject/private
 db.sqlite3
 ftp.duck
 pyvenv.cfg
+lib

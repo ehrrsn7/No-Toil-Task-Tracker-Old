@@ -6,6 +6,10 @@ import { useContext } from "../contexts/contextProvider"
 export default function ToggleSidebarButton() {
    const { activeSidebar, setActiveSidebar } = useContext()
 
+   React.useEffect(() => {
+      console.log("<ToggleSidebarButton />")
+   })
+
    return <div>
       {/* Collapse/Show Sidebar Hamburger Button */}
       <Tooltip title="Toggle Sidebar">

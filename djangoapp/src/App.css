@@ -192,8 +192,8 @@ a {
 #content {
    position: relative;
    width: 100%;
-   height: calc(100% - var(--headerHeight) - var(--footerHeight));
-   min-height: fit-content;
+   min-height: calc(100% - var(--headerHeight) - var(--footerHeight));
+   height: fit-content;
    padding: var(--defaultPadding);
 }
 
