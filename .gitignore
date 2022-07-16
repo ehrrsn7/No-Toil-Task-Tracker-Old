@@ -10,3 +10,7 @@ db.sqlite3
 ftp.duck
 pyvenv.cfg
 lib
+api/__pycache__
+djangoapp/__pycache__
+djangoproject/__pycache__
+djangoproject/__pycache__

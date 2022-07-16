@@ -91,6 +91,9 @@ WSGI_APPLICATION = 'djangoproject.wsgi.application'
 ASGI_APPLICATION = 'djangoproject.asgi.application'
 
 REST_FRAMEWORK = {
+   'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.TokenAuthentication',
+   ),
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [

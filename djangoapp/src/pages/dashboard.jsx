@@ -1,9 +1,11 @@
-import React, { useEffect } from "react"
+import React from "react"
 import image from "../images/lamppost.jpg"
 
 export default function Dashboard() {
-   useEffect(() => {
+   React.useEffect(() => {
       document.title = "Dashboard"
+      document.querySelector("#headerTitle").innerText = document.title
+      document.querySelector("title") = document.title
    }, [])
    
    return <div id="dashboard">

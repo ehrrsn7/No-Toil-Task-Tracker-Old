@@ -17,18 +17,10 @@ Including another URLconf
 
 from django.urls import include, path
 from django.contrib import admin
-from rest_framework import routers
-from api import views
-
-
-# set api/ urls
-router = routers.DefaultRouter()
-router.register(r'todos', views.Todo, 'api')
-
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path("djangoapp/", include("djangoapp.urls")),
-    path("", include("djangoapp.urls")),
+    path("admin/",      admin.site.urls),
+    path("api/",        include("api.urls")),
+    path("djangoapp/",  include("djangoapp.urls")),
+    path("",            include("djangoapp.urls")),
 ]

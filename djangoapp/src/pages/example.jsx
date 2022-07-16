@@ -1,8 +1,10 @@
-import React, { useEffect } from "react"
+import React from "react"
 
-export default function Example(props) {
-   useEffect(() => {
+export default function Example() {
+   React.useEffect(() => {
       document.title = "Example"
+      document.querySelector("#headerTitle").innerText = document.title
+      document.querySelector("title") = document.title
    }, [])
    
    return <div id="example">

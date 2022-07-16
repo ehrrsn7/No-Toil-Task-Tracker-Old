@@ -10,7 +10,7 @@ export default function Header() {
       <ToggleSidebarButton />
 
       <h1 id="headerTitle" className={activeSidebar ? "activeSidebar" : ""} >
-         Dashboard
+         fill in
       </h1>
    </header> /* End Header Div */
 }
