@@ -4,7 +4,7 @@ export default function Example() {
    React.useEffect(() => {
       document.title = "Example"
       document.querySelector("#headerTitle").innerText = document.title
-      document.querySelector("title") = document.title
+      document.querySelector("title").textContent = document.title
    }, [])
    
    return <div id="example">

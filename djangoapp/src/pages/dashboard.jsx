@@ -5,7 +5,7 @@ export default function Dashboard() {
    React.useEffect(() => {
       document.title = "Dashboard"
       document.querySelector("#headerTitle").innerText = document.title
-      document.querySelector("title") = document.title
+      document.querySelector("title").textContent = document.title
    }, [])
    
    return <div id="dashboard">
