@@ -12,8 +12,6 @@ const sidebarIconButtonStyle = {
 export default function Sidebar() {
    const { activeSidebar } = useContext()
 
-   console.log(window.location.pathname)
-
    return <div id="sidebar" className={activeSidebar ? "activeSidebar" : ""} >
       
       {/* Sidebar Title Div (Contiains Text and Close Icon) */}

@@ -12,7 +12,25 @@ import Header from "./components/header"
 import Footer from "./components/footer"
 import "./App.css"
 
-const djangoappName = "djangoapp"
+// BrowserRouter basename
+let djangoappName = "djangoapp" 
+
+// when running npm start, Router will look for '/' for sources rather
+// than django's 'djangoapp' static url description
+if (parseInt(window.location.port) == 3000)
+   djangoappName = "/" 
+
+switch (parseInt(window.location.port)) {
+   case 3000:
+      console.log("port 3000")
+      break
+      case 8000:
+      console.log("port 8000")
+      break
+   default:
+      console.log("unknown port", window.location.port)
+      break
+}
 
 export default function App() {
    const context = useContext()
