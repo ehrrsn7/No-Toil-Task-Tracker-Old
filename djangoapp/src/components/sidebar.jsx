@@ -21,7 +21,7 @@ export default function Sidebar() {
          <Link to="/" id="sidebarTitleLinkText"
          className="dark:text-white text-slate-900">
             <h1 id="sidebarTitle">
-               Home
+               Dashboard
             </h1>
          </Link>
 
@@ -29,14 +29,12 @@ export default function Sidebar() {
    
       {/* Sidebar Page Links (Collection) */}
       {[ 
-         "example",
-         "todolist",
-         "naw",
-         "sure",
-         "idk",
-         "filler",
-         "hecka long one idek anymore but it's gon be lit",
-         " ",
+         "stamp",
+         "spray",
+         "check",
+         "oil",
+         "bag",
+         "completed-parts",
       ].map(
          (item) => (
             <div key={item} className="sidebarLink">
@@ -49,7 +47,7 @@ export default function Sidebar() {
                      aria-label={item} sx={sidebarIconButtonStyle}>
 
                         <p className="text-left uppercase tracking-widest dark:text-white text-slate-600">
-                           {item}
+                           {item.replace("-", " ")}
                         </p>
 
                      </IconButton>

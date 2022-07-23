@@ -2,7 +2,7 @@
    /* dimensions */
    --headerHeight: 5em;
    --toggleSidebarOffset: 65px;
-   --sidebarWidth: 200px;
+   --sidebarWidth: 15em;
    --footerHeight: 100px;
    --defaultPadding: 10px;
    --cornerButtonsWidth: 50px;
@@ -259,4 +259,23 @@ a {
    }
 }
 
+#DashboardTable {
 
+}
+
+#DashboardTable th {
+   border: 1px solid gray;
+}
+
+#DashboardTable tr {
+   border: 1px solid black;
+}
+
+#DashboardTable td {
+   border: 1px solid lightgray;
+   width: 100px;
+}
+
+#DashboardTable td.titleColumn {
+   width: 150px;
+}

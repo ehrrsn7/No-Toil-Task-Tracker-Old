@@ -5,26 +5,34 @@ import { Tooltip } from "@mui/material"
 import { DarkModeSwitch } from "react-toggle-dark-mode"
 
 import { useContext } from "./contexts/contextProvider"
-import Example from "./pages/example"
-import Dashboard from "./pages/dashboard"
+
+import Example       from "./pages/example"
+import Dashboard     from "./pages/dashboard"
+import Bag           from "./pages/bag"
+import Stamp         from "./pages/stamp"
+import Oil           from "./pages/oil"
+import Spray         from "./pages/spray"
+import Check         from "./pages/check"
+import SamplePhotos  from "./pages/sample-photos"
+
 import Sidebar from "./components/sidebar"
-import Header from "./components/header"
-import Footer from "./components/footer"
+import Header  from "./components/header"
+import Footer  from "./components/footer"
 import "./App.css"
+import CompletedParts from "./pages/completed-parts"
 
 // BrowserRouter basename
 let djangoappName = "djangoapp" 
 
-// when running npm start, Router will look for '/' for sources rather
-// than django's 'djangoapp' static url description
-if (parseInt(window.location.port) == 3000)
-   djangoappName = "/" 
+// in development: when running npm start, Router will look for '/' for 
+// sources rather than django's 'djangoapp' static url description
+djangoappName = (parseInt(window.location.port) === 3000) ? "/" : djangoappName
 
 switch (parseInt(window.location.port)) {
    case 3000:
       console.log("port 3000")
       break
-      case 8000:
+   case 8000:
       console.log("port 8000")
       break
    default:
@@ -51,6 +59,14 @@ export default function App() {
    // set event listeners
    useEffect(() => {
 
+      const websocket_url = `ws://${window.location.host}/ws/api/`
+      context.setWebsocket(new WebSocket(websocket_url))
+      
+      context.websocket.onmessage = (event) => {
+         let data = JSON.parse(event.data)
+            console.log('Data:', data)
+      }
+      
       // dimension events
       function resize() { context.setScreenSize(window.innerWidth) }
       window.addEventListener("resize", resize) // runtime
@@ -93,9 +109,19 @@ export default function App() {
                {/* <div id="content" style={darkMode ? styles.contentDark : styles.content}> */}
                <div id="content">
                   <Routes>
-                     <Route path={`/`} element={<Dashboard />} />
-                     <Route path={`/dashboard`} element={<Dashboard />} />
-                     <Route path={`/example`} element={<Example />} />
+                     {/* Default */}
+                     <Route path={`/`}                element={<Dashboard />} />
+                     <Route path={`/Dashboard`}       element={<Dashboard />} />
+                     {/* Subpages */}
+                     <Route path={`/Bag`}             element={<Bag />} />
+                     <Route path={`/Oil`}             element={<Oil />} />
+                     <Route path={`/Stamp`}           element={<Stamp />} />
+                     <Route path={`/Spray`}           element={<Spray />} />
+                     <Route path={`/Check`}           element={<Check />} />
+                     <Route path={`/Completed-Parts`} element={<CompletedParts />} />
+                     {/* 'example' */}
+                     <Route path={`/example`}         element={<Example />} />
+                     <Route path={`/sample-photos`}   element={<SamplePhotos />} />
                   </Routes>
 
                   <Tooltip title="Open Settings Pane">

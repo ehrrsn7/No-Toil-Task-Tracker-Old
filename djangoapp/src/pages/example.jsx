@@ -1,4 +1,5 @@
 import React from "react"
+// import lamppost from "../images"
 
 export default function Example() {
    React.useEffect(() => {
@@ -17,6 +18,7 @@ export default function Example() {
       <p> "idek"</p>
       <p> "lol"</p>
       <p> </p>
+      <img src="../images/lamppost.jpg" alt="lamppost" />
       <p>"Hello"</p>
       <p> "Hello"</p>
       <p> "Hello"</p>
