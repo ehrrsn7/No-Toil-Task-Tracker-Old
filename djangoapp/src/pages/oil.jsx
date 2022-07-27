@@ -1,6 +1,10 @@
-import React from "react"
+import React         from "react"
+import { TodoTable } from "../components/tables"
+import * as Buttons  from "../components/buttons"
 
 export default function Oil() {
+   const [ selectedTasks, setSelectedTasks ] = React.useState([])
+   
    React.useEffect(() => {
       document.title = "Oil"
       document.querySelector("#headerTitle").innerText = document.title
@@ -8,8 +12,22 @@ export default function Oil() {
    }, [])
    
    return <div id="Oil">
+      <span style={{display: "flex", justifyContent: "space-between"}}>
+         <Buttons.BackToDashboardButton />
+      </span>
 
-      oil - no count (just done button)
+      <TodoTable filter="Oil" 
+      selectedTasks={selectedTasks} 
+      setSelectedTasks={setSelectedTasks} 
+      />
    
+      <br></br>
+      <br></br>
+      <br></br>
+      <h2>Notes</h2>
+      <p>
+         oil - no count (just done button)
+      </p>
+
    </div>
 }

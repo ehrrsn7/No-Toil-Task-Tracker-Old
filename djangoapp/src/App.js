@@ -1,147 +1,126 @@
-import React, { useEffect } from "react"
+// React Application
+import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import SettingsIcon from "@mui/icons-material/Settings"
-import { Tooltip } from "@mui/material"
-import { DarkModeSwitch } from "react-toggle-dark-mode"
 
+// Single-Page App Pages
+import {
+   Example,
+   Dashboard,
+   Bag,
+   Stamp,
+   Oil,
+   Spray,
+   Check,
+   CompletedParts,
+} from "./pages"
+
+// Single-Page App Page Components
+import Sidebar from "./components/pageComponents/sidebar"
+import Header  from "./components/pageComponents/header"
+
+// Other (stylesheets/scripts)
+import "./App.css"
+import { onNonSidebarClick } from "./data/helperFunctions"
 import { useContext } from "./contexts/contextProvider"
 
-import Example       from "./pages/example"
-import Dashboard     from "./pages/dashboard"
-import Bag           from "./pages/bag"
-import Stamp         from "./pages/stamp"
-import Oil           from "./pages/oil"
-import Spray         from "./pages/spray"
-import Check         from "./pages/check"
-import SamplePhotos  from "./pages/sample-photos"
-
-import Sidebar from "./components/sidebar"
-import Header  from "./components/header"
-import Footer  from "./components/footer"
-import "./App.css"
-import CompletedParts from "./pages/completed-parts"
-
+/**********
+ * Define
+ **********/
 // BrowserRouter basename
-let djangoappName = "djangoapp" 
+export const djangoappName = ((parseInt(window.location.port) === 3000) ? 
+   "/" :       // development
+   "djangoapp" // hosted on server
+)
 
-// in development: when running npm start, Router will look for '/' for 
-// sources rather than django's 'djangoapp' static url description
-djangoappName = (parseInt(window.location.port) === 3000) ? "/" : djangoappName
+// Django Rest Framework URI Endpoints
+export const todo_api_url = `http://${window.location.hostname}:8000/api/todo/`
+export const filter_bible_api_url = `http://${window.location.hostname}:8000/api/filter-bible/`
 
-switch (parseInt(window.location.port)) {
-   case 3000:
-      console.log("port 3000")
-      break
-   case 8000:
-      console.log("port 8000")
-      break
-   default:
-      console.log("unknown port", window.location.port)
-      break
-}
+// Django Channels URI Endpoint/Connection
+const websocket_uri = `ws://${window.location.host}/ws/api/`
+const websocket = new WebSocket(websocket_uri)
 
+// Application
 export default function App() {
    const context = useContext()
+
+   // initializer
+   const initialized = React.useRef(false)
+   React.useEffect(() => {
+      if (!initialized.current) {
+         initialized.current = true
+
+         // websocket (to get live updates from model)
+         websocket.onopen = (event) => {
+            console.log("Connection established:", event)
+         }
+         
+         websocket.onmessage = (message) => {
+            console.log("Server message:", message);
+         }
+         
+         // get data from tasklist api endpoint
+         fetch(todo_api_url)
+         .then(response => response.json())
+         .then(response => { context.setTodoModel(response) })
+         .catch(error => console.log(error))
+         
+         // dimension events
+         const resize = () => { context.setScreenSize(window.innerWidth) }
+         window.addEventListener("resize", resize) // runtime
+         context.setScreenSize(window.innerWidth) // on construct
    
-   // helper functions
-   function isMobileWidth(mobileWidth = 600) {
-      return window.innerWidth < mobileWidth
-   }
-
-   function onNonSidebarClick() {
-      // don't close sidebar on click #nonSidebar
-      if (!isMobileWidth()) return 
-      // click outside #sidebar to hide it (mobile only)
-      if (context.activeSidebar) 
-         context.setActiveSidebar(false)
-   }
-
-   // set event listeners
-   useEffect(() => {
-
-      const websocket_url = `ws://${window.location.host}/ws/api/`
-      context.setWebsocket(new WebSocket(websocket_url))
+         // key down events
+         const onEscape = (event) => {
+            if (event.code === "Escape" || event.isComposing) {
+               console.log("esc key pressed")
+               context.setActiveSidebar(false)
+            }
+         }; document.addEventListener("keydown", onEscape)
       
-      context.websocket.onmessage = (event) => {
-         let data = JSON.parse(event.data)
-            console.log('Data:', data)
-      }
-      
-      // dimension events
-      function resize() { context.setScreenSize(window.innerWidth) }
-      window.addEventListener("resize", resize) // runtime
-      context.setScreenSize(window.innerWidth) // on construct
-
-      function onEscape(event) {
-         if (event.code === "Escape" || event.isComposing) 
-            context.setActiveSidebar(false)
-      } document.addEventListener("keydown", onEscape)
-   
-      // media query events
-      function handleDarkMode(event) {
-         context.setDarkMode(event.matches)
-         console.log("dark mode", event.matches)
-      } window.matchMedia(
-         "(prefers-color-scheme: dark)"
-      ).addEventListener("change", handleDarkMode)
-
-      // destruct
-      return () => {
-         window.removeEventListener("resize", resize)
+         // media query events
+         const handleDarkMode = event => { context.setDarkMode(event.matches) }
          window.matchMedia(
             "(prefers-color-scheme: dark)"
-         ).removeEventListener("change", handleDarkMode)
-         document.removeEventListener("keydown", onEscape)
+         ).addEventListener("change", handleDarkMode)
       }
+
+      // update code goes here (none)
+      
+      // destructor (none)
+
    }, [ context ])
 
-   return (
-      <div id="App">
-         <BrowserRouter basename={djangoappName}>
-            <Sidebar />
-    
-            <div id="nonSidebar" className={context.activeSidebar ? "activeSidebar" : ""} 
-            onClick={onNonSidebarClick} >
-    
-               <Header />
-       
-               {/* Content Div */}
-               {/* <div id="content" style={darkMode ? styles.contentDark : styles.content}> */}
-               <div id="content">
-                  <Routes>
-                     {/* Default */}
-                     <Route path={`/`}                element={<Dashboard />} />
-                     <Route path={`/Dashboard`}       element={<Dashboard />} />
-                     {/* Subpages */}
-                     <Route path={`/Bag`}             element={<Bag />} />
-                     <Route path={`/Oil`}             element={<Oil />} />
-                     <Route path={`/Stamp`}           element={<Stamp />} />
-                     <Route path={`/Spray`}           element={<Spray />} />
-                     <Route path={`/Check`}           element={<Check />} />
-                     <Route path={`/Completed-Parts`} element={<CompletedParts />} />
-                     {/* 'example' */}
-                     <Route path={`/example`}         element={<Example />} />
-                     <Route path={`/sample-photos`}   element={<SamplePhotos />} />
-                  </Routes>
-
-                  <Tooltip title="Open Settings Pane">
-                     <button id="settingsButton" width={50}
-                     onClick={() => {console.log("todo: open settings pane")}} >
-                        <SettingsIcon />
-                     </button>
-                  </Tooltip>
-
-                  <Tooltip title="Toggle Dark Mode">
-                     <button id="darkModeButton">
-                        <DarkModeSwitch checked={context.darkMode} onChange={context.setDarkMode} width={50} />
-                     </button>
-                  </Tooltip>
-               </div> {/* End Content Div */}
-       
-               <Footer />
-    
-            </div> 
-         </BrowserRouter>
-      </div>
-   )
+   // render (return jsx html object)
+   return <div id="App">
+      <BrowserRouter basename={djangoappName}>
+         <Sidebar />
+   
+         <div id="nonSidebar" className={context.activeSidebar ? "activeSidebar" : ""} 
+         onClick={() => onNonSidebarClick(context)} >
+   
+            <Header />
+      
+            {/* Content Div */}
+            {/* <div id="content" style={darkMode ? styles.contentDark : styles.content}> */}
+            <div id="content">
+               
+               <Routes>
+                  {/* Default */}
+                  <Route path={`/`}                element={<Dashboard />} />
+                  <Route path={`/Dashboard`}       element={<Dashboard />} />
+                  {/* Subpages */}
+                  <Route path={`/Bag`}             element={<Bag />} />
+                  <Route path={`/Oil`}             element={<Oil />} />
+                  <Route path={`/Stamp`}           element={<Stamp />} />
+                  <Route path={`/Spray`}           element={<Spray />} />
+                  <Route path={`/Check`}           element={<Check />} />
+                  <Route path={`/CompletedParts`}  element={<CompletedParts />} />
+                  {/* 'example' */}
+                  <Route path={`/example`}         element={<Example />} />
+               </Routes>
+            </div> {/* End Content Div */}
+         </div> {/* End Non-Sidebar Div */}
+      </BrowserRouter>
+   </div> /* End Application Div */
 }

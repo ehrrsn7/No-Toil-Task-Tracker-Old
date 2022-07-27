@@ -25,12 +25,13 @@ class FilterBible(models.Model):
     google_drive_image_urls = models.TextField(default=default_google_drive_image_url)
 
 class Todo(models.Model):
-    title = models.CharField(max_length=120)
-    # part_no = models.ForeignKey(to=FilterBible, null=True, on_delete=models.CASCADE)
+    title = models.CharField(max_length=120, default="0000 or *000-00")
     part_no = models.CharField(max_length=20, default="0000 or *000-00")
     quantity = models.PositiveIntegerField(default=0)
     lastModified = models.DateTimeField(auto_now=True)
-    completed = models.BooleanField(default=False)
+    status = models.IntegerField(default=0)
+    high_priority = models.BooleanField(default=False)
+    oil = models.BooleanField(default=False)
 
     def _str_(self):
         return self.title

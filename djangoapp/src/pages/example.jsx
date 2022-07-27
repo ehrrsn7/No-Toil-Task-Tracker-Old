@@ -1,5 +1,5 @@
-import React from "react"
-// import lamppost from "../images"
+import React                     from "react"
+import { BackToDashboardButton } from "../components/buttons"
 
 export default function Example() {
    React.useEffect(() => {
@@ -9,6 +9,7 @@ export default function Example() {
    }, [])
    
    return <div id="example">
+      <BackToDashboardButton />
       <p> Example Content </p>
       <p> </p>
       <p>"Hello"</p>

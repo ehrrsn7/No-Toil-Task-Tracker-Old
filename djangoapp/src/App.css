@@ -2,7 +2,7 @@
    /* dimensions */
    --headerHeight: 5em;
    --toggleSidebarOffset: 65px;
-   --sidebarWidth: 15em;
+   --sidebarWidth: 13em;
    --footerHeight: 100px;
    --defaultPadding: 10px;
    --cornerButtonsWidth: 50px;
@@ -30,17 +30,50 @@ html, body, #App {
 
 /* App Styles */
 button {
-   border: none;
+   border: 1px solid lightgray;
+   padding-left: .5em;
+   padding-right: .5em;
+   border-radius: .25em;
 }
 
 a {
    text-decoration: none;
 }
 
+li {
+   display: inline !important;
+}
+
+a {
+   display: inline !important;
+}
+
+span {
+   display: "inline-flex";
+   justify-content: space-between;
+}
+
+select, input {
+   padding: .1em .1em .1em .1em;
+   background-color: var(--primary-background);
+}
+
+
+@media (prefers-color-scheme: dark) {
+   select, input {
+      background-color: var(--primary);
+   }
+}
+
+
 #header {
    background-color: var(--gray);
    min-height: var(--headerHeight);
+}
+
+#header > div {
    padding: var(--defaultPadding);
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -70,6 +103,8 @@ a {
 
 #toggleSidebarButton {
    position: absolute;
+   border: none;
+   padding: 0;
    left: calc(-1 * var(--toggleSidebarOffset));
    transition: .3s all;
    z-index: 2;
@@ -106,12 +141,13 @@ a {
    border-right: 1px rgba(0,0,0,.1) solid;
    width: var(--sidebarWidth);
    min-width: 150px;
-   height: 100%;
+   /* height: 100%; */
    left: calc(var(--sidebarWidth) * -1);
    top: 0;
    bottom: 0;
    opacity: 1;
-   padding:var(--defaultPadding);
+   padding: .3em;
+   margin: 0;
    overflow: hidden;
    overflow-y: auto;
    /* box-shadow: inset 0 0 20px #BBBBBB45; */
@@ -126,9 +162,9 @@ a {
 }
 
 #sidebarTitle {
-   display: inline;
+   display: inline-flex;
    text-align: left;
-   height: var(--headerHeight);
+   /* height: var(--headerHeight); */
    align-content: left;
    align-content: center;
    justify-content: center;
@@ -136,9 +172,10 @@ a {
    gap: .75em;
    font-weight: 800;
    letter-spacing: -0.025em;
-   padding:var(--defaultPadding);
+   /* padding:var(--defaultPadding); */
+   padding-top: .3em;
    padding-left: .15em;
-   padding-bottom: 1em;
+   /* padding-bottom: 1em; */
    transition: all .3s;
 }
 
@@ -199,6 +236,7 @@ a {
 
 #settingsButton {
    width: var(--cornerButtonsWidth);
+   border: none;
    position: fixed;
    right: 10px;
    bottom: 10px;
@@ -206,6 +244,7 @@ a {
 
 #darkModeButton {
    width: var(--cornerButtonsWidth);
+   border: none;
    position: fixed;
    right: 10px;
    bottom: calc(var(--cornerButtonsWidth) - 10px);
@@ -226,6 +265,7 @@ a {
 
 #footerReactIcon {
    margin-right: 0;
+   border: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -259,23 +299,117 @@ a {
    }
 }
 
-#DashboardTable {
-
+table {
+   width: 100%;
+   max-width: 1000px;
 }
 
-#DashboardTable th {
+table * {
+   font-family: "SF Mono", 'Courier New', Courier, monospace;
+   text-align: left;
+}
+
+thead tr {
    border: 1px solid gray;
+   min-height: 50px;
 }
 
-#DashboardTable tr {
+tr {
    border: 1px solid black;
 }
 
-#DashboardTable td {
+td {
    border: 1px solid lightgray;
-   width: 100px;
+   padding: 5px;
+   white-space: nowrap;
 }
 
-#DashboardTable td.titleColumn {
-   width: 150px;
+td.titleColumn {
+   width: 100%; /* all available space */
+}
+
+#DashboardTodoTable td.idColumn {
+   width: 50px;
+}
+
+#Dashboard button.add,
+#CompletedParts button.print {
+   padding: .5em;
+   margin: .5em;
+   padding-left: 1em;
+   padding-right: 1em;
+}
+
+#PrintCompletedPartsButton,
+.BackToDashboardButton button {
+   margin: .5em;
+   padding: .5em;
+   padding-left: 1em;
+   padding-right: 1em;
+}
+
+.CollapseAllButton {
+   transition: .3s;
+}
+
+.CollapseAllButton button {
+   padding: .5em;
+   padding-left: 1em;
+   padding-right: 1em;
+   margin: 0;
+   padding: 0 1em 0 1em;
+}
+
+.TodoTable .CollapseAllButton button {
+   margin-left: 3.5em;
+}
+
+.Popup .Background {
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100vh;
+   background-color: rgba(0, 0, 0, .1);
+}
+
+.Popup .Box {
+   position: fixed;
+   border: 1px solid lightgray;
+   border-radius: .2em;
+   width: 50%;
+   left: 25%;
+   right: 25%;
+   top: 25vh;
+   bottom: 25vh;
+   height: 50%;
+   background-color: white;
+   text-align: center;
+}
+
+.Popup .CloseButton {
+   position: absolute;
+   right: 0;
+}
+
+button.AccordionButton {
+   border: none;
+   transition: .3s;
+}
+
+#CreateTodoForm td {
+   white-space: nowrap;
+}
+
+#CreateTodoForm td .ant-input {
+   min-width: 10px;
+   width: 100%;
+}
+
+#TodoAccordionDiv form input {
+   width: 50px;
+}
+
+.DashboardAccordionDiv form input {
+   width: 75px;
 }

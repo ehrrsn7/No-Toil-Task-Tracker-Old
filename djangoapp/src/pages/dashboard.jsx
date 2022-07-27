@@ -1,31 +1,11 @@
-import React from "react"
-import { useContext } from "../contexts/contextProvider"
-
-export function TodoModelRows(props)  {
-   const context = useContext()
-
-   React.useEffect(() => {
-      fetch("http://192.168.0.16:8000/api/todo/?format=json")
-         .then(request => request.json())
-         .then(data => { 
-            if (data !== undefined) context.setTodoModel(data) 
-         })
-   }, [])
-   
-   return (!Array.isArray(context.todoModel) ? <tr><td>Not valid data</td></tr> :
-      context.todoModel.map(row => <tr key={row.id}>
-         <td>{row.id}</td>
-         <td>{row.title}</td>
-         <td>{row.part_no}</td>
-         <td>{row.quantity}</td>
-         <td>{row.lastModified}</td>
-         <td>{row.completed}</td>
-      </tr>)
-   )
-}
+import React                  from "react"
+import { CollapseAllButton }  from "../components/buttons"
+import { CreateTodoForm }     from "../components/forms"
+import { DashboardTodoTable } from "../components/tables"
 
 export default function Dashboard() {
-   const context = useContext()
+   const [ selectedTasks,setSelectedTasks ] = React.useState([])
+   const [ addMore, setAddMore ] = React.useState(false)
 
    React.useEffect(() => {
       document.title = "Dashboard"
@@ -34,37 +14,26 @@ export default function Dashboard() {
    }, [])
 
    return <div id="Dashboard">
+      <span style={{display: "flex", justifyContent: "space-between"}}>
+         {/* Buttons Here? */}
+      </span>
 
-      priority value?
+      <DashboardTodoTable 
+      selectedTasks={selectedTasks} 
+      setSelectedTasks={setSelectedTasks} 
+      />
 
-      <div id="messages"></div>
+      <br></br>
 
-      <table id="DashboardTable">
-         <thead>
-            <tr>
-               <td className="titleColumn">
-                  id
-               </td>
-               <td>
-                  title
-               </td>
-               <td>
-                  part_no
-               </td>
-               <td>
-                  quantity
-               </td>
-               <td>
-                  lastModified
-               </td>
-               <td>
-                  completed
-               </td>
-            </tr>
-         </thead>
-         <tbody>
-            {<TodoModelRows />}
-         </tbody>
-      </table>
+      <button className="add" onClick={() => { setAddMore(!addMore) }}>
+         {addMore ? "Cancel" : "Add more" }
+      </button>
+
+      <div id="addMoreDropdown" style={{
+         visibility: addMore ? "visible" : "hidden",
+      }}>
+         <CreateTodoForm />
+      </div>
+
    </div>
 }
