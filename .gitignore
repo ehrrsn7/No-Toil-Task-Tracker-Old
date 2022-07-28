@@ -12,3 +12,6 @@ djangoapp/node_modules
 djangoproject/private
 */__pycache__
 */.DS_Store
+api/migrations/__pycache__/__init__.cpython-310.pyc
+api/migrations/__pycache__/0001_initial.cpython-310.pyc
+/api/migrations/__pycache__
