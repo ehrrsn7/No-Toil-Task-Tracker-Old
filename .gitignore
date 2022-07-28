@@ -8,6 +8,7 @@ db.sqlite3
 ftp.duck
 pyvenv.cfg
 lib
+staticfiles
 djangoapp/node_modules
 djangoproject/private
 */__pycache__
