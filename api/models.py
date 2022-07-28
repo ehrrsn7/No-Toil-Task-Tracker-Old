@@ -1,8 +1,3 @@
-from distutils.text_file import TextFile
-import json
-from logging import Filter
-from statistics import mode
-from turtle import ondrag, stamp
 from django.db import models
 
 default_google_drive_image_url = "https://drive.google.com/file/d/1A5wF1HnsLlBA7G5zJQSZO0s8vRlgxttZ/view?usp=sharing"
@@ -17,7 +12,6 @@ class FilterBible(models.Model):
     
     actual_size = models.TextField(default="0.0\"x 0.0\"", null=True)
 
-    # instructions = jsonfield.JSONField()
     instructions = models.TextField(null=True)
 
     # google_drive_image_urls = ArrayField(
