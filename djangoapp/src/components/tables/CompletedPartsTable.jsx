@@ -4,6 +4,11 @@ import { todo_api_url } from "../../App"
 
 export default function CompletedPartsTable(props) {
    const context = props.context
+   const [ TaskListLength, setTaskListLength ] = React.useState(0)
+
+   React.useEffect(() => {
+      setTaskListLength(1)
+   }, [setTaskListLength])
    
    return <table id={props.filter + "TodoTable"} className="TodoTable">
 
@@ -14,6 +19,7 @@ export default function CompletedPartsTable(props) {
       </tr>
    </thead>
 
+   {TaskListLength <= 0 ? <tbody>No rows to display</tbody> : 
    <tbody>
       {(Array.isArray(context.todoModel)) ? 
 
@@ -35,6 +41,6 @@ export default function CompletedPartsTable(props) {
          </td>
       </tr>}
    </tbody>
-
+   }
 </table>
 }

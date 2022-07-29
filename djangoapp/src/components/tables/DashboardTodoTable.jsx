@@ -4,11 +4,17 @@ import { DashboardAccordionDiv } from "../../components/accordionDivs"
 import * as h                    from "../../data/helperFunctions"
 import { useContext }            from "../../contexts/contextProvider"
 import { todo_api_url }          from "../../App"
-import { CollapseAllButton } from "../buttons"
+import * as Buttons              from "../buttons"
+import { Tooltip } from "@mui/material"
 
 export default function DashboardTodoTable(props)  {
    const context = useContext()
    const { selectedTasks, setSelectedTasks } = props
+   const [ TaskListLength, setTaskListLength ] = React.useState(0)
+
+   React.useEffect(() => {
+      setTaskListLength(1)
+   }, [])
 
    return <table id="DashboardTodoTable">
       <thead>
@@ -17,47 +23,56 @@ export default function DashboardTodoTable(props)  {
                Title
             </td>
             <td> Quantity </td>
-            <td> Status </td>
+            <td align="center" > Status </td>
             <td>
-               <CollapseAllButton 
-               selectedTasks={selectedTasks} 
-               setSelectedTasks={setSelectedTasks} />
+               <Tooltip title="High Priority" placement="top">
+                  <p>
+                     !
+                  </p>
+               </Tooltip>
             </td>
+            {h.isMobile() ? <></> : 
+               <td align="center" >
+                  <Buttons.CollapseAllButton 
+                  selectedTasks={selectedTasks} 
+                  setSelectedTasks={setSelectedTasks} />
+               </td>
+            }
          </tr>
       </thead>
+      {TaskListLength <= 0 ? <tbody>No rows to display</tbody> :
       <tbody>
          {(Array.isArray(context.todoModel)) ? 
 
             context.todoModel.map(rowData => {
-               return <tr id={"DashboardRow" + rowData.id} key={rowData.id} 
-               onClick={() => h.handleShowHideAccordion(
-                  rowData, selectedTasks, 
-                  setSelectedTasks, "Dashboard", 
-                  <DashboardAccordionDiv context={context} rowData={rowData} />)
-               }>
+               return <tr id={"DashboardRow" + rowData.id} key={rowData.id}>
 
                   <td>{rowData.title}</td>
                   <td>{rowData.quantity}</td>
-                  <td>
-                     <NavLink to={
-                        (h.statusNames.get(rowData.status) !== "unknown status") ? 
-                        h.statusNames.get(rowData.status) : "/"}>
+                  <td align="center">
+                     <NavLink to={h.statusNames.getUrl(rowData.status)}>
                         <button>
                            {h.capitalize(h.statusNames.get(rowData.status))}
                         </button>
                      </NavLink>
                   </td>
-                  <td className="AccordionButtonColumn" style={{
-                     width: "10px"
-                  }}>
-                     <button className="AccordionButton" style={{
-                        transform: selectedTasks.includes(rowData.id) ? 
-                           "rotate(-90deg)" : 
-                           "rotate(0)",
-                     }}>
-                        {"<"}
-                     </button>
+                  <td>
+                     <p>
+                        {rowData.high_priority ? "!" : " "}
+                     </p>
                   </td>
+                  {h.isMobile() ? <></> : 
+                     <td align="center" className="AccordionButtonColumn" style={{
+                        width: "10px",
+                     }}>
+                        <Buttons.AccordionButton selected={selectedTasks.includes(rowData.id)} 
+                        onClick={() => h.handleShowHideAccordion(
+                           rowData, selectedTasks, 
+                           setSelectedTasks, "Dashboard", 
+                           <DashboardAccordionDiv context={context} rowData={rowData} />)
+                        } />
+                     </td>
+                  }
                </tr>
             }) : 
 
@@ -75,5 +90,6 @@ export default function DashboardTodoTable(props)  {
             
          }
       </tbody>
+      }
    </table>
 }

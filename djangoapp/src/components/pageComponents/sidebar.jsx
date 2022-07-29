@@ -4,6 +4,7 @@ import Hamburger                 from "hamburger-react"
 import { Tooltip, IconButton }   from "@mui/material"
 import * as h                    from "../../data/helperFunctions"
 import { useContext }            from "../../contexts/contextProvider"
+import { todo_api_url }          from "../../App"
 
 const sidebarIconButtonStyle = {
    borderRadius: 10,
@@ -28,16 +29,18 @@ export default function Sidebar() {
          </Link>
 
          {/* Close Icon */}
-         {h.isMobileWidth() ? <Hamburger toggle={setActiveSidebar} toggled={true} /> : "" }
+         {h.isMobile() ?
+            <Hamburger toggle={setActiveSidebar} toggled={true} /> 
+         : "" }
 
       </div>
    
       {/* Sidebar Page Links (Collection) */}
       {h.statusNames.getArray().map(
-         (item) => (
+         (item, i) => (
             <div key={item} className="sidebarLink">
 
-               <NavLink to={`/${item}`}>
+               <NavLink to={h.statusNames.getUrl(i)}>
 
                   <Tooltip title="" arrow={true} placement="right">
 
@@ -50,9 +53,25 @@ export default function Sidebar() {
 
                      </IconButton>
                   </Tooltip>
+
+
                </NavLink>
             </div> /* End Sidebar Link Div */
          )
       )} {/* End Sidebar Page Links Collection */}
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <div>
+         <Tooltip title="really????? why dude..don't click this fr! this button is for editing/deleting tasks only">
+            <a href={todo_api_url}>
+            <button id="BradsNoNoSquare">
+               brad's no - no button 📍
+            </button>
+            </a>
+         </Tooltip>
+      </div>
    </div> /* end sidebar div */
 }

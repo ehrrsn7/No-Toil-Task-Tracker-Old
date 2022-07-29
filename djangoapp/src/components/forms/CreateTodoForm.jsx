@@ -4,6 +4,7 @@ import axios                     from "axios"
 import * as h                    from "../../data/helperFunctions"
 import { useContext }            from "../../contexts/contextProvider"
 import { todo_api_url }          from "../../App"
+import { Tooltip }               from "@mui/material"
 
 function FilterNumberAutocomplete() {
    const [ val, setVal ] = React.useState("")
@@ -15,9 +16,18 @@ function FilterNumberAutocomplete() {
    </select>
 }
 
+function TodoFormRow(props) {
+   const [ oil, setOil ] = React.useState(false)
+   const [ highPriority, setHighPriority ] = React.useState(false)
+
+   return <tr>
+      todo row
+   </tr>
+}
+
 export default function CreateTodoForm(props) {
-   const { screenSize } = useContext()
    const { style } = props
+   const { screenSize } = useContext()
    const [ rowsAmount, setRowsAmount ] = React.useState(5)
 
    const onSubmit = async (event) => {
@@ -67,15 +77,17 @@ export default function CreateTodoForm(props) {
                <tr>
                   <td style={{width: "100%"}} > title </td>
                   <td> quantity </td>
-                  {screenSize < 600 ? "" : 
-                     <td> part_no </td> 
-                  }
-                  {screenSize < 600 ? "" : 
+                  {!h.isMobile() ? <>
+                     <td>
+                        <Tooltip title="Oil? Click this if the filter requires oiling. (Oiled filters usually have a hyphen, i.e. @000-00) Leaving this box unchecked will skip the oiling step." placement="top">
+                           <p>
+                              oil 
+                           </p>
+                        </Tooltip>
+                     </td> 
                      <td> status </td> 
-                  }
-                  {screenSize < 600 ? "" : 
                      <td style={{width: 20, whiteSpace: "nowrap"}}> ! </td> 
-                  }
+                  </> : "" }
                </tr>
             </thead>
             <tbody>
@@ -97,25 +109,28 @@ export default function CreateTodoForm(props) {
                      default={0}
                      />
                   </td>
-                  {screenSize < 600 ? "" : 
-                  <td>
-                     <FilterNumberAutocomplete />
-                  </td> }
+
+                  {h.isMobile() ? "" : <>
+
+                     <td>
+                        <input type="checkbox" />
+                     </td>
+                     
+                     <td>
+                        <select>
+                           {h.statusNames.getArray().map(name => {
+                              return <option key={name} value={0}>
+                                 {h.capitalize(name)}
+                              </option>
+                           })}
+                        </select>
+                     </td>
+                     
+                     <td>
+                        <input type="checkbox" style={{height: 20}} />
+                     </td> 
                   
-                  {screenSize < 600 ? "" : 
-                  <td>
-                     <select>
-                        {h.statusNames.getArray().map(name => {
-                           return <option key={name} value={0}>
-                              {h.capitalize(name)}
-                           </option>
-                        })}
-                     </select>
-                  </td> }
-                  {screenSize < 600 ? "" : 
-                  <td>
-                     <input type="checkbox" style={{height: 20}} />
-                  </td> }
+                  </>}
                </tr>)}
             </tbody>
          </table>

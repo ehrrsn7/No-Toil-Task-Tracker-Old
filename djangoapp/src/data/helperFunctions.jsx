@@ -1,6 +1,6 @@
-import React            from "react"
-import ReactDOM         from "react-dom/client"
-import { useContext }   from "../contexts/contextProvider"
+import React                           from "react"
+import ReactDOM                        from "react-dom/client"
+import { isMobile as deviceIsMobile }  from "react-device-detect"
 
 export function range(n) { return [...Array(n).keys()] }
 
@@ -23,10 +23,9 @@ export const statusNames = {
    },
    getUrl: function(statusId) {
       if (!range(6).includes(statusId)) return ""
-      const statusName = this[statusId]
-      const statusUrl = window.location.pathname + statusName
-      console.log(statusUrl)
-      // return statusUrl
+      let statusName = this[statusId]
+      if (statusName === "complete") statusName = "CompletedParts"
+      return statusName
    },
    isOilStatus: function(statusId) {
       return this[statusId] === "oil"
@@ -51,18 +50,21 @@ export function capitalize(string) {
    return arr.join(' ')
 }
 
-export function isMobileWidth(mobileWidth = 600) {
-   // console.log(mobileWidth)
-   // console.log(window.innerWidth < mobileWidth)
-   return window.innerWidth < mobileWidth
+export const isMobile = () => {
+   return (
+      !window.screen.orientation.type.includes("landscape") && 
+      deviceIsMobile || 
+      window.matchMedia && 
+      window.matchMedia("(max-width: 600px)").matches
+   )
 }
 
 export function onNonSidebarClick(context) {
    const { activeSidebar, setActiveSidebar } = context
    
    // don't close sidebar on click #nonSidebar
-   if (!isMobileWidth()) return 
-   
+   if (!isMobile) return 
+
    // click outside #sidebar to hide it (mobile only)
    if (activeSidebar) setActiveSidebar(false)
 }

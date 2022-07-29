@@ -8,11 +8,16 @@ import * as Buttons           from "../buttons"
 export default function TodoTable(props) {
    const { selectedTasks, setSelectedTasks } = props
    const context = useContext()
+   const { screenSize } = context
    const [ sortBy, setSortBy ] = React.useState("")
+   const [ TaskListLength, setTaskListLength ] = React.useState(0)
 
    React.useEffect(() => {
       setSortBy("quantity")
-   }, [])
+      
+      // is empty after filter?
+      setTaskListLength(5)
+   }, [ TaskListLength, setTaskListLength ])
 
    function sort(a, b) {
       switch (sortBy) {
@@ -29,7 +34,7 @@ export default function TodoTable(props) {
       h.handleShowHideAccordion(
          rowData, selectedTasks, 
          setSelectedTasks, "Todo", 
-         <TodoAccordionDiv rowData={rowData} />
+         <TodoAccordionDiv rowData={rowData} screenSize={screenSize} />
       )
    }
 
@@ -39,7 +44,8 @@ export default function TodoTable(props) {
          <tr>
             <td className="titleColumn">  Title       </td>
             <td>                          Quantity    </td>
-            <td>
+            <td>                          !    </td>
+            <td align="right" >
                <Buttons.CollapseAllButton 
                selectedTasks={selectedTasks} 
                setSelectedTasks={setSelectedTasks} 
@@ -48,6 +54,7 @@ export default function TodoTable(props) {
          </tr>
       </thead>
 
+      {TaskListLength <= 0 ? <tbody>No rows to display</tbody> : 
       <tbody>
          {(Array.isArray(context.todoModel)) ? 
 
@@ -58,17 +65,12 @@ export default function TodoTable(props) {
                onClick={() => handleAccordion(rowData)}>
                   <td>{rowData.title}</td>
                   <td>{rowData.quantity}</td>
+                  <td>{rowData.high_priority ? "True" : "False"}</td>
                   <td width={100}>
                      <button>
                         {selectedTasks.includes(rowData.id) ? "cancel" : "update"}
                      </button>
-                     <button style={{
-                        transform: selectedTasks.includes(rowData.id) ? "rotate(-90deg)" : "rotate(0)",
-                        transition: ".3s",
-                        border: "none",
-                     }}>
-                        {"<"} 
-                     </button>
+                     <Buttons.AccordionButton selected={selectedTasks.includes(rowData.id)} />
                   </td>
                </tr>
             }) : 
@@ -82,6 +84,6 @@ export default function TodoTable(props) {
             </td>
          </tr>}
       </tbody>
-
+   }
    </table>
 }

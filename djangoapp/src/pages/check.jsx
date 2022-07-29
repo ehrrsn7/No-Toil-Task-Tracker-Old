@@ -20,7 +20,8 @@ export default function Check() {
       selectedTasks={selectedTasks} 
       setSelectedTasks={setSelectedTasks} 
       />
-     
-      Check page content
+
+      <p>potentially: instead of "update" "reset", there can be a "update to oil" "update to bag" "reset"</p>
+      <p>OR update can be either called "Send to Oil" or "Send to Bag" to be specific</p>
    </div>
 }

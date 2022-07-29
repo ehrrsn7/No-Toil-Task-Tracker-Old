@@ -2,7 +2,7 @@
    /* dimensions */
    --headerHeight: 5em;
    --toggleSidebarOffset: 65px;
-   --sidebarWidth: 13em;
+   --sidebarWidth: 13.5em;
    --footerHeight: 100px;
    --defaultPadding: 10px;
    --cornerButtonsWidth: 50px;
@@ -31,9 +31,17 @@ html, body, #App {
 /* App Styles */
 button {
    border: 1px solid lightgray;
+   background-color: var(--gray) !important;
    padding-left: .5em;
    padding-right: .5em;
    border-radius: .25em;
+}
+
+@media (prefers-color-scheme: dark)  {
+   button {
+      border: 1px solid #555555 !important;
+      background-color: gray !important;
+   }
 }
 
 a {
@@ -112,7 +120,6 @@ select, input {
 
 #toggleSidebarButton.activeSidebar {
    left: 15px;
-   z-index: 2;
 }
 
 @media (max-width: 600px) {
@@ -125,10 +132,7 @@ select, input {
    }
 
    #toggleSidebarButton {
-      position: absolute;
       left: calc(var(--sidebarWidth) - 4em);
-      transition: .3s all;
-      z-index: 2;
    }
 
    #toggleSidebarButton.activeSidebar {
@@ -141,7 +145,6 @@ select, input {
    border-right: 1px rgba(0,0,0,.1) solid;
    width: var(--sidebarWidth);
    min-width: 150px;
-   /* height: 100%; */
    left: calc(var(--sidebarWidth) * -1);
    top: 0;
    bottom: 0;
@@ -150,7 +153,6 @@ select, input {
    margin: 0;
    overflow: hidden;
    overflow-y: auto;
-   /* box-shadow: inset 0 0 20px #BBBBBB45; */
    background-color: var(--gray);
    transition: all .3s;
    z-index: 1;
@@ -158,13 +160,11 @@ select, input {
 
 #sidebar.activeSidebar {
    left: 0;
-   background-color: var(--gray);
 }
 
 #sidebarTitle {
    display: inline-flex;
    text-align: left;
-   /* height: var(--headerHeight); */
    align-content: left;
    align-content: center;
    justify-content: center;
@@ -172,10 +172,8 @@ select, input {
    gap: .75em;
    font-weight: 800;
    letter-spacing: -0.025em;
-   /* padding:var(--defaultPadding); */
    padding-top: .3em;
    padding-left: .15em;
-   /* padding-bottom: 1em; */
    transition: all .3s;
 }
 
@@ -187,6 +185,16 @@ select, input {
    gap: .75em;
    font-weight: 800;
    letter-spacing: -0.025em;
+}
+
+.sidebarLink button {
+   border: transparent !important;
+   background-color: transparent !important;
+   transition: .3s;
+}
+
+.sidebarLink button:hover {
+   background-color: #00000044 !important;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -302,11 +310,14 @@ select, input {
 table {
    width: 100%;
    max-width: 1000px;
+   font-family: "sf mono";
+   text-align: left;
 }
 
-table * {
-   font-family: "SF Mono", 'Courier New', Courier, monospace;
-   text-align: left;
+@media only screen (max-width: 600px) {
+   table {
+      
+   }
 }
 
 thead tr {
@@ -316,6 +327,11 @@ thead tr {
 
 tr {
    border: 1px solid black;
+   background-color: white;
+}
+
+tr[class*="AccordionDiv"] {
+   background-color: var(--gray);
 }
 
 td {
@@ -326,6 +342,22 @@ td {
 
 td.titleColumn {
    width: 100%; /* all available space */
+}
+
+@media (prefers-color-scheme: dark) {
+   
+   tr {
+      background-color: #555555;
+   }
+
+   td {
+      border: 1px solid #333333;
+   }
+
+   tr[class*="AccordionDiv"] {
+      background-color: #333333;
+   }
+
 }
 
 #DashboardTodoTable td.idColumn {
@@ -360,10 +392,6 @@ td.titleColumn {
    padding: 0 1em 0 1em;
 }
 
-.TodoTable .CollapseAllButton button {
-   margin-left: 3.5em;
-}
-
 .Popup .Background {
    position: fixed;
    left: 0;
@@ -392,7 +420,7 @@ td.titleColumn {
    right: 0;
 }
 
-button.AccordionButton {
+.AccordionButton {
    border: none;
    transition: .3s;
 }
@@ -406,10 +434,120 @@ button.AccordionButton {
    width: 100%;
 }
 
-#TodoAccordionDiv form input {
-   width: 50px;
+[class*="AccordionDiv"] form input {
+   width: 75px;
 }
 
-.DashboardAccordionDiv form input {
-   width: 75px;
+[class*="AccordionDiv"] table {
+   display: block;
+   border: none;
+}
+
+[class*="AccordionDiv"] table tr {
+   border: none;
+}
+
+[class*="AccordionDiv"] tr {
+   background-color: gray;
+}
+
+[class*="AccordionDiv"] table td {
+   border: none;
+   display: inline-block;
+   padding: .1em;
+   margin-right: 2em;
+   margin-top: .3em;
+   margin-bottom: .5em;
+}
+
+[class*="AccordionDiv"] button {
+   background-color: rgb(253, 253, 253) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+
+   [class*="AccordionDiv"] button {
+      background-color: #555555 !important;
+   }
+
+}
+
+/* Container */
+.flexbox {
+   display: flex;
+   flex-wrap: wrap;
+   flex-direction: row;
+   gap: 10px;
+}
+
+/* left */
+.flexbox .left {
+   float: left;
+   flex-grow: 1;
+}
+
+.flexbox > * {
+   padding: .3em;
+   margin: 0;
+}
+
+.flexbox > p:hover,
+.flexbox > button:hover 
+{
+   color: teal;
+}
+
+.flexbox > button.DeleteButton:hover {
+   border: 1px solid red;
+   color: red;
+}
+
+.flexbox > button:hover 
+{
+   border: 1px solid teal;
+}
+
+@media (prefers-color-scheme: dark)  {
+   .flexbox > p:hover,
+   .flexbox > button:hover 
+   {
+      color: lightblue;
+   }
+
+   .flexbox > button.DeleteButton:hover {
+      border: 1px solid pink;
+      color: pink;
+   }
+   
+   .flexbox > button:hover 
+   {
+      border: 1px solid lightblue;
+   }
+}
+
+.flexbox input {
+   background-color: white;
+   padding: 0 .2em .2em 1em;
+}
+
+@media (prefers-color-scheme: dark) {
+   .flexbox input {
+      background-color: black;
+   }   
+}
+
+#BradsNoNoSquare {
+   background-color: lightgray !important;
+   transition: .3s;
+}
+
+#BradsNoNoSquare:hover {
+   background-color: rgba(255, 50, 50, .7) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+   #BradsNoNoSquare {
+      background-color: #888888 !important;
+      transition: .3s;
+   } 
 }

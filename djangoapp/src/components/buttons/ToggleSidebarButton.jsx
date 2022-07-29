@@ -1,11 +1,11 @@
 import React               from "react"
-import Hamburger           from 'hamburger-react'
+import Hamburger           from "hamburger-react"
 import { Tooltip }         from "@mui/material"
 import { useContext }      from "../../contexts/contextProvider"
-import { isMobileWidth }   from "../../data/helperFunctions"
+import { isMobile } from "../../data/helperFunctions"
 
 export default function ToggleSidebarButton() {
-   const context = useContext()
+   const { activeSidebar, setActiveSidebar } = useContext()
 
    return <div>
 
@@ -14,13 +14,13 @@ export default function ToggleSidebarButton() {
 
          {/* Tooltip needs a button as a child to work */}
          <button id="toggleSidebarButton" 
-         className={context.activeSidebar ? "" : "activeSidebar"} 
-         onClick={() => {context.setActiveSidebar(!context.activeSidebar)}}>
+         className={activeSidebar ? "" : "activeSidebar"} 
+         onClick={() => {setActiveSidebar(!activeSidebar)}}>
 
             {/* Hamburger Icon */}
-            {isMobileWidth() ? // is mobile width?
+            {isMobile() ? // is mobile width?
                <Hamburger toggled={false} /> : // yes
-               <Hamburger toggled={context.activeSidebar}/> // no
+               <Hamburger toggled={activeSidebar}/> // no
             }
          </button>
       </Tooltip>

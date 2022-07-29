@@ -1,14 +1,14 @@
-import React from "react"
-import axios from "axios"
+import React            from "react"
+import axios            from "axios"
 import { todo_api_url } from "../../App"
-import * as h from "../../data/helperFunctions"
+import * as h           from "../../data/helperFunctions"
 
 export default function UpdateTodoForm(props) {
    const { rowData } = props
    const [ numVal, setNumVal ] = React.useState(rowData.quantity)
    const inputId = "TodoAccordionDivCompleteValue" + rowData.id
 
-   async function onComplete(event) {
+   async function onUpdate(event) {
       event.preventDefault()
       const quantity = parseInt(numVal)
       const expected = parseInt(rowData.quantity)
@@ -19,7 +19,7 @@ export default function UpdateTodoForm(props) {
 
          // update task status += 1
          let newStatus = parseInt(rowData.status + 1)
-         if (h.statusNames.isOilStatus(newStatus) && rowData.oil)
+         if (h.statusNames.isOilStatus(newStatus) && !rowData.oil)
             newStatus += 1
          const putObj = { status: newStatus }
          const putUrl = `${todo_api_url}${rowData.id}/?format=json`
@@ -50,37 +50,28 @@ export default function UpdateTodoForm(props) {
 
    }
 
-   async function onDelete(event) {
+   async function onReset(event) {
       event.preventDefault()
       console.log("remove task")
       await axios.delete(todo_api_url, rowData.id)
    }
 
-   return <form>
-      <table>
-         <tbody>
-            <tr>
-               <td width="100%">
-                  <em>
-                     <p>Update '{rowData.title}':</p>
-                  </em>
-               </td>
-               <td>
-                  <input id={inputId}
-                  name="quantity" type="number" 
-                  onChange={event => setNumVal(event.target.value)}
-                  placeholder={rowData.quantity}
-                  value={numVal} 
-                  min={0} />
-               </td>
-               <td>
-                  <button onClick={onComplete}> Complete </button>
-               </td>
-               <td>
-                  <button onClick={onDelete}> Delete </button>
-               </td>
-            </tr>
-         </tbody>
-      </table>
+   return <form className="UpdateTodoForm flexbox">
+      <div className="left">
+         <p><em>Update '{rowData.title}':</em></p>
+      </div>
+      <div>
+         <input id={inputId}
+         name="quantity" type="number" 
+         onChange={event => setNumVal(event.target.value)}
+         placeholder={rowData.quantity}
+         value={numVal} 
+         min={0} 
+         />
+      </div>
+      <div style={{display: "inline"}}>
+         <button onClick={onUpdate}> Update </button>
+         <button onClick={onReset}> Reset </button>
+      </div>
    </form>
 }

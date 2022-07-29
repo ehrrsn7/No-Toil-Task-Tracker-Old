@@ -1,27 +1,34 @@
-#!/usr/bin/env python3.10
-
 # include
 import os, sys, platform, socket
-
-# helper functions
-def get_ip_address():
-   return socket.gethostbyname(socket.gethostname())
 
 # define
 port_no = 8000
 
+# helper functions
+def get_ip_address():
+   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+   try:       
+      s.connect(('10.255.255.255', 1))
+      ip_address = s.getsockname()[0]
+   except Exception:
+      ip_address = '127.0.0.1'
+   finally:
+      s.close()
+   return ip_address
+
+def runserver(python):
+   command = f"{python} manage.py runserver {get_ip_address()}:{port_no}"
+   print(f">>> {command}")
+   os.system(command)
+
 # classes
 class Windows:
    @staticmethod
-   def runserver():
-      command = f"python manage.py runserver {get_ip_address()}:{port_no}"
-      os.system(command)
+   def runserver(): runserver("python")
    
 class Unix:
    @staticmethod
-   def runserver():
-      command = f"python manage.py runserver {get_ip_address()}:{port_no}"
-      os.system(command)
+   def runserver(): runserver("python3")
 
 # main
 def main():

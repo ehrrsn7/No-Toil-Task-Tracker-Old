@@ -20,14 +20,5 @@ export default function Oil() {
       selectedTasks={selectedTasks} 
       setSelectedTasks={setSelectedTasks} 
       />
-   
-      <br></br>
-      <br></br>
-      <br></br>
-      <h2>Notes</h2>
-      <p>
-         oil - no count (just done button)
-      </p>
-
    </div>
 }
