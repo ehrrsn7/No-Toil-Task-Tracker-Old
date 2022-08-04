@@ -2,6 +2,7 @@ import React                     from "react"
 import * as buttons              from "../components/buttons"
 import { TodoTable }             from "../components/tables"
 import { documentTitleSuffix }   from "../App"
+import SortByDropdown            from "../components/dropdowns/SortByDropdown"
 
 export default function TaskPageTemplate(props) {
    const { name } = props
@@ -16,16 +17,15 @@ export default function TaskPageTemplate(props) {
    return <div id={document.title}>
       <span style={{display: "flex", justifyContent: "space-between"}}>
          <buttons.BackToDashboardButton />
+         <SortByDropdown />
       </span>
 
       <TodoTable filter={name}
       selectedTask={selectedTask} 
       setSelectedTask={setSelectedTask} 
       />
-
    </div>
 }
-
 
 export function Stamp() { return <TaskPageTemplate name="Stamp" /> }
 export function Spray() { return <TaskPageTemplate name="Spray" /> }

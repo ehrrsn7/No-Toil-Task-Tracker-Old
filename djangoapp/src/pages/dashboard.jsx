@@ -1,5 +1,6 @@
 import React                     from "react"
 import { documentTitleSuffix }   from "../App"
+import SortByDropdown            from "../components/dropdowns/SortByDropdown"
 import { CreateTodoForm }        from "../components/forms"
 import { DashboardTodoTable }    from "../components/tables"
 
@@ -15,7 +16,8 @@ export default function Dashboard() {
    
    return <div id={document.title}>
       <span style={{display: "flex", justifyContent: "space-between"}}>
-         {/* Buttons Here? */}
+         <div></div>
+         <SortByDropdown />
       </span>
 
       <DashboardTodoTable 

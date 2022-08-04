@@ -1,21 +1,3 @@
-
-const sortByIdLambdaDescending = (a, b) => a - b
-const sortByIdLambdaAscending = (a, b) => b - a
-const sortByTitleLambdaDescending = (a, b) => a.title.localeCompare(b.title)
-const sortByTitleLambdaAscending = (a, b) => b.title.localeCompare(a.title)
-const sortByQuantityLambdaDescending = (a, b) => a.quantity - b.quantity
-const sortByQuantityLambdaAscending = (a, b) => b.quantity - a.quantity
-const sortByStatusLambdaDescending = (a, b) => a.status - b.status
-const sortByStatusLambdaAscending = (a, b) => b.status - a.status
-const sortByOilLambdaDescending = (a, b) => a.oil - b.oil
-const sortByOilLambdaAscending = (a, b) => b.oil - a.oil
-const sortByPriorityLambdaDescending = (a, b) => a.highPriority - b.highPriority
-const sortByPriorityLambdaAscending = (a, b) => b.highPriority - a.highPriority
-const sortByPartNumberLambdaDescending = (a, b) => a.partNumber - b.partNumber
-const sortByPartNumberLambdaAscending = (a, b) => b.partNumber - a.partNumber
-const sortByLastModifiedLambdaDescending = (a, b) => a.lastModified - b.lastModified
-const sortByLastModifiedLambdaAscending = (a, b) => b.lastModified - a.lastModified
-
 function sortByCallback(sortCallback, context) {
    if (!Array.isArray(context.todoModel)) context.setTodoModel([])
    let newSortedBy = [...context.todoModel]
@@ -23,51 +5,87 @@ function sortByCallback(sortCallback, context) {
    context.setTodoModel(newSortedBy)
 }
 
-const cols = [
+export const columnNames = [
    "id",
-   "title",
    "quantity",
-   "toOil",
    "status",
+   "toOil",
    "highPriority",
-   "partNumber",
    "lastModified",
+   "partNumber",
+   "title",
 ]
 
 export function sortBy(which, context) {
 
-   if (which.includes("ascending")) {
-      let by = which.replace("-ascending", '')
-      switch (by) {
+   // exception handling: undefined values
+   try {
+      if (context === undefined)
+         throw "context not defined (check to see if context was passed in as a parameter)"
+   }
+   catch (error) {
+      console.warn("Error in sortBy(str, context):", error)
+      return
+   }
+
+   // handle sort with parameter/context values:
+   // init descending if not ascending
+   let descending = !which.includes("ascending") 
+   // toggle if matches context
+   if (descending && context.sortedBy.includes("descending")) descending = false 
+   if (!descending && context.sortedBy.includes("ascending")) descending = true
+   // strip column name
+   const columnName = which.replace("-descending", '').replace("-ascending", '')
+   // reset which based on column name and descending boolean var and save to context
+   context.setSortedBy(columnName + (descending ? "-descending" : "-ascending"))
+
+   if (descending) {
+      switch (columnName) {
+         
+         // numbers/booleans/dates
          case "id":
-            sortByCallback(sortByIdLambdaAscending, context)
+         case "quantity":
+         case "status":
+         case "toOil":
+         case "highPriority":
+         case "lastModified":
+            sortByCallback((a, b) => a[columnName] - b[columnName], context)
             break
+         
+         // text
+         case "partNumber":
          case "title":
-            sortByCallback(sortByTitleLambdaAscending, context)
+            sortByCallback((a, b) => a[columnName].localeCompare(b[columnName]), context)
             break
+
          default:
-            console.log("'which'-ascending invalid:", which)
+            console.log("'columnName' - descending invalid:", columnName)
             break
       }
    }
    
-   if (which.includes("descending")) {
-      let by = which.replace("-descending", '')
-      switch (by) {
+   else {
+      switch (columnName) {
+         
+         // numbers/booleans/dates
          case "id":
-            sortByCallback(sortByIdLambdaDescending, context)
+         case "quantity":
+         case "status":
+         case "toOil":
+         case "highPriority":
+         case "lastModified":
+            sortByCallback((b, a) => a[columnName] - b[columnName], context)
             break
+         
+         // text
+         case "partNumber":
          case "title":
-            sortByCallback(sortByTitleLambdaDescending, context)
+            sortByCallback((b, a) => a[columnName].localeCompare(b[columnName]), context)
             break
+
          default:
-            console.log("'which'-descending invalid:", which)
+            console.log("'columnName' - ascending invalid:", columnName)
             break
       }
    }
-
-   else {
-      console.log("'which' invalid:", which)
-   }
-
 }

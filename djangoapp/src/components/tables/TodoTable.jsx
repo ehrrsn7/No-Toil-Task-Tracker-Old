@@ -21,13 +21,14 @@ export default function TodoTable(props) {
 
       <thead>
          <tr>
-            <td className="titleColumn" onClick={() => {sortBy("title", context)}}>
+            <td className="titleColumn" 
+            onClick={() => {sortBy("title", context)}}>
                Title
             </td>
             <td onClick={() => {sortBy("quantity", context)}}>
                Quantity
             </td>
-            <td onClick={() => {sortBy("priority", context)}}>
+            <td onClick={() => {sortBy("highPriority", context)}}>
                !
             </td>
             <td align="right">
