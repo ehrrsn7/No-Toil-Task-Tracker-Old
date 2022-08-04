@@ -1,12 +1,6 @@
-from ast import arg
-from django import views
-from django.http import Http404
-from django.shortcuts import get_object_or_404, render
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework import permissions
+from django.shortcuts import render
+from rest_framework import viewsets, permissions
 
-from rest_framework import viewsets
 from . import serializers
 from . import models
 

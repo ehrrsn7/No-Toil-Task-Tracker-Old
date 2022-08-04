@@ -16,62 +16,97 @@ export default function Sidebar() {
    const { activeSidebar, setActiveSidebar } = useContext()
 
    return <div id="sidebar" className={activeSidebar ? "activeSidebar" : ""} >
-      
-      {/* Sidebar Title Div (Contiains Text and Close Icon) */}
-      <div id="sidebarTitle">
 
-         {/* Sidebar Title Text Link */}
-         <Link to="/" id="sidebarTitleLinkText"
-         className="dark:text-white text-slate-900">
-            <h1 id="sidebarTitle">
-               Dashboard
-            </h1>
-         </Link>
+      <div id="SidebarContent">
 
-         {/* Close Icon */}
-         {h.isMobile() ?
-            <Hamburger toggle={setActiveSidebar} toggled={true} /> 
-         : "" }
+         <div id="SidebarContentTop">
 
-      </div>
-   
-      {/* Sidebar Page Links (Collection) */}
-      {h.statusNames.getArray().map(
-         (item, i) => (
-            <div key={item} className="sidebarLink">
+            {/* Sidebar Title Div (Contiains Text and Close Icon) */}
+            <div id="sidebarTitle">
 
-               <NavLink to={h.statusNames.getUrl(i)}>
+               {/* Sidebar Title Text Link */}
+               <Link to="/" id="sidebarTitleLinkText"
+               className="dark:text-white text-slate-900">
+                  <h1 id="sidebarTitle">
+                     Dashboard
+                  </h1>
+               </Link>
 
-                  <Tooltip title="" arrow={true} placement="right">
+               {/* Close Icon */}
+               {h.isMobile() ?
+                  <Hamburger toggle={setActiveSidebar} toggled={true} /> 
+               : "" }
 
-                     <IconButton id="sidebarIconButton" 
-                     aria-label={item} sx={sidebarIconButtonStyle}>
+            </div>
+         
+            <div className="TaskSidebarLinks">
 
-                        <p className="text-left uppercase tracking-widest dark:text-white text-slate-600">
-                           {item.replace("-", " ")}
+               {/* Sidebar Page Links (Collection) */}
+               {h.statusNames.getArray().map(
+                  (item, i) => (
+                     <div key={item} className="sidebarLink">
+
+                        <NavLink to={h.statusNames.getUrl(i)}>
+
+                           <Tooltip title="" arrow={true} placement="right">
+
+                              <IconButton id="sidebarIconButton" 
+                              aria-label={item} sx={sidebarIconButtonStyle}>
+
+                                 <p className="text-left uppercase tracking-widest dark:text-white text-slate-600">
+                                    {item.replace("-", " ")}
+                                 </p>
+
+                              </IconButton>
+                           </Tooltip>
+
+
+                        </NavLink>
+                     </div> /* End Sidebar Link Div */
+                  )
+               )} {/* End Sidebar Page Links Collection */}
+            </div>
+         </div>
+
+         <div id="SidebarContentBottom">
+
+            <div className="sidebarLink relative bottom-0">
+               <a href={"http://" + window.location.hostname + ":8000/admin/"}
+               target="_blank" rel="noopener noreferrer" >
+                  
+                  <Tooltip 
+                  title={"http://" + window.location.hostname + ":8000/admin/"}
+                  arrow={true} placement="right">
+
+                     <IconButton id="sidebarIconButton" style={{borderRadius: ".3em"}}>
+
+                        <p>
+                           Admin
                         </p>
-
                      </IconButton>
                   </Tooltip>
+               </a>
+            </div>
 
+            <div className="sidebarLink relative bottom-0">
+               <a href={todo_api_url}
+               target="_blank" rel="noopener noreferrer" >
+                  
+                  <Tooltip 
+                  title={todo_api_url}
+                  arrow={true} placement="right">
 
-               </NavLink>
-            </div> /* End Sidebar Link Div */
-         )
-      )} {/* End Sidebar Page Links Collection */}
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <div>
-         <Tooltip title="really????? why dude..don't click this fr! this button is for editing/deleting tasks only">
-            <a href={todo_api_url}>
-            <button id="BradsNoNoSquare">
-               brad's no - no button 📍
-            </button>
-            </a>
-         </Tooltip>
-      </div>
+                     <IconButton id="sidebarIconButton" style={{borderRadius: ".3em"}}>
+
+                        <p>
+                           API Root
+                        </p>
+                     </IconButton>
+                  </Tooltip>
+               </a>
+            </div>
+            
+         </div> {/* end sidebarcontent bottom div */}
+      </div> {/* end sidebar content div */}
    </div> /* end sidebar div */
 }

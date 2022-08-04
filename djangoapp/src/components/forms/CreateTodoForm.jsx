@@ -1,37 +1,20 @@
 import React                     from "react"
-import { Form, Input, Button }   from "antd"
+import { Form, Button }          from "antd"
 import axios                     from "axios"
 import * as h                    from "../../data/helperFunctions"
-import { useContext }            from "../../contexts/contextProvider"
 import { todo_api_url }          from "../../App"
 import { Tooltip }               from "@mui/material"
-
-function FilterNumberAutocomplete() {
-   const [ val, setVal ] = React.useState("")
-
-   return <select name="part_no" value={val} onChange={setVal}>
-      {h.sampleFilterNames.map(key => {
-         return <option value={key} key={key}>{key}</option>
-      })}
-   </select>
-}
-
-function TodoFormRow(props) {
-   const [ oil, setOil ] = React.useState(false)
-   const [ highPriority, setHighPriority ] = React.useState(false)
-
-   return <tr>
-      todo row
-   </tr>
-}
+import CreateTodoFormRow         from "./CreateTodoFormRow"
+import { configConsumerProps } from "antd/lib/config-provider"
 
 export default function CreateTodoForm(props) {
    const { style } = props
-   const { screenSize } = useContext()
    const [ rowsAmount, setRowsAmount ] = React.useState(5)
+   const [ rowsStatus, setRowsStatus ] = React.useState({})
+   const [ rowsToOil, setRowsToOil ]   = React.useState({})
+   const [ highPriorityRows, setHighPriorityRows ] = React.useState({})
 
    const onSubmit = async (event) => {
-      event.preventDefault()
       if (!event.target.elements) return
       const elements = Array.from(event.target.elements)
 
@@ -51,22 +34,31 @@ export default function CreateTodoForm(props) {
          chunks[chunks.length - 1].push(element)
       })
 
-      chunks = chunks.map(chunk => {
+      chunks = chunks.filter(chunk => {
+         // don't parse any empty fields
+         return chunk[0].value !== '' && chunk[1].value !== ''
+      
+      }).map(chunk => {
          // parse chunk into data
          const chunkObj = {}
+         
          chunk.forEach(element => {
-            chunkObj[element.name] = element.value
+            let value = element.value
+            if (["true", "false"].some(text => text.includes(element.value)))
+               value = element.value === "true" // str to bool
+            chunkObj[element.name] = value
          })
-         if (chunkObj.quantity == '') return
-         else console.log(chunkObj.quantity)
+
          return chunkObj
       }).filter(element => element !== undefined)
 
       console.log(chunks)
 
-      axios.post(todo_api_url, chunks[0])
-      .then(request => console.log(request))
-      .catch(error => console.warn(error))
+      chunks.forEach(chunk => {
+         axios.post(todo_api_url, chunk)
+         .then(request => console.log(request))
+         .catch(error => console.warn(error))
+      })
 
    }
 
@@ -92,46 +84,16 @@ export default function CreateTodoForm(props) {
             </thead>
             <tbody>
                {h.range(rowsAmount).map(i => <tr key={i}>
-                  <td>
-                     <Input 
-                     name="title"    
-                     id={`RowStart${i}`}         
-                     placeholder="title" 
-                     type="text"
-                     />
-                  </td>
-                  <td>
-                     <Input 
-                     name="quantity" 
-                     type="number"
-                     id={`RowMid${i}-Quantity`}  
-                     placeholder={10}
-                     default={0}
-                     />
-                  </td>
-
-                  {h.isMobile() ? "" : <>
-
-                     <td>
-                        <input type="checkbox" />
-                     </td>
-                     
-                     <td>
-                        <select>
-                           {h.statusNames.getArray().map(name => {
-                              return <option key={name} value={0}>
-                                 {h.capitalize(name)}
-                              </option>
-                           })}
-                        </select>
-                     </td>
-                     
-                     <td>
-                        <input type="checkbox" style={{height: 20}} />
-                     </td> 
-                  
-                  </>}
-               </tr>)}
+                  <CreateTodoFormRow i={i} 
+                     rowsStatus={rowsStatus}
+                     setRowsStatus={setRowsStatus}
+                     rowsToOil={rowsToOil}
+                     setRowsToOil={setRowsToOil}
+                     highPriorityRows={highPriorityRows}
+                     setHighPriorityRows={setHighPriorityRows}
+                  />
+               </tr>
+               )}
             </tbody>
          </table>
 

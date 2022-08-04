@@ -1,0 +1,54 @@
+import React                     from "react"
+import { NavLink }               from "react-router-dom"
+import { useContext }            from "../../contexts/contextProvider"
+import * as h                    from "../../data/helperFunctions"
+import * as Buttons              from "../buttons"
+import { DashboardAccordionDiv } from "../accordionDivs"
+
+export default function DashboardTableRow(props) {
+   const context = useContext()
+   const { rowData, selectedTask, setSelectedTask } = props
+
+   return <>
+
+      {/* Dashboard Table Row */}
+      <tr id={"DashboardRow" + rowData.id} key={rowData.id}>
+
+         <td>{rowData.title}</td>
+         <td>{rowData.quantity}</td>
+         <td align="center">
+            <NavLink to={h.statusNames.getUrl(rowData.status)}>
+               <button>
+                  {h.capitalize(h.statusNames.get(rowData.status))}
+               </button>
+            </NavLink>
+         </td>
+         <td>
+            <p>
+               {rowData.highPriority ? "!" : " "}
+            </p>
+         </td>
+         {h.isMobile() ? <></> : 
+            <td align="center" className="AccordionButtonColumn" style={{
+               width: "10px",
+            }}>
+               <Buttons.AccordionButton selected={selectedTask === rowData.id} 
+               onClick={() => {
+                  setSelectedTask(selectedTask === rowData.id ? -1 : rowData.id)
+               }} />
+            </td>
+         }
+      </tr>
+
+      {/* Accordion Div (Dashboard Dropdown Row) */}
+      <tr className={
+         selectedTask === rowData.id ? 
+         "AccordionRow Expanded" : 
+         "AccordionRow"}
+      >
+         <td colSpan={"100%"} style={{}}>
+            <DashboardAccordionDiv context={context} rowData={rowData} />
+         </td>
+      </tr>
+   </>
+}

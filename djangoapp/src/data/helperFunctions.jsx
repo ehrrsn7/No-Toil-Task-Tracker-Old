@@ -1,5 +1,3 @@
-import React                           from "react"
-import ReactDOM                        from "react-dom/client"
 import { isMobile as deviceIsMobile }  from "react-device-detect"
 
 export function range(n) { return [...Array(n).keys()] }
@@ -30,6 +28,9 @@ export const statusNames = {
    isOilStatus: function(statusId) {
       return this[statusId] === "oil"
    },
+   matches: function(statusId, statusName) {
+      return this.get(statusId).toLowerCase() === statusName.toLowerCase()
+   }
 }
 
 export const sampleFilterNames = [
@@ -51,12 +52,9 @@ export function capitalize(string) {
 }
 
 export const isMobile = () => {
-   return (
-      !window.screen.orientation.type.includes("landscape") && 
-      deviceIsMobile || 
-      window.matchMedia && 
-      window.matchMedia("(max-width: 600px)").matches
-   )
+   return (!window.screen.orientation.type.includes("landscape") && 
+      deviceIsMobile) || (window.matchMedia && 
+      window.matchMedia("(max-width: 600px)").matches)
 }
 
 export function onNonSidebarClick(context) {
@@ -73,46 +71,11 @@ export function insertAfter(newNode, existingNode) {
    existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
 
-// FUNCTION: handle show/hide accordion
-// Helper function for tables
-// Inserts a tr with 100% of the width of the table which displays any 
-// React node passed in {children} within the specified <tr> tags.
-// If the new task is already selected, remove the tr we created for that task.
-// param - rowData : {json}
-// param - selectedTasks : [int]
-// param - id : string
-// param - children : React node
-export function handleShowHideAccordion(rowData, selectedTasks, setSelectedTasks, id, children) {
-   // define
-   const rowId = id + "Row" + rowData.id
-   const accId = "tmpRowData" + rowData.id
+export function exportPDF(query) {
+   console.log(`exportPDF(${query})`)
+   window.print()
+}
 
-   // if rowData.id in selectedTasks, remove that accordion div
-   if (selectedTasks.includes(rowData.id)) {
-      // remove accordion div
-      document.getElementById(accId).remove() 
-
-      // remove id from selected tasks[]
-      const arr = [...selectedTasks]
-      const i = arr.indexOf(rowData.id) 
-      if (i > -1) arr.splice(i, 1)
-      setSelectedTasks(arr)
-   }
-
-   // else if rowData.id not in selectedTasks, add new accordion div
-   else {
-      const reactElement = <td colSpan="100%">{children}</td>
-
-      const newNode = document.createElement("tr")
-      newNode.className = id + "AccordionDiv"
-      newNode.id = accId
-      insertAfter(newNode, document.getElementById(rowId))
-
-      const root = ReactDOM.createRoot(document.getElementById(accId))
-      root.render(reactElement)
-
-      const arr = [...selectedTasks]
-      arr.push(rowData.id)
-      setSelectedTasks(arr)
-   }
+export function getCurrentDate() {
+   return new Date
 }

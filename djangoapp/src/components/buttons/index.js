@@ -4,7 +4,7 @@ import ToggleSidebarButton from "./ToggleSidebarButton"
 import PrintCompletedPartsButton from "./PrintCompletedPartsButton"
 import AccordionButton from "./AccordionButton"
 import DashboardAccordionStatusButton from "./DashboardAccordionStatusButton"
-import DashboardDeleteButton from "./DashboardDeleteButton"
+import TaskEditDeleteButton from "./TaskEditDeleteButton"
 
 export { 
    BackToDashboardButton, 
@@ -13,5 +13,5 @@ export {
    PrintCompletedPartsButton,
    AccordionButton,
    DashboardAccordionStatusButton,
-   DashboardDeleteButton,
+   TaskEditDeleteButton,
 }

@@ -3,16 +3,7 @@ import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 // Single-Page App Pages
-import {
-   Example,
-   Dashboard,
-   Bag,
-   Stamp,
-   Oil,
-   Spray,
-   Check,
-   CompletedParts,
-} from "./pages"
+import * as pages from "./pages"
 
 // Single-Page App Page Components
 import Sidebar from "./components/pageComponents/sidebar"
@@ -31,6 +22,9 @@ export const djangoappName = ((parseInt(window.location.port) === 3000) ?
    "/" :       // development
    "djangoapp" // hosted on server
 )
+
+// Document Title Suffix
+export const documentTitleSuffix = " | No Toil Task Tracker"
 
 // Django Rest Framework URI Endpoints
 export const todo_api_url = `http://${window.location.hostname}:8000/api/todo/`
@@ -56,7 +50,16 @@ export default function App() {
          }
          
          websocket.onmessage = (message) => {
-            console.log("Server message:", message);
+            console.log("Websocket message:", message);
+         }
+
+         websocket.onerror = (errorMessage) => {
+            console.warn("Websocket warning:", errorMessage)
+         }
+         
+
+         websocket.onclose = (event) => {
+            console.log("Websocket close:", event)
          }
          
          // get data from tasklist api endpoint
@@ -64,7 +67,7 @@ export default function App() {
          .then(response => response.json())
          .then(response => { context.setTodoModel(response) })
          .catch(error => console.log(error))
-         
+
          // dimension events
          const resize = () => { context.setScreenSize(window.innerWidth) }
          window.addEventListener("resize", resize) // runtime
@@ -85,7 +88,17 @@ export default function App() {
          ).addEventListener("change", handleDarkMode)
       }
 
-      // update code goes here (none)
+      // set todoModel method
+      function sortBy(which) {
+         if (!Array.isArray(this)) return this
+         let tmpModel = [...this]
+         return tmpModel.sort((a, b) => a[which] - b[which])
+      }
+      const todoModelWhenSet = context.todoModel
+      if (todoModelWhenSet !== undefined) {
+         todoModelWhenSet.sortBy = sortBy
+         context.setTodoModel(todoModelWhenSet)
+      }
       
       // destructor (none)
 
@@ -107,17 +120,17 @@ export default function App() {
                
                <Routes>
                   {/* Default */}
-                  <Route path={`/`}                element={<Dashboard />} />
-                  <Route path={`/Dashboard`}       element={<Dashboard />} />
+                  <Route path={`/`}                element={<pages.Dashboard />} />
+                  <Route path={`/Dashboard`}       element={<pages.Dashboard />} />
                   {/* Subpages */}
-                  <Route path={`/Bag`}             element={<Bag />} />
-                  <Route path={`/Oil`}             element={<Oil />} />
-                  <Route path={`/Stamp`}           element={<Stamp />} />
-                  <Route path={`/Spray`}           element={<Spray />} />
-                  <Route path={`/Check`}           element={<Check />} />
-                  <Route path={`/CompletedParts`}  element={<CompletedParts />} />
+                  <Route path={`/Bag`}             element={<pages.Bag />} />
+                  <Route path={`/Oil`}             element={<pages.Oil />} />
+                  <Route path={`/Stamp`}           element={<pages.Stamp />} />
+                  <Route path={`/Spray`}           element={<pages.Spray />} />
+                  <Route path={`/Check`}           element={<pages.Check />} />
+                  <Route path={`/CompletedParts`}  element={<pages.CompletedParts />} />
                   {/* 'example' */}
-                  <Route path={`/example`}         element={<Example />} />
+                  <Route path={`/example`}         element={<pages.Example />} />
                </Routes>
             </div> {/* End Content Div */}
          </div> {/* End Non-Sidebar Div */}

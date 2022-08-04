@@ -20,12 +20,9 @@ class FilterBible(models.Model):
 
 class Todo(models.Model):
     title = models.CharField(max_length=120, default="0000 or *000-00")
-    part_no = models.CharField(max_length=20, default="0000 or *000-00")
     quantity = models.PositiveIntegerField(default=0)
-    lastModified = models.DateTimeField(auto_now=True)
+    toOil = models.BooleanField(default=False)
     status = models.IntegerField(default=0)
-    high_priority = models.BooleanField(default=False)
-    oil = models.BooleanField(default=False)
-
-    def _str_(self):
-        return self.title
+    highPriority = models.BooleanField(default=False)
+    partNumber = models.CharField(max_length=20, default="0000 or *000-00")
+    lastModified = models.DateTimeField(auto_now=True)

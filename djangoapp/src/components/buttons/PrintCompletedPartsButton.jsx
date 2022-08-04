@@ -1,12 +1,23 @@
-import React from "react"
-import { Tooltip } from "@mui/material"
+import React                  from "react"
+import { useContext }         from "../../contexts/contextProvider"
+import { deleteAllComplete }  from "../forms/crud"
 
 export default function PrintCompletedPartsButton(props) {
-   const message = "This button will open a pdf that can be printed and used for reference when putting the filters in stock. Note: this will delete these entries from the database permanently."
+   const { todoModel } = useContext()
 
-   return <Tooltip title={message} placement="top">
-      <button id="PrintCompletedPartsButton" style={props.style}>
-         Print Completed Parts
-      </button>
-   </Tooltip> 
+   React.useEffect(() => {
+      // window event: after print
+      window.onafterprint = () => {
+         // print was successful, now let's print
+         console.log("printed, now let's delete everything")
+         deleteAllComplete(todoModel)
+      }
+   }, [])
+   
+   return <button 
+   id="PrintCompletedPartsButton" 
+   style={props.style} 
+   onClick={window.print}>
+      Print Completed Parts
+   </button>
 }

@@ -1,65 +1,75 @@
 import React            from "react"
-import axios            from "axios"
-import { todo_api_url } from "../../App"
 import * as h           from "../../data/helperFunctions"
+import { useContext }   from "../../contexts/contextProvider"
+import { shiftTodoGreaterThanExpected, shiftTodoLessThanExpected, shiftTodoNormal, todoResetShift, todoResetUpdate, updateTodoGreaterThanExpected, updateTodoLessThanExpected, updateTodoNormal } from "./crud"
 
 export default function UpdateTodoForm(props) {
+   const { todoModel } = useContext()
    const { rowData } = props
    const [ numVal, setNumVal ] = React.useState(rowData.quantity)
    const inputId = "TodoAccordionDivCompleteValue" + rowData.id
 
    async function onUpdate(event) {
       event.preventDefault()
+
       const quantity = parseInt(numVal)
       const expected = parseInt(rowData.quantity)
-      console.log("quantity:", quantity)
-      console.log("expected:", expected)
       
-      if (quantity === expected) {
+      const newStatus = !rowData.oil && 
+         h.statusNames.isOilStatus(parseInt(rowData.status + 1)) ?
+            parseInt(rowData.status + 2) :
+            parseInt(rowData.status + 1)
 
-         // update task status += 1
-         let newStatus = parseInt(rowData.status + 1)
-         if (h.statusNames.isOilStatus(newStatus) && !rowData.oil)
-            newStatus += 1
-         const putObj = { status: newStatus }
-         const putUrl = `${todo_api_url}${rowData.id}/?format=json`
+      const updateNotCreate = todoModel.filter(
+         row => row.status === newStatus).filter(
+            row => row.title === rowData.title).length > 0
 
-         axios.put(putUrl, putObj)
-         .then(request => {console.log(request.status == 201 ? "success" : "failure")})
+      if (updateNotCreate) {
+         if (quantity === expected)
+            updateTodoNormal(
+               todoModel, rowData, newStatus, quantity)
+
+         if (quantity < expected)
+            updateTodoLessThanExpected(
+               todoModel, rowData, newStatus, quantity, expected)
+
+         if (quantity > expected)
+            updateTodoGreaterThanExpected(
+               todoModel, rowData, newStatus, quantity)
       }
-      
-      else if (quantity < expected) {
 
-         // new task of quantity with status += 1
-         axios.get(todo_api_url)
-         .then(request => {console.log("new task of quantity with status += 1", request)})
+      else {
+
+         if (quantity === expected)
+            shiftTodoNormal(rowData, newStatus)
          
-         // current task expected -= quantity
-         axios.get(todo_api_url)
-         .then(request => {console.log("current task expected -= quantity", request)})
+         else if (quantity < expected)
+            shiftTodoLessThanExpected(rowData, quantity, expected)
          
+         else if (quantity > expected)
+            shiftTodoGreaterThanExpected(rowData, quantity)  
       }
-      
-      else if (quantity > expected) {
-
-         // task expected += extra (or rather expected <- quantity), and status += 1
-         axios.get(todo_api_url)
-         .then(request => {console.log("task expected += extra (or rather expected <- quantity), and status += 1", request)})
-
-      }      
-
    }
 
    async function onReset(event) {
       event.preventDefault()
-      console.log("remove task")
-      await axios.delete(todo_api_url, rowData.id)
+
+      const newStatus = 0
+
+      if (todoModel.filter(
+         row => row.status === newStatus).filter(
+            row => row.title === rowData.title).length > 0)
+               todoResetUpdate(todoModel, newStatus, rowData)
+
+      todoResetShift(newStatus, rowData)
    }
 
    return <form className="UpdateTodoForm flexbox">
+      
       <div className="left">
          <p><em>Update '{rowData.title}':</em></p>
       </div>
+
       <div>
          <input id={inputId}
          name="quantity" type="number" 
@@ -69,9 +79,17 @@ export default function UpdateTodoForm(props) {
          min={0} 
          />
       </div>
+
       <div style={{display: "inline"}}>
-         <button onClick={onUpdate}> Update </button>
-         <button onClick={onReset}> Reset </button>
+
+         <button onClick={onUpdate}>
+            Update
+         </button>
+
+         <button style={{marginLeft: "1em"}} onClick={onReset}>
+            Reset
+         </button>
+
       </div>
    </form>
 }

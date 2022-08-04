@@ -1,25 +1,26 @@
-import React                  from "react"
-import { CreateTodoForm }     from "../components/forms"
-import { DashboardTodoTable } from "../components/tables"
+import React                     from "react"
+import { documentTitleSuffix }   from "../App"
+import { CreateTodoForm }        from "../components/forms"
+import { DashboardTodoTable }    from "../components/tables"
 
 export default function Dashboard() {
-   const [ selectedTasks,setSelectedTasks ] = React.useState([])
+   const [ selectedTask, setSelectedTask ] = React.useState(-1)
    const [ addMore, setAddMore ] = React.useState(false)
 
    React.useEffect(() => {
       document.title = "Dashboard"
       document.querySelector("#headerTitle").innerText = document.title
-      document.querySelector("title").textContent = document.title
+      document.querySelector("title").textContent = document.title + documentTitleSuffix
    }, [])
-
-   return <div id="Dashboard">
+   
+   return <div id={document.title}>
       <span style={{display: "flex", justifyContent: "space-between"}}>
          {/* Buttons Here? */}
       </span>
 
       <DashboardTodoTable 
-      selectedTasks={selectedTasks} 
-      setSelectedTasks={setSelectedTasks} 
+      selectedTask={selectedTask} 
+      setSelectedTask={setSelectedTask} 
       />
 
       <br></br>

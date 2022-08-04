@@ -30,8 +30,8 @@ html, body, #App {
 
 /* App Styles */
 button {
-   border: 1px solid lightgray;
-   background-color: var(--gray) !important;
+   border: 1px solid #EEEEEE;
+   background-color: #fbfbfb;
    padding-left: .5em;
    padding-right: .5em;
    border-radius: .25em;
@@ -39,8 +39,8 @@ button {
 
 @media (prefers-color-scheme: dark)  {
    button {
-      border: 1px solid #555555 !important;
-      background-color: gray !important;
+      border: 1px solid #555555;
+      background-color: gray;
    }
 }
 
@@ -70,6 +70,12 @@ select, input {
 @media (prefers-color-scheme: dark) {
    select, input {
       background-color: var(--primary);
+   }
+}
+
+@media print {
+   button, .HideOnPrint {
+      display: none;
    }
 }
 
@@ -204,6 +210,23 @@ select, input {
    }
 }
 
+#SidebarContent {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   justify-content: space-between;
+   height: 100%;
+}
+
+#SidebarContent:not(#SidebarContentBottom) {
+   /* background: blue; */
+   flex-grow: 1;
+}
+
+#SidebarContentBottom {
+   flex-shrink: 1;
+   /* background: gray; */
+}
 #nonSidebar {
    position: absolute;
    height: 100%;
@@ -312,12 +335,7 @@ table {
    max-width: 1000px;
    font-family: "sf mono";
    text-align: left;
-}
-
-@media only screen (max-width: 600px) {
-   table {
-      
-   }
+   position: relative;
 }
 
 thead tr {
@@ -331,7 +349,7 @@ tr {
 }
 
 tr[class*="AccordionDiv"] {
-   background-color: var(--gray);
+   background-color: var(--gray) !important;
 }
 
 td {
@@ -342,6 +360,14 @@ td {
 
 td.titleColumn {
    width: 100%; /* all available space */
+}
+
+.InvalidRow {
+   width: 100%;
+}
+
+.InvalidRow td {
+   width: 100%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -355,7 +381,7 @@ td.titleColumn {
    }
 
    tr[class*="AccordionDiv"] {
-      background-color: #333333;
+      background-color: #333333 !important;
    }
 
 }
@@ -497,7 +523,11 @@ td.titleColumn {
    color: teal;
 }
 
-.flexbox > button.DeleteButton:hover {
+.flexbox > button.TaskEditDeleteButton:hover {
+   border: 1px solid red;
+}
+
+button.TaskEditDeleteButton:hover {
    border: 1px solid red;
    color: red;
 }
@@ -514,11 +544,15 @@ td.titleColumn {
       color: lightblue;
    }
 
-   .flexbox > button.DeleteButton:hover {
+   .flexbox > button.TaskEditDeleteButton:hover {
+      border: 1px solid pink;
+   }
+   
+   button.TaskEditDeleteButton:hover {
       border: 1px solid pink;
       color: pink;
    }
-   
+
    .flexbox > button:hover 
    {
       border: 1px solid lightblue;
@@ -550,4 +584,42 @@ td.titleColumn {
       background-color: #888888 !important;
       transition: .3s;
    } 
+}
+
+.AccordionRow {
+   background: var(--gray);
+}
+
+@media (prefers-color-scheme: dark) {
+   .AccordionRow {
+      background-color: #333333;
+   } 
+}
+
+tr.AccordionRow {
+   display: none;
+}
+
+tr.AccordionRow.Expanded {
+   display: table-row;
+}
+
+.alignChildrenRight {
+   display: flex;
+  justify-content: center;
+}
+
+.hideOnPrint {
+   display: block;
+}
+.showOnPrint {
+   display: none;
+}
+@media print {
+   .hideOnPrint {
+      display: none;
+   }
+   .showOnPrint {
+      display: block;
+   }
 }

@@ -1,89 +1,66 @@
 import React                  from "react"
 import { useContext }         from "../../contexts/contextProvider"
-import { todo_api_url }       from "../../App"
-import * as h                 from "../../data/helperFunctions"
-import { TodoAccordionDiv }   from "../accordionDivs"
 import * as Buttons           from "../buttons"
+import TodoTableRow           from "./TodoTableRow"
+import InvalidRow             from "./InvalidRow"
+import { statusNames }        from "../../data/helperFunctions"
+import { sortBy } from "../../data/sort"
 
 export default function TodoTable(props) {
-   const { selectedTasks, setSelectedTasks } = props
+   const { filter, selectedTask, setSelectedTask } = props
    const context = useContext()
-   const { screenSize } = context
-   const [ sortBy, setSortBy ] = React.useState("")
-   const [ TaskListLength, setTaskListLength ] = React.useState(0)
+   const { todoModel } = context
 
-   React.useEffect(() => {
-      setSortBy("quantity")
-      
-      // is empty after filter?
-      setTaskListLength(5)
-   }, [ TaskListLength, setTaskListLength ])
-
-   function sort(a, b) {
-      switch (sortBy) {
-         case "title":
-            return a.title - b.title
-         case "quantity":
-            return a.quantity - b.quantity
-         default:
-            return a < b
-      }
-   }
-
-   function handleAccordion(rowData) {
-      h.handleShowHideAccordion(
-         rowData, selectedTasks, 
-         setSelectedTasks, "Todo", 
-         <TodoAccordionDiv rowData={rowData} screenSize={screenSize} />
+   const filteredModel = () => (
+      todoModel.filter(
+         rowData => statusNames.matches(rowData.status, filter)
       )
-   }
-
-   return <table id={props.filter + "TodoTable"} className="TodoTable">
+   )
+   
+   return <table id={filter + "TodoTable"} className="TodoTable">
 
       <thead>
          <tr>
-            <td className="titleColumn">  Title       </td>
-            <td>                          Quantity    </td>
-            <td>                          !    </td>
-            <td align="right" >
+            <td className="titleColumn" onClick={() => {sortBy("title", context)}}>
+               Title
+            </td>
+            <td onClick={() => {sortBy("quantity", context)}}>
+               Quantity
+            </td>
+            <td onClick={() => {sortBy("priority", context)}}>
+               !
+            </td>
+            <td align="right">
                <Buttons.CollapseAllButton 
-               selectedTasks={selectedTasks} 
-               setSelectedTasks={setSelectedTasks} 
+               selectedTask={selectedTask} 
+               setSelectedTask={setSelectedTask} 
                />
             </td>
          </tr>
       </thead>
 
-      {TaskListLength <= 0 ? <tbody>No rows to display</tbody> : 
       <tbody>
-         {(Array.isArray(context.todoModel)) ? 
 
-            context.todoModel.filter(
-               rowData => h.statusNames.get(rowData.status) === props.filter.toLowerCase()
-            ).sort((a, b) => {sort(a, b)}).map(rowData => {
-               return <tr id={"TodoRow" + rowData.id} key={rowData.id}
-               onClick={() => handleAccordion(rowData)}>
-                  <td>{rowData.title}</td>
-                  <td>{rowData.quantity}</td>
-                  <td>{rowData.high_priority ? "True" : "False"}</td>
-                  <td width={100}>
-                     <button>
-                        {selectedTasks.includes(rowData.id) ? "cancel" : "update"}
-                     </button>
-                     <Buttons.AccordionButton selected={selectedTasks.includes(rowData.id)} />
-                  </td>
-               </tr>
-            }) : 
+         {/* Invalid Tasks */}
+         {!Array.isArray(todoModel) && <InvalidRow />}
 
-         <tr className="invalidRow">        
-            <td>Not valid data</td>
-            <td>
-               <a href={todo_api_url} target="_blank" rel="noreferrer">
-                  failed to fetch data from {todo_api_url}
-               </a>
-            </td>
-         </tr>}
+         {/* No Tasks */}
+         {Array.isArray(todoModel) && filteredModel().length <= 0 &&
+            <tr><td colSpan={"100%"}>
+               <em>No Tasks</em>
+            </td></tr>
+         }
+
+         {/* Valid Tasks */}
+         {(Array.isArray(todoModel)) && filteredModel().map(rowData => (
+            <TodoTableRow 
+            key={rowData.id} 
+            rowData={rowData} 
+            selectedTask={selectedTask} 
+            setSelectedTask={setSelectedTask} 
+            /> 
+         ))}
+
       </tbody>
-   }
    </table>
 }

@@ -1,46 +1,42 @@
-import React from "react"
-import * as h           from "../../data/helperFunctions"
-import { todo_api_url } from "../../App"
+import React      from "react"
+import InvalidRow from "./InvalidRow"
 
 export default function CompletedPartsTable(props) {
-   const context = props.context
-   const [ TaskListLength, setTaskListLength ] = React.useState(0)
-
-   React.useEffect(() => {
-      setTaskListLength(1)
-   }, [setTaskListLength])
+   const { todoModel } = props.context
    
+   const filteredModel = () => todoModel.filter(x => x.status === 5)
+
    return <table id={props.filter + "TodoTable"} className="TodoTable">
 
    <thead>
       <tr>
-         <td className="titleColumn">  Title       </td>
-         <td>                          Quantity    </td>
+         <td className="titleColumn">
+            Title
+         </td>
+         <td>
+            Quantity
+         </td>
       </tr>
    </thead>
 
-   {TaskListLength <= 0 ? <tbody>No rows to display</tbody> : 
    <tbody>
-      {(Array.isArray(context.todoModel)) ? 
 
-         context.todoModel.filter(
-            rowData => h.statusNames.get(rowData.status) === "complete"
-         ).map(rowData => {
-            return <tr id={"TodoRow" + rowData.id} key={rowData.id}>
-               <td>{rowData.title}</td>
-               <td>{rowData.quantity}</td>
-            </tr>
-         }) : 
+      {/* Invalid Tasks */}
+      {!Array.isArray(todoModel) && <InvalidRow />}
 
-      <tr className="invalidRow">        
-         <td>Not valid data</td>
-         <td>
-            <a href={todo_api_url} target="_blank" rel="noreferrer">
-               failed to fetch data from {todo_api_url}
-            </a>
-         </td>
-      </tr>}
+      {/* No Tasks */}
+      {Array.isArray(todoModel) && filteredModel().length <= 0 &&
+         <tr><td colSpan={"100%"}>
+            <em>No Tasks</em>
+         </td></tr>
+      }
+
+      {/* Valid Tasks */}
+      {(Array.isArray(todoModel)) && filteredModel().map(rowData => 
+      <tr id={"CompleteTodoRow" + rowData.id} key={rowData.id}>
+         <td>{rowData.title}</td>
+         <td>{rowData.quantity}</td>
+      </tr> )}
    </tbody>
-   }
 </table>
 }
