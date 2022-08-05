@@ -31,7 +31,7 @@ export default function DashboardTodoTable(props)  {
             
             <td>
                <Tooltip title="High Priority" placement="top" 
-               onClick={() => sortBy("highPriority", context)}>
+               onClick={() => sortBy("highPriority-ascending", context)}>
                   <p>
                      !
                   </p>

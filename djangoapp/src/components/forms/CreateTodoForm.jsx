@@ -1,13 +1,14 @@
 import React                     from "react"
 import { Form, Button }          from "antd"
 import axios                     from "axios"
-import * as h                    from "../../data/helperFunctions"
-import { todo_api_url }          from "../../App"
 import { Tooltip }               from "@mui/material"
 import CreateTodoFormRow         from "./CreateTodoFormRow"
-import { configConsumerProps } from "antd/lib/config-provider"
+import * as h                    from "../../data/helperFunctions"
+import { useContext }            from "../../contexts/contextProvider"
+import { todo_api_url }          from "../../App"
 
 export default function CreateTodoForm(props) {
+   const { activeSidebar } = useContext()
    const { style } = props
    const [ rowsAmount, setRowsAmount ] = React.useState(5)
    const [ rowsStatus, setRowsStatus ] = React.useState({})
@@ -60,6 +61,7 @@ export default function CreateTodoForm(props) {
          .catch(error => console.warn(error))
       })
 
+      window.location.reload()
    }
 
    return <Form id="CreateTodoForm" style={style} onSubmitCapture={onSubmit}>
@@ -71,7 +73,11 @@ export default function CreateTodoForm(props) {
                   <td> quantity </td>
                   {!h.isMobile() ? <>
                      <td>
-                        <Tooltip title="Oil? Click this if the filter requires oiling. (Oiled filters usually have a hyphen, i.e. @000-00) Leaving this box unchecked will skip the oiling step." placement="top">
+                        <Tooltip placement="top" title={
+                           "Oil? Click this if the filter requires oiling." + 
+                           "(Oiled filters usually have a hyphen, i.e. @000-00)" + 
+                           "Leaving this box unchecked will skip the oiling step."
+                        }>
                            <p>
                               oil 
                            </p>
@@ -110,7 +116,10 @@ export default function CreateTodoForm(props) {
 
             <Button id="add5RowsButton" type="primary"
             style={{border: "1px solid lightgray"}} 
-            onClick={() => { setRowsAmount(rowsAmount + 5) }}>
+            onClick={() => {
+               if (h.isMobile && activeSidebar) return // disable
+               setRowsAmount(rowsAmount + 5) 
+            }}>
                Add 5 Extra Rows
             </Button>
          </span>

@@ -1,5 +1,5 @@
 import React                     from "react"
-import {documentTitleSuffix}       from "../App"
+import { documentTitleSuffix }   from "../App"
 import { BackToDashboardButton } from "../components/buttons"
 
 export default function Example() {

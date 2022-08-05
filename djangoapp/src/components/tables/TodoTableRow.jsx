@@ -1,11 +1,15 @@
 import React                  from "react"
 import { TodoAccordionDiv }   from "../accordionDivs"
 import * as Buttons           from "../buttons"
+import * as h                 from "../../data/helperFunctions"
+import { useContext }         from "../../contexts/contextProvider"
 
 export default function TodoTableRow(props) {
+   const { activeSidebar } = useContext()
    const { rowData, selectedTask, setSelectedTask } = props
 
    const onClick = () => {
+      if (h.isMobile && activeSidebar) return // disable
       setSelectedTask(selectedTask === rowData.id ? -1 : rowData.id)
    }
 

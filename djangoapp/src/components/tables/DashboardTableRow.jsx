@@ -7,6 +7,7 @@ import { DashboardAccordionDiv } from "../accordionDivs"
 
 export default function DashboardTableRow(props) {
    const context = useContext()
+   const { activeSidebar } = context
    const { rowData, selectedTask, setSelectedTask } = props
 
    return <>
@@ -34,6 +35,7 @@ export default function DashboardTableRow(props) {
             }}>
                <Buttons.AccordionButton selected={selectedTask === rowData.id} 
                onClick={() => {
+                  if (h.isMobile && activeSidebar) return // disable
                   setSelectedTask(selectedTask === rowData.id ? -1 : rowData.id)
                }} />
             </td>

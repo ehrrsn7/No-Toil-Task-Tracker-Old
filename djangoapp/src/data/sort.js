@@ -1,3 +1,5 @@
+import * as h from "../data/helperFunctions"
+
 function sortByCallback(sortCallback, context) {
    if (!Array.isArray(context.todoModel)) context.setTodoModel([])
    let newSortedBy = [...context.todoModel]
@@ -17,6 +19,8 @@ export const columnNames = [
 ]
 
 export function sortBy(which, context) {
+   const { activeSidebar } = context
+   if (h.isMobile && activeSidebar) return // disable
 
    // exception handling: undefined values
    try {

@@ -1,8 +1,10 @@
 import React                  from "react"
 import { useContext }         from "../../contexts/contextProvider"
+import { isMobile } from "../../data/helperFunctions"
 import { deleteAllComplete }  from "../forms/crud"
 
 export default function PrintCompletedPartsButton(props) {
+   const { activeSidebar } = useContext()
    const { todoModel } = useContext()
 
    React.useEffect(() => {
@@ -17,7 +19,10 @@ export default function PrintCompletedPartsButton(props) {
    return <button 
    id="PrintCompletedPartsButton" 
    style={props.style} 
-   onClick={window.print}>
+   onClick={() => {
+      if (isMobile && activeSidebar) return // disable
+      window.print()
+   }}>
       Print Completed Parts
    </button>
 }

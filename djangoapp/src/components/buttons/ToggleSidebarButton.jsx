@@ -2,7 +2,7 @@ import React               from "react"
 import Hamburger           from "hamburger-react"
 import { Tooltip }         from "@mui/material"
 import { useContext }      from "../../contexts/contextProvider"
-import { isMobile } from "../../data/helperFunctions"
+import { isMobile }        from "../../data/helperFunctions"
 
 export default function ToggleSidebarButton() {
    const { activeSidebar, setActiveSidebar } = useContext()

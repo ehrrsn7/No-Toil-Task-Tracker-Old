@@ -1,10 +1,10 @@
-import React                  from "react"
-import { useContext }         from "../../contexts/contextProvider"
-import * as Buttons           from "../buttons"
-import TodoTableRow           from "./TodoTableRow"
-import InvalidRow             from "./InvalidRow"
-import { statusNames }        from "../../data/helperFunctions"
-import { sortBy } from "../../data/sort"
+import React            from "react"
+import { useContext }   from "../../contexts/contextProvider"
+import * as Buttons     from "../buttons"
+import TodoTableRow     from "./TodoTableRow"
+import InvalidRow       from "./InvalidRow"
+import { statusNames }  from "../../data/helperFunctions"
+import { sortBy }       from "../../data/sort"
 
 export default function TodoTable(props) {
    const { filter, selectedTask, setSelectedTask } = props
@@ -28,7 +28,7 @@ export default function TodoTable(props) {
             <td onClick={() => {sortBy("quantity", context)}}>
                Quantity
             </td>
-            <td onClick={() => {sortBy("highPriority", context)}}>
+            <td onClick={() => {sortBy("highPriority-ascending", context)}}>
                !
             </td>
             <td align="right">

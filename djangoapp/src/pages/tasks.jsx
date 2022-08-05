@@ -3,6 +3,7 @@ import * as buttons              from "../components/buttons"
 import { TodoTable }             from "../components/tables"
 import { documentTitleSuffix }   from "../App"
 import SortByDropdown            from "../components/dropdowns/SortByDropdown"
+import { isMobile } from "../data/helperFunctions"
 
 export default function TaskPageTemplate(props) {
    const { name } = props
@@ -15,8 +16,9 @@ export default function TaskPageTemplate(props) {
    }, [])
    
    return <div id={document.title}>
-      <span style={{display: "flex", justifyContent: "space-between"}}>
+      <span style={{display: "flex", justifyContent: "space-between", flexWrap: "wrap"}}>
          <buttons.BackToDashboardButton />
+         {isMobile && <br></br>}
          <SortByDropdown />
       </span>
 

@@ -1,11 +1,13 @@
 import React            from "react"
 import { useContext }   from "../../contexts/contextProvider"
+import { isMobile }     from "../../data/helperFunctions"
 
 export default function PopupBox(props) {
-   const context = useContext()
+   const { activeSidebar, setAddMoreIsOpen } = useContext()
 
    function exitPopup() {
-      context.setAddMoreIsOpen(false)
+      if (isMobile && activeSidebar) return // disable
+      setAddMoreIsOpen(false)
    }
 
    return <div id={props.id} className="Popup" style={props.style}>

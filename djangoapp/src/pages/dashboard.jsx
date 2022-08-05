@@ -3,8 +3,11 @@ import { documentTitleSuffix }   from "../App"
 import SortByDropdown            from "../components/dropdowns/SortByDropdown"
 import { CreateTodoForm }        from "../components/forms"
 import { DashboardTodoTable }    from "../components/tables"
+import { useContext }            from "../contexts/contextProvider"
+import * as h                    from "../data/helperFunctions"
 
 export default function Dashboard() {
+   const { activeSidebar } = useContext()
    const [ selectedTask, setSelectedTask ] = React.useState(-1)
    const [ addMore, setAddMore ] = React.useState(false)
 
@@ -27,7 +30,10 @@ export default function Dashboard() {
 
       <br></br>
 
-      <button className="add" onClick={() => { setAddMore(!addMore) }}>
+      <button className="add" onClick={() => {
+         if (h.isMobile && activeSidebar) return // disable
+         setAddMore(!addMore)
+      }}>
          {addMore ? "Cancel" : "Add more" }
       </button>
 

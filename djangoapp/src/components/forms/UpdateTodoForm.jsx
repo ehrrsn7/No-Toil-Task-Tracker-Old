@@ -1,17 +1,26 @@
 import React            from "react"
 import * as h           from "../../data/helperFunctions"
 import { useContext }   from "../../contexts/contextProvider"
-import { shiftTodoGreaterThanExpected, shiftTodoLessThanExpected, shiftTodoNormal, todoResetShift, todoResetUpdate, updateTodoGreaterThanExpected, updateTodoLessThanExpected, updateTodoNormal } from "./crud"
+import { 
+   shiftTodoGreaterThanExpected, 
+   shiftTodoLessThanExpected, 
+   shiftTodoNormal, 
+   todoResetShift, 
+   todoResetUpdate, 
+   updateTodoGreaterThanExpected, 
+   updateTodoLessThanExpected, 
+   updateTodoNormal 
+} from "./crud"
 
 export default function UpdateTodoForm(props) {
-   const { todoModel } = useContext()
+   const { todoModel, activeSidebar } = useContext()
    const { rowData } = props
    const [ numVal, setNumVal ] = React.useState(rowData.quantity)
    const inputId = "TodoAccordionDivCompleteValue" + rowData.id
 
-   async function onUpdate(event) {
-      event.preventDefault()
-
+   async function onUpdate() {
+      if (h.isMobile && activeSidebar) return // disable
+      
       const quantity = parseInt(numVal)
       const expected = parseInt(rowData.quantity)
       
@@ -51,8 +60,8 @@ export default function UpdateTodoForm(props) {
       }
    }
 
-   async function onReset(event) {
-      event.preventDefault()
+   async function onReset() {
+      if (h.isMobile && activeSidebar) return // disable
 
       const newStatus = 0
 

@@ -57,16 +57,6 @@ export const isMobile = () => {
       window.matchMedia("(max-width: 600px)").matches)
 }
 
-export function onNonSidebarClick(context) {
-   const { activeSidebar, setActiveSidebar } = context
-   
-   // don't close sidebar on click #nonSidebar
-   if (!isMobile) return 
-
-   // click outside #sidebar to hide it (mobile only)
-   if (activeSidebar) setActiveSidebar(false)
-}
-
 export function insertAfter(newNode, existingNode) {
    existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }

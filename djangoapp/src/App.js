@@ -1,3 +1,6 @@
+/**********
+ * App.js
+ **********/
 // React Application
 import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
@@ -11,7 +14,7 @@ import Header  from "./components/pageComponents/header"
 
 // Other (stylesheets/scripts)
 import "./App.css"
-import { onNonSidebarClick } from "./data/helperFunctions"
+import { isMobile } from "./data/helperFunctions"
 import { useContext } from "./contexts/contextProvider"
 
 /**********
@@ -34,7 +37,9 @@ export const filter_bible_api_url = `http://${window.location.hostname}:8000/api
 const websocket_uri = `ws://${window.location.host}/ws/api/`
 const websocket = new WebSocket(websocket_uri)
 
-// Application
+/********************
+ * Application
+ ********************/
 export default function App() {
    const context = useContext()
 
@@ -110,7 +115,15 @@ export default function App() {
          <Sidebar />
    
          <div id="nonSidebar" className={context.activeSidebar ? "activeSidebar" : ""} 
-         onClick={() => onNonSidebarClick(context)} >
+         onClick={() => {
+            const { activeSidebar, setActiveSidebar } = context
+            
+            // don't close sidebar on click #nonSidebar
+            if (!isMobile()) return 
+
+            // click outside #sidebar to hide it (mobile only)
+            if (activeSidebar) setActiveSidebar(false)
+         }}>
    
             <Header />
       

@@ -1,5 +1,5 @@
-import React            from "react"
-import * as Buttons     from "../buttons"
+import React         from "react"
+import * as Buttons  from "../buttons"
 
 export default function DashboardAccordionDiv(props) {
    const { rowData } = props
