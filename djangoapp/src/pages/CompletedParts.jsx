@@ -14,9 +14,10 @@ export default function CompletedParts() {
    }, [])
 
    return <div id={document.title.replace(' ', '')}>
-      <span style={{display: "inline-flex"}}>
+      <span>
          <Buttons.BackToDashboardButton />
-         <Buttons.PrintCompletedPartsButton />
+
+         <Buttons.PrintCompletedPartsButton />            
       </span>
       <CompletedPartsTable context={context} />
    </div>

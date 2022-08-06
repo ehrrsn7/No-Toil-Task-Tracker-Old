@@ -3,12 +3,12 @@ import { UpdateTodoForm }  from "../forms"
 import * as Buttons        from "../buttons"
 
 export default function TodoAccordionDiv(props) {
-   const { id, rowData } = props
+   const { id, sets, rowData } = props
    const [ showMore, setShowMore ] = React.useState(false)
    const colWidth = 100
 
    return <div className={id ? id : "TodoAccordionDiv"}>
-      <UpdateTodoForm id={id} rowData={rowData} />
+      <UpdateTodoForm id={id} sets={sets} rowData={rowData} />
 
       <Buttons.AccordionButton 
       selected={showMore} setSelected={setShowMore}

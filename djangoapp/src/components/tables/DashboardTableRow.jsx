@@ -15,20 +15,35 @@ export default function DashboardTableRow(props) {
       {/* Dashboard Table Row */}
       <tr id={"DashboardRow" + rowData.id} key={rowData.id}>
 
-         <td>{rowData.title}</td>
-         <td>{rowData.quantity}</td>
+         <td>
+            <p>
+               {rowData.title}
+            </p>
+         </td>
+
+         <td>
+            <p>
+               {parseInt(rowData.quantity / 18)}
+            </p>
+         </td>
+
          <td align="center">
-            <NavLink to={h.statusNames.getUrl(rowData.status)}>
+            <NavLink to={h.statusNames.getUrl(rowData.status)}
+            style={{
+               pointerEvents: h.isMobile() && activeSidebar ? "none" : "",
+            }}>
                <button>
                   {h.capitalize(h.statusNames.get(rowData.status))}
                </button>
             </NavLink>
          </td>
+
          <td>
             <p>
                {rowData.highPriority ? "!" : " "}
             </p>
          </td>
+         
          {h.isMobile() ? <></> : 
             <td align="center" className="AccordionButtonColumn" style={{
                width: "10px",

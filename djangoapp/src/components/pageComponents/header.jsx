@@ -1,29 +1,7 @@
 import React                     from "react"
-import { NavLink }               from "react-router-dom"
-import { Breadcrumb }            from "antd"
-import { HomeOutlined }          from '@ant-design/icons'
 import * as h                    from "../../data/helperFunctions"
 import { useContext }            from "../../contexts/contextProvider"
 import { ToggleSidebarButton }   from "../buttons"
-
-function MyBreadcrumb() {
-   return <div id="Breadcrumb" style={{display: "block"}}>
-      <Breadcrumb separator=" " style={{display: "block"}}>
-         <Breadcrumb.Item>
-            <NavLink to="/">
-               <HomeOutlined />
-            </NavLink>
-         </Breadcrumb.Item>
-         {window.location.pathname.split('/').map(item => {
-            return <Breadcrumb.Item>
-               <NavLink to="/">
-                  {item ? ' /  ' + item : ""}
-               </NavLink>
-            </Breadcrumb.Item>
-         })}
-      </Breadcrumb>
-   </div>
-}
 
 export default function Header() {
    const { activeSidebar } = useContext()
@@ -37,20 +15,19 @@ export default function Header() {
 
    return <header id="header" className="App-header">
 
-      <div style={{display: "flex", flexDirection: "inline-row", justifyContent: "space-between"}}>
-         <span>
-
+      <span style={{padding: ".5em"}}>
+         <span style={{width: "fit-content", gap: "1em"}}>
             <ToggleSidebarButton />
 
             <h1 id="headerTitle" className={activeSidebar ? "activeSidebar" : ""} >
-               fill in
+               No Toil Task Tracker
             </h1>
          </span>
 
-         {!h.isMobile() && <h1 className="" style={{textAlign: "right"}}>
+         <h1 className="hideOnMobile" style={{textAlign: "right"}}>
             {date && date.toDateString()}<br></br>
             {date && date.toLocaleTimeString()}
-         </h1>}
-      </div>
+         </h1>
+      </span>
    </header> /* End Header Div */
 }

@@ -14,7 +14,6 @@ import Header  from "./components/pageComponents/header"
 
 // Other (stylesheets/scripts)
 import "./App.css"
-import { isMobile } from "./data/helperFunctions"
 import { useContext } from "./contexts/contextProvider"
 
 /**********
@@ -30,8 +29,11 @@ export const djangoappName = ((parseInt(window.location.port) === 3000) ?
 export const documentTitleSuffix = " | No Toil Task Tracker"
 
 // Django Rest Framework URI Endpoints
-export const todo_api_url = `http://${window.location.hostname}:8000/api/todo/`
-export const filter_bible_api_url = `http://${window.location.hostname}:8000/api/filter-bible/`
+export const todo_api_url =
+   `http://${window.location.hostname}:8000/api/todo/`
+
+export const filter_bible_api_url =
+   `http://${window.location.hostname}:8000/api/filter-bible/`
 
 // Django Channels URI Endpoint/Connection
 const websocket_uri = `ws://${window.location.host}/ws/api/`
@@ -52,10 +54,16 @@ export default function App() {
          // websocket (to get live updates from model)
          websocket.onopen = (event) => {
             console.log("Connection established:", event)
+            websocket.send("message to websocket consumer from client")
          }
          
-         websocket.onmessage = (message) => {
-            console.log("Websocket message:", message);
+         websocket.onmessage = (messageEvent) => {
+            console.log(messageEvent);
+            console.log("Websocket message:", messageEvent.data);
+         }
+         
+         websocket.onclose = (closeEvent) => {
+            console.log("Websocket close:", closeEvent)
          }
 
          websocket.onerror = (errorMessage) => {
@@ -63,10 +71,6 @@ export default function App() {
          }
          
 
-         websocket.onclose = (event) => {
-            console.log("Websocket close:", event)
-         }
-         
          // get data from tasklist api endpoint
          fetch(todo_api_url)
          .then(response => response.json())
@@ -114,12 +118,13 @@ export default function App() {
       <BrowserRouter basename={djangoappName}>
          <Sidebar />
    
-         <div id="nonSidebar" className={context.activeSidebar ? "activeSidebar" : ""} 
+         <div id="nonSidebar" 
+         className={context.activeSidebar ? "activeSidebar" : ""} 
          onClick={() => {
             const { activeSidebar, setActiveSidebar } = context
             
             // don't close sidebar on click #nonSidebar
-            if (!isMobile()) return 
+            // if (!isMobile()) return 
 
             // click outside #sidebar to hide it (mobile only)
             if (activeSidebar) setActiveSidebar(false)
@@ -128,22 +133,20 @@ export default function App() {
             <Header />
       
             {/* Content Div */}
-            {/* <div id="content" style={darkMode ? styles.contentDark : styles.content}> */}
             <div id="content">
                
                <Routes>
                   {/* Default */}
-                  <Route path={`/`}                element={<pages.Dashboard />} />
-                  <Route path={`/Dashboard`}       element={<pages.Dashboard />} />
+                  <Route element={<pages.Dashboard />} path="/" />
+                  <Route element={<pages.Dashboard />} path="/Dashboard" />
                   {/* Subpages */}
-                  <Route path={`/Bag`}             element={<pages.Bag />} />
-                  <Route path={`/Oil`}             element={<pages.Oil />} />
-                  <Route path={`/Stamp`}           element={<pages.Stamp />} />
-                  <Route path={`/Spray`}           element={<pages.Spray />} />
-                  <Route path={`/Check`}           element={<pages.Check />} />
-                  <Route path={`/CompletedParts`}  element={<pages.CompletedParts />} />
-                  {/* 'example' */}
-                  <Route path={`/example`}         element={<pages.Example />} />
+                  <Route element={<pages.Stamp />} path="/Stamp" />
+                  <Route element={<pages.Spray />} path="/Spray" />
+                  <Route element={<pages.Check />} path="/Check" />
+                  <Route element={<pages.Oil />}   path="/Oil"   />
+                  <Route element={<pages.Bag />}   path="/Bag"   />
+                  <Route path="/CompletedParts" 
+                  element={<pages.CompletedParts />} />
                </Routes>
             </div> {/* End Content Div */}
          </div> {/* End Non-Sidebar Div */}

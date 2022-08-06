@@ -45,22 +45,29 @@ export default function CreateTodoForm(props) {
          
          chunk.forEach(element => {
             let value = element.value
+            
+            // handle sets to quantity
+            if (element.id && element.id.toLowerCase().includes("quantity"))
+               value = parseInt(value) * 18
+            
+            // handle str to bool
             if (["true", "false"].some(text => text.includes(element.value)))
-               value = element.value === "true" // str to bool
+               value = element.value === "true" 
+            
             chunkObj[element.name] = value
          })
 
          return chunkObj
       }).filter(element => element !== undefined)
 
-      console.log(chunks)
-
+      // pull the trigger
       chunks.forEach(chunk => {
          axios.post(todo_api_url, chunk)
          .then(request => console.log(request))
          .catch(error => console.warn(error))
       })
 
+      // this just makes things nicer, and prevents duplicates
       window.location.reload()
    }
 
@@ -69,9 +76,21 @@ export default function CreateTodoForm(props) {
          <table>
             <thead>
                <tr>
-                  <td style={{width: "100%"}} > title </td>
-                  <td> quantity </td>
+                  <td style={{width: "100%"}} > 
+                     <p>
+                        Title
+                     </p>
+                  </td>
+                  <td> 
+                     <Tooltip title="1 Set = 18 Parts" placement="top">
+                        <p>
+                           Sets
+                        </p> 
+                     </Tooltip>
+                  </td>
+                  
                   {!h.isMobile() ? <>
+                  
                      <td>
                         <Tooltip placement="top" title={
                            "Oil? Click this if the filter requires oiling." + 
@@ -79,12 +98,25 @@ export default function CreateTodoForm(props) {
                            "Leaving this box unchecked will skip the oiling step."
                         }>
                            <p>
-                              oil 
+                              Oil 
                            </p>
                         </Tooltip>
                      </td> 
-                     <td> status </td> 
-                     <td style={{width: 20, whiteSpace: "nowrap"}}> ! </td> 
+                     
+                     <td>
+                        <p>
+                           Status 
+                        </p> 
+                     </td> 
+                     
+                     <td style={{width: 20, whiteSpace: "nowrap"}}> 
+                        <Tooltip title="High Priority" placement="top">
+                           <p>
+                              ! 
+                           </p>
+                        </Tooltip>
+                     </td> 
+
                   </> : "" }
                </tr>
             </thead>
@@ -105,7 +137,7 @@ export default function CreateTodoForm(props) {
 
          <br></br>
 
-         <span display="flex">
+         <span style={{marginTop: "1em"}}>
             <Button id="submitCreateTodoFormButton" type="primary" 
             style={{border: "1px solid lightgray"}} htmlType="submit" 
             onSubmit={onSubmit}>

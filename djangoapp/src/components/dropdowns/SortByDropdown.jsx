@@ -19,11 +19,11 @@ export default function SortByDropdown() {
    ]
 
    return <div style={{padding: "1em 0 1em 1em"}}>
-      <span style={{display: "inline-flex", gap: "1em"}}>
+      <span>
          <p>{sortedBy === '' ? "Sort By:" : "Sorted By:"}</p>
-         <select onChange={onChange} disabled={isMobile && activeSidebar}>
+         <select value={sortedBy} onChange={onChange} disabled={isMobile && activeSidebar}>
             {columnNamesWithDirection.map(name => {
-               return <option key={name}>
+               return <option key={name} value={name}>
                   {name.replace('-', " — ")}
                </option>
             })}

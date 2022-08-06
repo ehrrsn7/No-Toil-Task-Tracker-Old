@@ -33,6 +33,9 @@ export default function Dashboard() {
       <button className="add" onClick={() => {
          if (h.isMobile && activeSidebar) return // disable
          setAddMore(!addMore)
+      }}
+      style={{
+         marginBottom: "1em",
       }}>
          {addMore ? "Cancel" : "Add more" }
       </button>

@@ -1,3 +1,4 @@
+import json
 from django.db import models
 
 default_google_drive_image_url = "https://drive.google.com/file/d/1A5wF1HnsLlBA7G5zJQSZO0s8vRlgxttZ/view?usp=sharing"
@@ -26,3 +27,11 @@ class Todo(models.Model):
     highPriority = models.BooleanField(default=False)
     partNumber = models.CharField(max_length=20, default="0000 or *000-00")
     lastModified = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        from . import consumers
+        consumers.ApiConsumer().model_callback(self)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.__dict__}"

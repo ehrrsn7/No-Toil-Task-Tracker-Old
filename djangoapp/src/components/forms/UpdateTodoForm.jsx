@@ -14,7 +14,7 @@ import {
 
 export default function UpdateTodoForm(props) {
    const { todoModel, activeSidebar } = useContext()
-   const { rowData } = props
+   const { sets, rowData } = props
    const [ numVal, setNumVal ] = React.useState(rowData.quantity)
    const inputId = "TodoAccordionDivCompleteValue" + rowData.id
 
@@ -79,7 +79,8 @@ export default function UpdateTodoForm(props) {
          <p><em>Update '{rowData.title}':</em></p>
       </div>
 
-      <div>
+      <span style={{width:"fit-content"}}>
+         <p><em>sets:</em></p>
          <input id={inputId}
          name="quantity" type="number" 
          onChange={event => setNumVal(event.target.value)}
@@ -87,7 +88,7 @@ export default function UpdateTodoForm(props) {
          value={numVal} 
          min={0} 
          />
-      </div>
+      </span>
 
       <div style={{display: "inline"}}>
 

@@ -3,13 +3,14 @@ import { Tooltip }         from "@mui/material"
 import InvalidRow          from "./InvalidRow"
 import DashboardTableRow   from "./DashboardTableRow"
 import * as Buttons        from "../buttons"
+import SortedByCaret       from "../other/SortedByCaret"
 import * as h              from "../../data/helperFunctions"
 import { useContext }      from "../../contexts/contextProvider"
 import { sortBy }          from "../../data/sort"
 
 export default function DashboardTodoTable(props)  {
    const context = useContext()
-   const { todoModel } = context
+   const { todoModel, sortedBy } = context
    const { selectedTask, setSelectedTask } = props
 
    return <table id="DashboardTodoTable">
@@ -18,23 +19,39 @@ export default function DashboardTodoTable(props)  {
          <tr>
             
             <td className="titleColumn" onClick={() => sortBy("title", context)}>
-               Title
+               <span style={{width: "100%", flexWrap: "nowrap"}}>
+                  <p>
+                     Title
+                  </p>
+
+                  <SortedByCaret sortedBy={sortedBy} columnName="title" />
+               </span>
             </td>
             
             <td onClick={() => sortBy("quantity", context)}> 
-               Quantity 
+               <span style={{width: "100%", flexWrap: "nowrap"}}>
+                  <p>Sets</p>
+
+                  <SortedByCaret sortedBy={sortedBy} columnName="quantity" />
+               </span>
             </td>
             
             <td align="center" onClick={() => sortBy("status", context)}>
-               Status
+               <span style={{width: "100%", flexWrap: "nowrap"}}>
+                  <p>Status</p>
+
+                  <SortedByCaret sortedBy={sortedBy} columnName="status" />
+               </span>
             </td>
             
             <td>
                <Tooltip title="High Priority" placement="top" 
                onClick={() => sortBy("highPriority-ascending", context)}>
-                  <p>
-                     !
-                  </p>
+                  <span style={{width: "100%", flexWrap: "nowrap"}}>
+                     <p>!</p>
+
+                     <SortedByCaret sortedBy={sortedBy} columnName="highPriority" />
+                  </span>
                </Tooltip>
             </td>
             

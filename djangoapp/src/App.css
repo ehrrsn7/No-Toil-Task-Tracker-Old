@@ -57,8 +57,11 @@ a {
 }
 
 span {
-   display: "inline-flex";
+   display: inline-flex;
+   flex-wrap: wrap;
    justify-content: space-between;
+   width: 100%;
+   gap: 1em;
 }
 
 select, input {
@@ -73,8 +76,23 @@ select, input {
    }
 }
 
+.hideOnPrint {
+   display: block;
+}
+.showOnPrint {
+   display: none;
+}
 @media print {
-   button, .HideOnPrint {
+   button, #sidebar,
+   .hideOnPrint {
+      display: none;
+   }
+   .showOnPrint {
+      display: block;
+   }
+}
+@media only screen and (max-width: 600px) {
+   .hideOnMobile {
       display: none;
    }
 }
@@ -201,6 +219,12 @@ select, input {
 
 .sidebarLink button:hover {
    background-color: #00000044 !important;
+}
+
+#printButtonTooltip {
+   background-color: gray;
+   width: 40%;
+   min-width: 100px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -404,6 +428,7 @@ td.titleColumn {
    padding: .5em;
    padding-left: 1em;
    padding-right: 1em;
+   height: min-content;
 }
 
 .CollapseAllButton {
@@ -607,19 +632,4 @@ tr.AccordionRow.Expanded {
 .alignChildrenRight {
    display: flex;
   justify-content: center;
-}
-
-.hideOnPrint {
-   display: block;
-}
-.showOnPrint {
-   display: none;
-}
-@media print {
-   .hideOnPrint {
-      display: none;
-   }
-   .showOnPrint {
-      display: block;
-   }
 }

@@ -6,7 +6,7 @@ import { useContext }         from "../../contexts/contextProvider"
 
 export default function TodoTableRow(props) {
    const { activeSidebar } = useContext()
-   const { rowData, selectedTask, setSelectedTask } = props
+   const { sets, rowData, selectedTask, setSelectedTask } = props
 
    const onClick = () => {
       if (h.isMobile && activeSidebar) return // disable
@@ -18,11 +18,28 @@ export default function TodoTableRow(props) {
       {/* Todo Table Row */}
       <tr onClick={onClick}>
 
-         <td>{rowData.title}</td>
-         <td>{rowData.quantity}</td>
-         <td>{rowData.highPriority ? "!" : ""}</td>
-         <td width={100}>
-            <Buttons.AccordionButton selected={selectedTask === rowData.id}>
+         <td>
+            <p>
+               {rowData.title}
+            </p>
+         </td>
+
+         <td>
+            <p>
+               {sets ? parseInt(rowData.quantity / 18) : rowData.quantity}
+            </p>
+         </td>
+
+         <td>
+            <p>
+               {rowData.highPriority ? "!" : ""}
+            </p>
+         </td>
+
+         <td>
+            <Buttons.AccordionButton 
+            style={{flexWrap: "nowrap"}}
+            selected={selectedTask === rowData.id}>
                {selectedTask === rowData.id ? "cancel" : "update"}
             </Buttons.AccordionButton>
          </td>
@@ -35,7 +52,7 @@ export default function TodoTableRow(props) {
          "AccordionRow"}
       >
          <td colSpan={"100%"}>
-            <TodoAccordionDiv id={rowData.id} rowData={rowData} />
+            <TodoAccordionDiv id={rowData.id} sets={sets} rowData={rowData} />
          </td>
       </tr>
    </> 

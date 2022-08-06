@@ -11,8 +11,7 @@ export default function AccordionButton(props) {
       if (onClick) onClick(event)
    }
    
-   return <span onClick={onClickInherited} 
-   style={{...style, display: "inline-row", marginRight: 0}}>
+   return <span onClick={onClickInherited} style={{...style, gap: ".1em"}}>
 
       {children && 
          <button style={{marginRight: "5px"}} className="AccordionButtonChild">

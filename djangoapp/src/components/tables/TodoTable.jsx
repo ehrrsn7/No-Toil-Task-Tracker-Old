@@ -1,36 +1,58 @@
 import React            from "react"
-import { useContext }   from "../../contexts/contextProvider"
-import * as Buttons     from "../buttons"
 import TodoTableRow     from "./TodoTableRow"
 import InvalidRow       from "./InvalidRow"
+import * as Buttons     from "../buttons"
+import { useContext }   from "../../contexts/contextProvider"
 import { statusNames }  from "../../data/helperFunctions"
 import { sortBy }       from "../../data/sort"
+import SortedByCarret from "../other/SortedByCaret"
 
 export default function TodoTable(props) {
-   const { filter, selectedTask, setSelectedTask } = props
+   const { filter, sets, selectedTask, setSelectedTask } = props
    const context = useContext()
-   const { todoModel } = context
+   const { todoModel, sortedBy } = context
 
    const filteredModel = () => (
       todoModel.filter(
          rowData => statusNames.matches(rowData.status, filter)
       )
    )
-   
+
    return <table id={filter + "TodoTable"} className="TodoTable">
 
       <thead>
          <tr>
             <td className="titleColumn" 
             onClick={() => {sortBy("title", context)}}>
-               Title
+               <span style={{width: "100%", flexWrap: "nowrap"}}>
+                  <p>
+                     Title
+                  </p>
+
+                  <SortedByCarret sortedBy={sortedBy} columnName="title" />
+               </span>
             </td>
+
             <td onClick={() => {sortBy("quantity", context)}}>
-               Quantity
+               <span style={{width: "100%", flexWrap: "nowrap"}}>
+                  <p>
+                     Sets/Quantity
+                  </p>
+
+                  <SortedByCarret sortedBy={sortedBy} columnName="quantity" />
+               </span>
             </td>
+
             <td onClick={() => {sortBy("highPriority-ascending", context)}}>
-               !
+               <span style={{width: "100%", flexWrap: "nowrap"}}>
+                  <p>
+                     !
+                  </p>
+
+                  <SortedByCarret sortedBy={sortedBy} columnName="highPriority" />
+               </span>
             </td>
+
             <td align="right">
                <Buttons.CollapseAllButton 
                selectedTask={selectedTask} 
@@ -55,6 +77,7 @@ export default function TodoTable(props) {
          {/* Valid Tasks */}
          {(Array.isArray(todoModel)) && filteredModel().map(rowData => (
             <TodoTableRow 
+            sets={sets}
             key={rowData.id} 
             rowData={rowData} 
             selectedTask={selectedTask} 

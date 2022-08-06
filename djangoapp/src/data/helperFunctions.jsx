@@ -51,10 +51,15 @@ export function capitalize(string) {
    return arr.join(' ')
 }
 
-export const isMobile = () => {
+export const isMobile = (override = true) => {
+   if (!override) return false
    return (!window.screen.orientation.type.includes("landscape") && 
       deviceIsMobile) || (window.matchMedia && 
       window.matchMedia("(max-width: 600px)").matches)
+}
+
+export const isDarkMode = window => {
+   return window.matchMedia('(prefers-color-scheme: dark)').matches
 }
 
 export function insertAfter(newNode, existingNode) {
@@ -67,5 +72,5 @@ export function exportPDF(query) {
 }
 
 export function getCurrentDate() {
-   return new Date
+   return new Date()
 }
