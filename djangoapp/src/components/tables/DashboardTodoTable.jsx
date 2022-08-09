@@ -30,7 +30,7 @@ export default function DashboardTodoTable(props)  {
             
             <td onClick={() => sortBy("quantity", context)}> 
                <span style={{width: "100%", flexWrap: "nowrap"}}>
-                  <p>Sets</p>
+                  <p>Quantity</p>
 
                   <SortedByCaret sortedBy={sortedBy} columnName="quantity" />
                </span>
@@ -50,7 +50,9 @@ export default function DashboardTodoTable(props)  {
                   <span style={{width: "100%", flexWrap: "nowrap"}}>
                      <p>!</p>
 
-                     <SortedByCaret sortedBy={sortedBy} columnName="highPriority" />
+                     <SortedByCaret 
+                     sortedBy={sortedBy} 
+                     columnName="highPriority" />
                   </span>
                </Tooltip>
             </td>
@@ -80,9 +82,9 @@ export default function DashboardTodoTable(props)  {
          {Array.isArray(todoModel) &&
          todoModel.map(rowData => 
             <DashboardTableRow 
-               key={rowData.id} rowData={rowData} 
-               selectedTask={selectedTask} 
-               setSelectedTask={setSelectedTask}
+            key={rowData.id} rowData={rowData} 
+            selectedTask={selectedTask} 
+            setSelectedTask={setSelectedTask}
             />
          )}
 

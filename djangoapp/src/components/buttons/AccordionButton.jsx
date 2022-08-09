@@ -13,12 +13,14 @@ export default function AccordionButton(props) {
    
    return <span onClick={onClickInherited} style={{...style, gap: ".1em"}}>
 
+      {/* Include Any Child React Objects from props */}
       {children && 
          <button style={{marginRight: "5px"}} className="AccordionButtonChild">
             {children} 
          </button>
       }
 
+      {/* Accordion Button */}
       <button className="AccordionButton"
       style={{
          width: 25,

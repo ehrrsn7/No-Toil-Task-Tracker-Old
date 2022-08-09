@@ -21,7 +21,7 @@ import { useContext } from "./contexts/contextProvider"
  **********/
 // BrowserRouter basename
 export const djangoappName = ((parseInt(window.location.port) === 3000) ? 
-   "/" :       // development
+   "" :        // development
    "djangoapp" // hosted on server
 )
 
@@ -102,8 +102,10 @@ export default function App() {
          fetch(todo_api_url)
          .then(response => response.json())
          .then(response => { context.setTodoModel(response) })
-         .then(() => { console.log("Successfully fetched data from", todo_api_url) })
-         .catch(error => console.log(error))
+         .then(() => { console.log(
+            "Successfully fetched data from", 
+            todo_api_url
+         )}).catch(error => console.log(error))
 
          // dimension events
          const resize = () => { context.setScreenSize(window.innerWidth) }
@@ -119,7 +121,9 @@ export default function App() {
          }; document.addEventListener("keydown", onEscape)
 
          // media query events
-         const handleDarkMode = event => { context.setDarkMode(event.matches) }
+         const handleDarkMode = event => { 
+            context.setDarkMode(event.matches) 
+         }
          window.matchMedia(
             "(prefers-color-scheme: dark)"
          ).addEventListener("change", handleDarkMode)

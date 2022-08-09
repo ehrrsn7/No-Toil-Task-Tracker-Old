@@ -1,5 +1,5 @@
 import { todo_api_url } from "../App"
-import { isMobile }     from "../data/helperFunctions"
+import { isMobile }     from "./helperFunctions"
 
 export const columnNames = [
    "id",

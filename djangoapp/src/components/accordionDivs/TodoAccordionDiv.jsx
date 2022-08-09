@@ -13,7 +13,11 @@ export default function TodoAccordionDiv(props) {
       <Buttons.AccordionButton 
       selected={showMore} setSelected={setShowMore}
       style={{position: "relative", margin: ".3em"}}>
-         Show More
+         <p>
+
+            Show More
+            
+         </p>
       </Buttons.AccordionButton>
 
       {showMore && <div style={{margin: ".3em"}}>

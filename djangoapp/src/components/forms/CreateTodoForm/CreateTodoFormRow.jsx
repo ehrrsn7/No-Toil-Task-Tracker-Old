@@ -1,6 +1,6 @@
 import React      from "react"
 import { Input }  from "antd"
-import * as h     from "../../data/helperFunctions"
+import * as h     from "../../../data/helperFunctions"
 
 export default function CreateTodoFormRow(props) {
    const { i,
@@ -36,7 +36,7 @@ export default function CreateTodoFormRow(props) {
          <Input 
          name="title"    
          id={`RowStart${i}`}         
-         placeholder="title" 
+         placeholder="Title" 
          type="text"
          />
       </td>
@@ -45,8 +45,8 @@ export default function CreateTodoFormRow(props) {
          name="quantity" 
          type="number"
          id={`RowMid${i}-Quantity`}  
-         placeholder={10}
-         default={0}
+         placeholder={1}
+         default={1}
          />
       </td>
 

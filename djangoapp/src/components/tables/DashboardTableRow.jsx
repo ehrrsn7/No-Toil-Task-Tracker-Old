@@ -1,9 +1,10 @@
 import React                     from "react"
 import { NavLink }               from "react-router-dom"
-import { useContext }            from "../../contexts/contextProvider"
-import * as h                    from "../../data/helperFunctions"
+import { Tooltip }               from "@mui/material"
 import * as Buttons              from "../buttons"
 import { DashboardAccordionDiv } from "../accordionDivs"
+import { useContext }            from "../../contexts/contextProvider"
+import * as h                    from "../../data/helperFunctions"
 
 export default function DashboardTableRow(props) {
    const context = useContext()
@@ -21,11 +22,17 @@ export default function DashboardTableRow(props) {
             </p>
          </td>
 
-         <td>
+         <td> {[0, 1].includes(rowData.status) ? // ?stamp/spray
+            <Tooltip title="Note: 1 Set = 18 Each" placement="left">
+               <p>
+                  {rowData.quantity / 18 + " Sets"}
+               </p>
+            </Tooltip> 
+            : 
             <p>
-               {parseInt(rowData.quantity / 18)}
+               {rowData.quantity + " Each"}
             </p>
-         </td>
+         } </td>
 
          <td align="center">
             <NavLink to={h.statusNames.getUrl(rowData.status)}
@@ -48,10 +55,13 @@ export default function DashboardTableRow(props) {
             <td align="center" className="AccordionButtonColumn" style={{
                width: "10px",
             }}>
-               <Buttons.AccordionButton selected={selectedTask === rowData.id} 
+               <Buttons.AccordionButton 
+               selected={selectedTask === rowData.id} 
                onClick={() => {
                   if (h.isMobile && activeSidebar) return // disable
-                  setSelectedTask(selectedTask === rowData.id ? -1 : rowData.id)
+                  setSelectedTask(
+                     selectedTask === rowData.id ? -1 : rowData.id
+                  )
                }} />
             </td>
          }
@@ -64,7 +74,9 @@ export default function DashboardTableRow(props) {
          "AccordionRow"}
       >
          <td colSpan={"100%"} style={{}}>
-            <DashboardAccordionDiv context={context} rowData={rowData} />
+            <DashboardAccordionDiv 
+            context={context} 
+            rowData={rowData} />
          </td>
       </tr>
    </>

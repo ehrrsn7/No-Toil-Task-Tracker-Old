@@ -1,9 +1,8 @@
 import React                     from "react"
-import * as buttons              from "../components/buttons"
-import { statusNames }           from "../data/helperFunctions"
-import { TodoTable }             from "../components/tables"
 import { documentTitleSuffix }   from "../App"
-import SortByDropdown            from "../components/dropdowns/SortByDropdown"
+import * as buttons              from "../components/buttons"
+import { TodoTable }             from "../components/tables"
+import { SortByDropdown }        from "../components/dropdowns"
 
 export default function TaskPageTemplate(props) {
    const { name, sets } = props
@@ -12,27 +11,15 @@ export default function TaskPageTemplate(props) {
    React.useEffect(() => {
       document.title = name
       document.querySelector("#headerTitle").innerText = document.title
-      document.querySelector("title").textContent = document.title + documentTitleSuffix
+      document.querySelector("title").textContent = 
+         document.title + documentTitleSuffix
    }, [ name ])
    
    return <div id={document.title}>
       <span style={{maxWidth: "60em"}}>
          <span style={{gap: "0"}}>
             <buttons.BackToDashboardButton />
-            <button onClick={() => {
-               window.location.pathname = statusNames.nextUrl(window)
-            }}
-            style={{
-               height: "fit-content",
-               padding: ".5em",
-               margin: ".5em 0 .5em 0",
-            }}>
-               Go to {statusNames.next(
-                  window.location.pathname.replace("/djangoapp/", '')
-               )} 
-               {" "}
-               →
-            </button>
+            <buttons.NextPageButton />
          </span>
          <span>
             <div></div>
