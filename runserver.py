@@ -32,23 +32,28 @@ class Unix:
 
 # main
 def main():
+   cwd = os.getcwd()
+
+   # python runserver.py update
    if len(sys.argv) > 1:
       if sys.argv[1].lower() == "update":
+         # update latest file changes from developer
+         os.system(f"git pull")
+         # update python packages
          os.system(f"pip install --upgrade pip")
          os.system(f"pip install -r requirements.txt")
-         if int(sys.version_info.minor) >= 10:
-            print("fatal: python version needs to be 3.10 or later")
-         return
+         # change dir to djangoapp and update npm packages
+         os.system("cd djangoapp")
+         os.chdir(cwd + "/djangoapp")
+         os.system(f"npm install npm@latest")
+         os.system(f"npm install --legacy-peer-deps")
+         os.system(f"npm outdated")
+         os.system(f"cd ..")
    
-   match platform.system():
-      case "Windows":
-         Windows.runserver()
-      case "Darwin":
-         Unix.runserver()
-      case "Linux":
-         Unix.runserver()
-      case _:
-         Windows.runserver()
+   # python runserver.py (default)
+   elif platform.system() == "Darwin" or platform.system() == "Linux":
+      Unix.runserver()
+   else: Windows.runserver()
 
 
 if __name__ == "__main__": main()
