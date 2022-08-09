@@ -1,4 +1,6 @@
 import json
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django.db import models
 
 default_google_drive_image_url = "https://drive.google.com/file/d/1A5wF1HnsLlBA7G5zJQSZO0s8vRlgxttZ/view?usp=sharing"
@@ -29,9 +31,25 @@ class Todo(models.Model):
     lastModified = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        from . import consumers
-        consumers.ApiConsumer().model_callback(self)
         super().save(*args, **kwargs)
 
+        # give the clients a heads-up
+        from . import serializers
+        async_to_sync(get_channel_layer().group_send)("filter_room", {
+            "type": "model_callback",
+            "rowData": serializers.Todo(self).data
+        })
+
+    def delete(self, *args, **kwargs):
+        delete_id = int(self.id) # save id before it gets deleted...
+        super().delete(*args, **kwargs)
+
+        # give the clients a heads-up
+        from . import serializers
+        async_to_sync(get_channel_layer().group_send)("filter_room", {
+            "type": "delete_callback",
+            "rowData": {**serializers.Todo(self).data, "id": delete_id}
+        })
+
     def __str__(self):
-        return f"{self.__dict__}"
+        return f"[{self.id}] {self.title} | {self.quantity}"

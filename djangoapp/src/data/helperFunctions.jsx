@@ -14,6 +14,14 @@ export const statusNames = {
          return this[statusId]
       else return "unknown status"
    },
+   getNumber: function(statusStr) {
+      if (statusStr === "CompletedParts") return 5
+      let status = 0
+      range(6).forEach(statusInt => { 
+         if (this.matches(statusStr, statusInt)) status = statusInt 
+      })
+      return status
+   },
    getArray: function() {
       let arr = []
       range(6).forEach(i => arr.push(this[i]))
@@ -29,20 +37,33 @@ export const statusNames = {
       return this[statusId] === "oil"
    },
    matches: function(statusId, statusName) {
+      if (typeof statusName !== "string") return false
       return this.get(statusId).toLowerCase() === statusName.toLowerCase()
+   },
+   next: function(currentStatus) {
+
+      if (typeof currentStatus === "string") {
+         switch (currentStatus.toLowerCase()) {
+            case "stamp": return "Spray"
+            case "spray": return "Check"
+            case "check": return "Oil"
+            case "oil": return "Bag"
+            case "bag": return "CompletedParts"
+            default: return currentStatus
+         }
+      }
+
+      if (typeof currentStatus === "number") 
+         return this.get(currentStatus + 1)
+
+      return this.get(0)
+   },
+   nextUrl: function(window) {
+      return "/djangoapp/" + this.next(
+         window.location.pathname.replace("/djangoapp/", '')
+      )
    }
 }
-
-export const sampleFilterNames = [
-   "3111",
-   "320-21",
-   "1110",
-   "1227",
-   "2430",
-   "230-12",
-   "280-21",
-   "c90",
-]
 
 export function capitalize(string) {
    if (!(typeof string === 'string' || string instanceof String)) return ""

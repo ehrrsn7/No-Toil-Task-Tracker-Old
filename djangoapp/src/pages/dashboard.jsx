@@ -7,14 +7,20 @@ import { useContext }            from "../contexts/contextProvider"
 import * as h                    from "../data/helperFunctions"
 
 export default function Dashboard() {
-   const { activeSidebar } = useContext()
+   const context = useContext()
+   const { activeSidebar } = context
    const [ selectedTask, setSelectedTask ] = React.useState(-1)
    const [ addMore, setAddMore ] = React.useState(false)
 
    React.useEffect(() => {
       document.title = "Dashboard"
       document.querySelector("#headerTitle").innerText = document.title
-      document.querySelector("title").textContent = document.title + documentTitleSuffix
+      document.querySelector("title").textContent = 
+         document.title + documentTitleSuffix
+   
+      // just a simple tweak: 
+      // dashboard is accessed easiest with sort by status set as the default
+      // setTimeout(() => { sortBy("status", context) }, 5000)
    }, [])
    
    return <div id={document.title}>

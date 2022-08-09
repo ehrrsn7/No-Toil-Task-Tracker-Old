@@ -14,7 +14,7 @@ import {
 
 export default function UpdateTodoForm(props) {
    const { todoModel, activeSidebar } = useContext()
-   const { sets, rowData } = props
+   const { rowData } = props
    const [ numVal, setNumVal ] = React.useState(rowData.quantity)
    const inputId = "TodoAccordionDivCompleteValue" + rowData.id
 

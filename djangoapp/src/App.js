@@ -39,49 +39,77 @@ export const filter_bible_api_url =
 const websocket_uri = `ws://${window.location.host}/ws/api/`
 const websocket = new WebSocket(websocket_uri)
 
+async function updateTodoRow(data, context) {
+   const { todoModel, setTodoModel, addedTasks, setAddedTasks } = context
+   const rowIndex = todoModel.findIndex(object => object.id === data.id)
+
+   if (rowIndex !== -1) { // row exists (model event was update, not create)
+      let newTodoModel = JSON.parse(JSON.stringify(todoModel)) // deep clone
+
+      newTodoModel[rowIndex].quantity = data.quantity
+      newTodoModel[rowIndex].status = data.status
+      newTodoModel[rowIndex].lastModified = data.lastModified
+
+      console.log("row update success")
+
+      setTodoModel(newTodoModel)
+
+      // provide some animation to indicate update
+
+      const el = document.querySelector(`[id*="Row${data.id}"]`)
+      if (el) el.className = "highlightBlue"
+      else console.error(`[id*="Row${data.id}"]`, "not found")
+   }
+
+   else {
+      // simply append this new entry to the list and let it be added
+      setTodoModel([...todoModel, data])
+      setAddedTasks([...addedTasks, data.id]) // add animation to queue
+   }
+}
+
+async function removeTodoRow(data, context) {
+   const { todoModel, setTodoModel } = context
+   
+   if (todoModel.findIndex(object => object.id === data.id) === -1) {
+      console.error("item to delete not found! data:", data)
+      return
+   }
+
+   // provide some animation to indicate removal
+   console.log("removing row", data)
+   const el = document.querySelector(`[id*="Row${data.id}"]`)
+   el.className = "highlightRed"
+   setTimeout(() => {
+      setTodoModel(todoModel.filter(rowData => rowData.id !== data.id))
+   }, 1000)
+}
+
 /********************
  * Application
  ********************/
 export default function App() {
    const context = useContext()
+   const { addedTasks, setAddedTasks } = context
 
    // initializer
    const initialized = React.useRef(false)
    React.useEffect(() => {
       if (!initialized.current) {
          initialized.current = true
-
-         // websocket (to get live updates from model)
-         websocket.onopen = (event) => {
-            console.log("Connection established:", event)
-            websocket.send("message to websocket consumer from client")
-         }
-         
-         websocket.onmessage = (messageEvent) => {
-            console.log(messageEvent);
-            console.log("Websocket message:", messageEvent.data);
-         }
-         
-         websocket.onclose = (closeEvent) => {
-            console.log("Websocket close:", closeEvent)
-         }
-
-         websocket.onerror = (errorMessage) => {
-            console.warn("Websocket warning:", errorMessage)
-         }
-         
-
+            
          // get data from tasklist api endpoint
          fetch(todo_api_url)
          .then(response => response.json())
          .then(response => { context.setTodoModel(response) })
+         .then(() => { console.log("Successfully fetched data from", todo_api_url) })
          .catch(error => console.log(error))
 
          // dimension events
          const resize = () => { context.setScreenSize(window.innerWidth) }
          window.addEventListener("resize", resize) // runtime
          context.setScreenSize(window.innerWidth) // on construct
-   
+
          // key down events
          const onEscape = (event) => {
             if (event.code === "Escape" || event.isComposing) {
@@ -89,30 +117,59 @@ export default function App() {
                context.setActiveSidebar(false)
             }
          }; document.addEventListener("keydown", onEscape)
-      
+
          // media query events
          const handleDarkMode = event => { context.setDarkMode(event.matches) }
          window.matchMedia(
             "(prefers-color-scheme: dark)"
          ).addEventListener("change", handleDarkMode)
-      }
 
-      // set todoModel method
-      function sortBy(which) {
-         if (!Array.isArray(this)) return this
-         let tmpModel = [...this]
-         return tmpModel.sort((a, b) => a[which] - b[which])
       }
-      const todoModelWhenSet = context.todoModel
-      if (todoModelWhenSet !== undefined) {
-         todoModelWhenSet.sortBy = sortBy
-         context.setTodoModel(todoModelWhenSet)
-      }
-      
-      // destructor (none)
-
    }, [ context ])
 
+   // on addedTasks change
+   React.useEffect(() => {
+      if (!addedTasks) setAddedTasks([])
+      else {
+         const newTasks = addedTasks.splice(0, addedTasks.length)
+         newTasks.forEach(newTask => {
+            const el = document.querySelector(`[id*="Row${newTask}"]`)
+            if (el) el.className = "highlightGreen"
+         })
+      }
+
+   }, [ addedTasks, setAddedTasks ])
+   
+   // websocket (to get live updates from model)
+   websocket.onopen = (event) => {
+      console.log("Connection established:", event)
+      context.setWsConnected(true)
+   }
+
+   websocket.onmessage = event => {
+      if (context === undefined || context.todoModel === undefined) return
+      const data = JSON.parse(event.data)
+      switch (data.type) {
+         case "update/create":
+            updateTodoRow(data.rowData, context)
+            break
+         case "delete":
+            removeTodoRow(data.rowData, context)
+            break
+         default:
+            console.warn("unknown ws message type:", data.type)
+      }
+   }
+   
+   websocket.onclose = (closeEvent) => {
+      console.log("Websocket close:", closeEvent)
+      context.setWsConnected(false)
+   }
+
+   websocket.onerror = (errorMessage) => {
+      console.warn("Websocket warning:", errorMessage)
+   }
+   
    // render (return jsx html object)
    return <div id="App">
       <BrowserRouter basename={djangoappName}>
@@ -123,10 +180,7 @@ export default function App() {
          onClick={() => {
             const { activeSidebar, setActiveSidebar } = context
             
-            // don't close sidebar on click #nonSidebar
-            // if (!isMobile()) return 
-
-            // click outside #sidebar to hide it (mobile only)
+            // click outside #sidebar to hide it
             if (activeSidebar) setActiveSidebar(false)
          }}>
    

@@ -628,8 +628,101 @@ tr.AccordionRow {
 tr.AccordionRow.Expanded {
    display: table-row;
 }
-
+/* 
 .alignChildrenRight {
    display: flex;
   justify-content: center;
+}
+
+.row-updated-highlight {
+   background-color: rgb(209, 245, 205);
+   transition: 1s;
+}
+
+.row-created-highlight {
+   background-color: rgb(189, 237, 255);
+   transition: 1s;
+}
+
+.row-deleted-highlight {
+   background-color: rgb(255, 189, 189);
+   transition: 1s;
+}
+
+@media (prefers-color-scheme: dark) {
+   
+   .row-updated-highlight {
+      background-color: rgb(77, 98, 75);
+      transition: 1s;
+   }
+   
+   .row-created-highlight {
+      background-color: rgb(66, 87, 95);
+      transition: 1s;
+   }
+      
+   .row-deleted-highlight {
+      background-color: rgb(136, 64, 64);
+      transition: 1s;
+   }
+
+} */
+
+@keyframes highlightGreenAnimation {
+   0% {
+      background-color: transparent;
+   }
+   
+   50% {
+      background-color: lightgreen;
+   }
+
+   100% {
+      background-color: transparent;
+   }
+}
+
+.highlightGreen {
+   animation: highlightGreenAnimation 1s linear;
+}
+
+@keyframes highlightBlueAnimation {
+   0% {
+      background-color: transparent;
+   }
+   
+   50% {
+      background-color: lightblue;
+   }
+
+   100% {
+      background-color: transparent;
+   }
+}
+
+.highlightBlue {
+   animation: highlightBlueAnimation 1s linear;
+}
+
+@keyframes highlightRedAnimation {
+   0% {
+      background-color: transparent;
+   }
+   
+   50% {
+      background-color: lightpink;
+   }
+
+   100% {
+      background-color: transparent;
+   }
+}
+
+.highlightRed {
+   animation: highlightRedAnimation 1s linear;
+}
+
+.no-highlight {
+   background-color: rgba(0,0,0,0);
+   transition: 1s;
 }

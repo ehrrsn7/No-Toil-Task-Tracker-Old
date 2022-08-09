@@ -47,8 +47,10 @@ export default function CreateTodoForm(props) {
             let value = element.value
             
             // handle sets to quantity
-            if (element.id && element.id.toLowerCase().includes("quantity"))
+            if (element.id && element.id.toLowerCase().includes("quantity")) {
                value = parseInt(value) * 18
+               console.log("quantity", value)
+            }
             
             // handle str to bool
             if (["true", "false"].some(text => text.includes(element.value)))

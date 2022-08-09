@@ -49,6 +49,11 @@ module.exports = {
    plugins: [
       // Don't output new files if there is an error
       new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.ProvidePlugin({
+         $: "jquery",
+         jQuery: "jquery",
+         "window.jQuery": "jquery"
+      }),
       new SourceMapDevToolPlugin({
          filename: "[file].map"
       }),
