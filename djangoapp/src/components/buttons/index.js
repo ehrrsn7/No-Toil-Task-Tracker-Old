@@ -5,6 +5,7 @@ import PrintCompletedPartsButton from "./PrintCompletedPartsButton"
 import AccordionButton from "./AccordionButton"
 import DashboardAccordionStatusButton from "./DashboardAccordionStatusButton"
 import TaskEditDeleteButton from "./TaskEditDeleteButton"
+import NextPageButton from "./NextPageButton"
 
 export { 
    BackToDashboardButton, 
@@ -14,4 +15,5 @@ export {
    AccordionButton,
    DashboardAccordionStatusButton,
    TaskEditDeleteButton,
+   NextPageButton,
 }

@@ -14,7 +14,7 @@ export default function CollapseAllButton(props) {
       style={{
          visibility: (selectedTask > 0 ? "visible" : "hidden"),
       }}>
-         <p>-</p>
+         <p>{'-'}</p>
       </button> 
    </div>
 }

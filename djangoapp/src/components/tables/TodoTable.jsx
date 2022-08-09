@@ -22,6 +22,7 @@ export default function TodoTable(props) {
 
       <thead>
          <tr>
+            
             <td className="titleColumn" 
             onClick={() => {sortBy("title", context)}}>
                <span style={{width: "100%", flexWrap: "nowrap"}}>
@@ -36,7 +37,13 @@ export default function TodoTable(props) {
             <td onClick={() => {sortBy("quantity", context)}}>
                <span style={{width: "100%", flexWrap: "nowrap"}}>
                   <p>
-                     Sets/Quantity
+                     {/* stamp/spray should show sets instead of quantity */}
+                     { [ 0, 1 ].some( 
+                        statusInt => statusNames.matches(statusInt, filter)
+                     ) ? 
+                        "Sets" : 
+                        "Quantity"
+                     }
                   </p>
 
                   <SortedByCarret sortedBy={sortedBy} columnName="quantity" />
@@ -59,6 +66,7 @@ export default function TodoTable(props) {
                setSelectedTask={setSelectedTask} 
                />
             </td>
+            
          </tr>
       </thead>
 

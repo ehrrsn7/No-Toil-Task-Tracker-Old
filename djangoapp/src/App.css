@@ -98,18 +98,18 @@ select, input {
 }
 
 
-#header {
+#Header {
    background-color: var(--gray);
    min-height: var(--headerHeight);
 }
 
-#header > div {
+#Header > div {
    padding: var(--defaultPadding);
 
 }
 
 @media (prefers-color-scheme: dark) {
-   #header {
+   #Header {
       color: var(--teriary-background);
       background-color: var(--tertiary);
    }
@@ -228,7 +228,7 @@ select, input {
 }
 
 @media (prefers-color-scheme: dark) {
-   #sidebar, #sidebar.activeSidebar {
+   #sidebar, #sidebar.activeSidebar, #sidebarIconButton {
       color: var(--tertiary-dark);
       background-color: var(--tertiary);
    }
@@ -412,6 +412,7 @@ td.titleColumn {
 
 #DashboardTodoTable td.idColumn {
    width: 50px;
+   margin-bottom: 1em;
 }
 
 #Dashboard button.add,
@@ -422,7 +423,7 @@ td.titleColumn {
    padding-right: 1em;
 }
 
-#PrintCompletedPartsButton,
+#PrintCompletedPartsButton button,
 .BackToDashboardButton button {
    margin: .5em;
    padding: .5em;

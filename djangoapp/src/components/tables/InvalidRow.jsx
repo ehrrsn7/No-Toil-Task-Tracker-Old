@@ -5,9 +5,9 @@ export default function InvalidRow() {
 
    return <tr className="InvalidRow">        
       <td colSpan={"100%"}>
-         <p>Not valid data</p>
+         <p> Not valid data </p>
          <a href={todo_api_url} target="_blank" rel="noreferrer">
-            <p>failed to fetch data from {todo_api_url}</p>
+            <p> Failed to fetch data from {todo_api_url} </p>
          </a>
       </td>
    </tr>

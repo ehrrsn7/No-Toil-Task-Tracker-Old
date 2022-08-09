@@ -10,7 +10,8 @@ export default function CompletedParts() {
    React.useEffect(() => {
       document.title = "Completed Parts"
       document.querySelector("#headerTitle").innerText = document.title
-      document.querySelector("title").textContent = document.title + documentTitleSuffix
+      document.querySelector("title").textContent = 
+         document.title + documentTitleSuffix
    }, [])
 
    return <div id={document.title.replace(' ', '')}>

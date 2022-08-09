@@ -1,10 +1,10 @@
 import React                     from "react"
 import { documentTitleSuffix }   from "../App"
-import SortByDropdown            from "../components/dropdowns/SortByDropdown"
+import * as h                    from "../data/helperFunctions"
+import { SortByDropdown }        from "../components/dropdowns"
 import { CreateTodoForm }        from "../components/forms"
 import { DashboardTodoTable }    from "../components/tables"
 import { useContext }            from "../contexts/contextProvider"
-import * as h                    from "../data/helperFunctions"
 
 export default function Dashboard() {
    const context = useContext()
@@ -17,10 +17,6 @@ export default function Dashboard() {
       document.querySelector("#headerTitle").innerText = document.title
       document.querySelector("title").textContent = 
          document.title + documentTitleSuffix
-   
-      // just a simple tweak: 
-      // dashboard is accessed easiest with sort by status set as the default
-      // setTimeout(() => { sortBy("status", context) }, 5000)
    }, [])
    
    return <div id={document.title}>
@@ -34,14 +30,13 @@ export default function Dashboard() {
       setSelectedTask={setSelectedTask} 
       />
 
-      <br></br>
-
       <button className="add" onClick={() => {
          if (h.isMobile && activeSidebar) return // disable
          setAddMore(!addMore)
       }}
       style={{
          marginBottom: "1em",
+         marginTop: "1em",
       }}>
          {addMore ? "Cancel" : "Add more" }
       </button>

@@ -2,6 +2,37 @@ import { isMobile as deviceIsMobile }  from "react-device-detect"
 
 export function range(n) { return [...Array(n).keys()] }
 
+export function capitalize(string) {
+   if (!(typeof string === 'string' || string instanceof String)) return ""
+   let arr = string.split(' ')
+   arr = arr.map(word => `${word[0].toUpperCase()}${word.substring(1)}`)
+   return arr.join(' ')
+}
+
+export const isMobile = (override = true) => {
+   if (!override) return false
+   return (!window.screen.orientation.type.includes("landscape") && 
+      deviceIsMobile) || (window.matchMedia && 
+      window.matchMedia("(max-width: 600px)").matches)
+}
+
+export const isDarkMode = window => {
+   return window.matchMedia('(prefers-color-scheme: dark)').matches
+}
+
+export function insertAfter(newNode, existingNode) {
+   existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+}
+
+export function exportPDF(query) {
+   console.log(`exportPDF(${query})`)
+   window.print()
+}
+
+export function getCurrentDate() {
+   return new Date()
+}
+
 export const statusNames = {
    0: "stamp",
    1: "spray",
@@ -59,39 +90,8 @@ export const statusNames = {
       return this.get(0)
    },
    nextUrl: function(window) {
-      return "/djangoapp/" + this.next(
-         window.location.pathname.replace("/djangoapp/", '')
+      return this.next(
+         window.location.pathname.replace("/djangoapp/", '').replace('/', '')
       )
    }
-}
-
-export function capitalize(string) {
-   if (!(typeof string === 'string' || string instanceof String)) return ""
-   let arr = string.split(' ')
-   arr = arr.map(word => `${word[0].toUpperCase()}${word.substring(1)}`)
-   return arr.join(' ')
-}
-
-export const isMobile = (override = true) => {
-   if (!override) return false
-   return (!window.screen.orientation.type.includes("landscape") && 
-      deviceIsMobile) || (window.matchMedia && 
-      window.matchMedia("(max-width: 600px)").matches)
-}
-
-export const isDarkMode = window => {
-   return window.matchMedia('(prefers-color-scheme: dark)').matches
-}
-
-export function insertAfter(newNode, existingNode) {
-   existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
-}
-
-export function exportPDF(query) {
-   console.log(`exportPDF(${query})`)
-   window.print()
-}
-
-export function getCurrentDate() {
-   return new Date()
 }
