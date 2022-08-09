@@ -9,7 +9,8 @@ import { useContext }      from "../../contexts/contextProvider"
 import { sortBy }          from "../../data/sort"
 
 export default function DashboardTodoTable(props)  {
-   const { todoModel, sortedBy } = useContext()
+   const context = useContext()
+   const { todoModel, sortedBy } = context
    const { selectedTask, setSelectedTask } = props
 
    return <table id="DashboardTodoTable">
