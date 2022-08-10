@@ -74,4 +74,6 @@ def main():
       Unix.runserver()
    else: Windows.runserver()
 
+   input("press any key to exit.")
+
 if __name__ == "__main__": main()
