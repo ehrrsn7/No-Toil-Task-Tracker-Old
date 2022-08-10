@@ -39,7 +39,7 @@ export default function Header() {
             {  wsConnected ? 
 
                /* Connected */
-               <p style={{
+               <p className="hideOnPrint" style={{
                   color: h.isDarkMode(window) ? "lightgreen" : "green"
                }}>
                   Connected 
@@ -49,7 +49,8 @@ export default function Header() {
 
                /* Disconnected */
                <Tooltip title="Please reload the page." placement="top">
-                  <p onClick={() => window.location.reload()}
+                  <p className="hideOnPrint" 
+                  onClick={() => window.location.reload()}
                   style={{color: h.isDarkMode(window) ? "lightred" : "red"}}>
                      Disconnected
                   </p>

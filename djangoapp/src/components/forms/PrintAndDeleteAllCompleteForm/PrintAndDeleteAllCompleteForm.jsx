@@ -4,14 +4,10 @@ import { useContext }            from "../../../contexts/contextProvider"
 import { isMobile, isDarkMode }  from "../../../data/helperFunctions"
 import { deleteAllComplete }     from "./crud"
 
-const printButtonTooltipMsg = 
-   "Open 'Print'/'Save as PDF' screen. " + 
-   "This button will then be replaced with the " + 
-   "'Delete all Completed Parts' button. " + 
-   "Remember to press that button to prevent duplicate parts submissions!"
-
 const removeButtonTooltipMsg = 
-   "Confirm remove all parts marked as 'complete' in the database."
+   `Confirm remove all parts marked as 'complete' from the task list.
+      Note: This will permanently remove all of the items from the 
+      Database!`
 
 export default function PrintAndDeleteAllCompleteForm(props) {
    const { activeSidebar, todoModel } = useContext()
@@ -21,7 +17,7 @@ export default function PrintAndDeleteAllCompleteForm(props) {
       {!showRemoveButton ? // condition
 
          /* Print Completed Parts Button */
-         <Tooltip title={printButtonTooltipMsg} placement="top">
+         <Tooltip title="">
 
             <button 
             style={props.style} 
