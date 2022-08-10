@@ -17,19 +17,20 @@ def get_ip_address():
       s.close()
    return ip_address
 
-def runserver(python):
-   command = f"{python} manage.py runserver {get_ip_address()}:{port_no}"
-   print(f">>> {command}")
-   os.system(command)
+def runserver():
+   os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djangoproject.settings")
+   from django.core.management import execute_from_command_line
+   args = ['name', 'runserver', f"{get_ip_address()}:{port_no}"]
+   execute_from_command_line(args)
 
 # classes
 class Windows:
    @staticmethod
-   def runserver(): runserver("python")
+   def runserver(): runserver()
    
 class Unix:
    @staticmethod
-   def runserver(): runserver("python3")
+   def runserver(): runserver()
 
 # main
 def main():
