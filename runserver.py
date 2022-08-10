@@ -35,13 +35,13 @@ class Unix:
 def main():
    cwd = os.getcwd()
 
-   # no matter what, we want to activate our venv
-   result = os.system(".\\Scripts\\activate")
-   if result != 0: 
-      print("Virtual environment not activated!")
-      print("Be sure to initialize it after instal by running the command")
-      print("python -m venv ./")
-      return
+   # # no matter what, we want to activate our venv
+   # result = os.system(".\\Scripts\\activate")
+   # if result != 0: 
+   #    print("Virtual environment not activated!")
+   #    print("Be sure to initialize it after instal by running the command")
+   #    print("python -m venv ./")
+   #    return
 
    # python runserver.py update
    if len(sys.argv) > 1:
