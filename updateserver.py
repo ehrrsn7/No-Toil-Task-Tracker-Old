@@ -1,3 +1,2 @@
-import os
-os.system("python runserver.py update")
-input("")
+import runserver
+runserver.main()
