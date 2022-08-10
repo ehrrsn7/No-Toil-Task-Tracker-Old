@@ -11,8 +11,8 @@ export default function CompletedParts() {
       const currentDateTime = ' ' + new Date().toLocaleString()
       document.title = "Completed Parts"
       document.querySelector("#headerTitle").innerText = document.title
-      document.querySelector("title").textContent =
-         document.title + documentTitleSuffix + currentDateTime
+      document.querySelector("title").textContent = document.title + 
+         documentTitleSuffix + currentDateTime
    }, [])
 
    return <div id={ document.title.replace(' ', '') }>

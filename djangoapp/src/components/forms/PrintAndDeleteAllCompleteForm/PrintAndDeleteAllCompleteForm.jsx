@@ -4,10 +4,9 @@ import { useContext }            from "../../../contexts/contextProvider"
 import { isMobile, isDarkMode }  from "../../../data/helperFunctions"
 import { deleteAllComplete }     from "./crud"
 
-const removeButtonTooltipMsg = 
-   `Confirm remove all parts marked as 'complete' from the task list.
-      Note: This will permanently remove all of the items from the 
-      Database!`
+const removeButtonTooltipMsg = `Confirm remove all parts marked as 'complete' 
+      from the task list. Note: This will permanently remove all of the items 
+      from the Database!`
 
 export default function PrintAndDeleteAllCompleteForm(props) {
    const { activeSidebar, todoModel } = useContext()

@@ -43,11 +43,11 @@ export default function Header() {
                   color: h.isDarkMode(window) ? "lightgreen" : "green"
                }}>
                   Connected 
-               </p>
-
+               </p> 
+               
                : // else
-
-               /* Disconnected */
+               
+               /* Disconnected (with reload action) */
                <Tooltip title="Please reload the page." placement="top">
                   <p className="hideOnPrint" 
                   onClick={() => window.location.reload()}

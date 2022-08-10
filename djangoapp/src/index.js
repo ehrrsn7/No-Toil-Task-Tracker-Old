@@ -5,8 +5,7 @@ import { ContextProvider }  from "./contexts/contextProvider"
 import App                  from "./App"
 import "./index.css"
 
-const root = ReactDOM.createRoot(document.getElementById("root"))
-root.render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ContextProvider>
       <App />
