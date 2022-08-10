@@ -36,8 +36,8 @@ export default function DashboardTodoTable(props)  {
                </span>
             </td>
             
-            <td align="center" onClick={() => sortBy("status", context)}>
-               <span style={{width: "100%", flexWrap: "nowrap"}}>
+            <td onClick={() => sortBy("status", context)}>
+               <span style={{width: "100%", flexWrap: "nowrap", justifyContent: "center"}}>
                   <p>Status</p>
 
                   <SortedByCaret sortedBy={sortedBy} columnName="status" />
