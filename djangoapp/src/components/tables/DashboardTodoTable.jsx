@@ -1,6 +1,6 @@
 import React               from "react"
 import { Tooltip }         from "@mui/material"
-import InvalidRow          from "./InvalidRow"
+import InvalidRow, { isInvalid }          from "./InvalidRow"
 import DashboardTableRow   from "./DashboardTableRow"
 import * as Buttons        from "../buttons"
 import SortedByCaret       from "../other/SortedByCaret"
@@ -69,17 +69,17 @@ export default function DashboardTodoTable(props)  {
 
       <tbody>
          {/* Invalid Tasks */}
-         {!Array.isArray(todoModel) && <InvalidRow />}
+         {isInvalid(todoModel) && <InvalidRow />}
 
          {/* No Tasks */}
-         {Array.isArray(todoModel) && todoModel.length <= 0 &&
+         {!isInvalid(todoModel) && todoModel.length <= 0 &&
             <tr><td colSpan={"100%"}>
                <em>No Tasks</em>
             </td></tr>
          }
 
          {/* Valid Tasks */}
-         {Array.isArray(todoModel) &&
+         {!isInvalid(todoModel) && 
          todoModel.map(rowData => 
             <DashboardTableRow 
             key={rowData.id} rowData={rowData} 

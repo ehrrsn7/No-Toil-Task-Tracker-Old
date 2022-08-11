@@ -12,6 +12,9 @@ import * as pages from "./pages"
 import Sidebar from "./components/pageComponents/sidebar"
 import Header  from "./components/pageComponents/header"
 
+// Other Components
+import { invalidRow } from "./components/tables/InvalidRow"
+
 // Other (stylesheets/scripts)
 import "./App.css"
 import { useContext } from "./contexts/contextProvider"
@@ -105,7 +108,12 @@ export default function App() {
          .then(() => { console.log(
             "Successfully fetched data from", 
             todo_api_url
-         )}).catch(error => console.log(error))
+         )}).catch(error => {
+            console.log(error)
+            context.setTodoModel([
+               invalidRow
+            ])
+         })
 
          // dimension events
          const resize = () => { context.setScreenSize(window.innerWidth) }

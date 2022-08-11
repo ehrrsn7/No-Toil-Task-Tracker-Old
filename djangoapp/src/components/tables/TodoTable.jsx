@@ -1,11 +1,11 @@
-import React            from "react"
-import TodoTableRow     from "./TodoTableRow"
-import InvalidRow       from "./InvalidRow"
-import * as Buttons     from "../buttons"
-import { useContext }   from "../../contexts/contextProvider"
-import { statusNames }  from "../../data/helperFunctions"
-import { sortBy }       from "../../data/sort"
-import SortedByCarret from "../other/SortedByCaret"
+import React                     from "react"
+import TodoTableRow              from "./TodoTableRow"
+import InvalidRow, { isInvalid } from "./InvalidRow"
+import { useContext }            from "../../contexts/contextProvider"
+import { statusNames }           from "../../data/helperFunctions"
+import { sortBy }                from "../../data/sort"
+import SortedByCarret            from "../other/SortedByCaret"
+import * as Buttons              from "../buttons"
 
 export default function TodoTable(props) {
    const { filter, sets, selectedTask, setSelectedTask } = props
@@ -71,19 +71,19 @@ export default function TodoTable(props) {
       </thead>
 
       <tbody>
-
          {/* Invalid Tasks */}
-         {!Array.isArray(todoModel) && <InvalidRow />}
+         {isInvalid(todoModel) && <InvalidRow />}
 
          {/* No Tasks */}
-         {Array.isArray(todoModel) && filteredModel().length <= 0 &&
+         {!isInvalid(todoModel) && todoModel.length <= 0 &&
             <tr><td colSpan={"100%"}>
                <em>No Tasks</em>
             </td></tr>
          }
 
          {/* Valid Tasks */}
-         {(Array.isArray(todoModel)) && filteredModel().map(rowData => (
+         {!isInvalid(todoModel) && 
+         filteredModel().map(rowData => (
             <TodoTableRow 
             sets={sets}
             key={rowData.id} 
