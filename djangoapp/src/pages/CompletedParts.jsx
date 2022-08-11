@@ -8,11 +8,10 @@ export default function CompletedParts() {
    const context = useContext()
 
    React.useEffect(() => {
-      const currentDateTime = ' ' + new Date().toLocaleString()
       document.title = "Completed Parts"
       document.querySelector("#headerTitle").innerText = document.title
       document.querySelector("title").textContent = document.title + 
-         documentTitleSuffix + currentDateTime
+         documentTitleSuffix + ' ' + new Date().toLocaleString()
    }, [])
 
    return <div id={ document.title.replace(' ', '') }>
