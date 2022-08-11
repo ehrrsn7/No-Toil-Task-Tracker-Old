@@ -18,7 +18,7 @@ export default function TaskPageTemplate(props) {
    return <div id={document.title}>
       <span style={{maxWidth: "60em"}}>
          <span style={{gap: "0"}}>
-            <buttons.BackToDashboardButton />
+            <buttons.PreviousPageButton />
             <buttons.NextPageButton />
          </span>
          <span>

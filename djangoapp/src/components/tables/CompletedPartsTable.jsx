@@ -1,5 +1,5 @@
-import React      from "react"
-import InvalidRow from "./InvalidRow"
+import React                     from "react"
+import InvalidRow, { isInvalid } from "./InvalidRow"
 
 export default function CompletedPartsTable(props) {
    const { todoModel } = props.context
@@ -22,23 +22,20 @@ export default function CompletedPartsTable(props) {
    </thead>
 
    <tbody>
-
       {/* Invalid Tasks */}
-      {!Array.isArray(todoModel) && <InvalidRow />}
+      {isInvalid(filteredModel) && <InvalidRow />}
 
       {/* No Tasks */}
-      {Array.isArray(todoModel) && filteredModel().length <= 0 &&
-
-         <tr>
-         
-            <td colSpan={"100%"}><em> No Tasks </em></td>
-         
-         </tr>
+      {!isInvalid(filteredModel) && filteredModel.length <= 0 &&
+         <tr><td colSpan={"100%"}>
+            <em>No Tasks</em>
+         </td></tr>
       }
 
       {/* Valid Tasks */}
-      {(Array.isArray(todoModel)) && filteredModel().map(rowData => 
-      <tr id={"CompleteTodoRow" + rowData.id} key={rowData.id}>
+      {!isInvalid(filteredModel) && 
+      filteredModel().map(rowData => <tr 
+      id={"CompleteTodoRow" + rowData.id} key={rowData.id}>
 
          <td>{rowData.title}</td>
          <td>{rowData.quantity}</td>

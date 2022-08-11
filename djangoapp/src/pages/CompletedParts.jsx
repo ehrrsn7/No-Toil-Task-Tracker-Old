@@ -16,7 +16,7 @@ export default function CompletedParts() {
 
    return <div id={ document.title.replace(' ', '') }>
       <span>
-         <Buttons.BackToDashboardButton />
+         <Buttons.PreviousPageButton to="Bag" />
          <Buttons.PrintCompletedPartsButton />
       </span> 
       

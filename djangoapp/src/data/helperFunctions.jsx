@@ -89,9 +89,33 @@ export const statusNames = {
 
       return this.get(0)
    },
+   previous: function(currentStatus) {
+
+      if (typeof currentStatus === "string") {
+         switch (currentStatus.toLowerCase()) {
+            case "stamp": return "Dashboard"
+            case "spray": return "Stamp"
+            case "check": return "Spray"
+            case "oil": return "Check"
+            case "bag": return "Oil"
+            default: return currentStatus
+         }
+      }
+
+      if (typeof currentStatus === "number" && currentStatus !== 0) 
+         return this.get(currentStatus - 1)
+
+      // else
+      return "Dashboard"
+   },
    nextUrl: function(window) {
       return this.next(
          window.location.pathname.replace("/djangoapp/", '').replace('/', '')
       )
-   }
+   },
+   previousUrl: function(window) {
+      return this.previous(
+         window.location.pathname.replace("/djangoapp/", '').replace('/', '')
+      )
+   },
 }

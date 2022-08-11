@@ -3,9 +3,15 @@ import { useContext }         from "../../../contexts/contextProvider"
 import { onUpdate, onReset }  from "./crud"
 
 export default function UpdateTodoForm(props) {
+   const { rowData, sets } = props
    const { todoModel, activeSidebar } = useContext()
-   const { rowData } = props
-   const [ numVal, setNumVal ] = React.useState(rowData.quantity)
+
+   // quantity state
+   const adjustedQuantity = (count) => sets ? parseInt(count / 18) : count
+   const [ numVal, setNumVal ] = React.useState(
+      adjustedQuantity(rowData.quantity)
+   )
+
    const inputId = "TodoAccordionDivCompleteValue" + rowData.id
 
    return <form className="UpdateTodoForm flexbox">
@@ -20,8 +26,8 @@ export default function UpdateTodoForm(props) {
       
          <input id={inputId}
          name="quantity" type="number" 
-         onChange={event => setNumVal(event.target.value)}
-         placeholder={rowData.quantity}
+         onChange={event => setNumVal(adjustedQuantity(event.target.value))}
+         placeholder={adjustedQuantity(rowData.quantity)}
          value={numVal} 
          min={0} 
          />

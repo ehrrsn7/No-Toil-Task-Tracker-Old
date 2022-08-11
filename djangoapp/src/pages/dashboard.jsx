@@ -1,6 +1,7 @@
 import React                     from "react"
 import { documentTitleSuffix }   from "../App"
 import * as h                    from "../data/helperFunctions"
+import * as buttons              from "../components/buttons"
 import { SortByDropdown }        from "../components/dropdowns"
 import { CreateTodoForm }        from "../components/forms"
 import { DashboardTodoTable }    from "../components/tables"
@@ -20,9 +21,11 @@ export default function Dashboard() {
    }, [])
    
    return <div id={document.title}>
-      <span style={{display: "flex", justifyContent: "space-between"}}>
-         <div></div>
-         <SortByDropdown />
+      <span style={{maxWidth: "60em"}}>
+         <span style={{gap: "0"}}>
+            <SortByDropdown />
+            <buttons.NextPageButton to="Stamp" />
+         </span>
       </span>
 
       <DashboardTodoTable 

@@ -72,17 +72,17 @@ export default function TodoTable(props) {
 
       <tbody>
          {/* Invalid Tasks */}
-         {isInvalid(todoModel) && <InvalidRow />}
+         {isInvalid(filteredModel()) && <InvalidRow />}
 
          {/* No Tasks */}
-         {!isInvalid(todoModel) && todoModel.length <= 0 &&
+         {!isInvalid(filteredModel()) && filteredModel().length <= 0 &&
             <tr><td colSpan={"100%"}>
                <em>No Tasks</em>
             </td></tr>
          }
 
          {/* Valid Tasks */}
-         {!isInvalid(todoModel) && 
+         {!isInvalid(filteredModel()) && 
          filteredModel().map(rowData => (
             <TodoTableRow 
             sets={sets}

@@ -3,21 +3,21 @@ import { NavLink }               from "react-router-dom"
 import { statusNames, isMobile } from "../../data/helperFunctions"
 import { useContext }            from "../../contexts/contextProvider"
 
-export default function NextPageButton(props) {
+export default function PreviousPageButton(props) {
    const { to } = props
    const { activeSidebar } = useContext()
 
-   const nextUrl = () => to ?? statusNames.nextUrl(window)
+   const previousUrl = () => to ?? statusNames.previousUrl(window)
 
    return <button style={{
       height: "fit-content",
       padding: ".5em",
       margin: ".5em 0 .5em 0",
    }}>
-      <NavLink to={"/" + nextUrl()} onClick={event => {
+      <NavLink to={'/' + previousUrl()} onClick={event => {
          if (activeSidebar && isMobile()) event.preventDefault()
       }}>
-         Go to {nextUrl()} {" "} →
+         ← Go to {previousUrl()}
       </NavLink>
    </button>
 }

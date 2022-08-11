@@ -213,6 +213,10 @@ export default function App() {
                   <Route element={<pages.Bag />}   path="/Bag"   />
                   <Route path="/CompletedParts" 
                   element={<pages.CompletedParts />} />
+
+                  {/* Other */}
+                  <Route element={<pages.GoogleImagesPlayground />}
+                  path="/GoogleImagesPlayground" />
                </Routes>
             </div> {/* End Content Div */}
          </div> {/* End Non-Sidebar Div */}

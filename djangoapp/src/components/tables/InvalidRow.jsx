@@ -10,15 +10,9 @@ export const invalidRow = {
 }
 
 export function isInvalid(todoModel) {
-   console.table({
-      "is array": Array.isArray(todoModel),
-      "has at least one obj": todoModel.length > 0,
-      "is invalidRow obj": todoModel[0] === invalidRow
-   })
-   if (!Array.isArray(todoModel)) return true
-   if (todoModel.length > 0 && todoModel[0] === invalidRow) return true
-   console.log("todoModel invalidRow object not found")
-   return false
+   return !Array.isArray(todoModel) ||
+      (todoModel.length > 0 && 
+         todoModel[0] === invalidRow)
 }
 
 export default function InvalidRow() {
