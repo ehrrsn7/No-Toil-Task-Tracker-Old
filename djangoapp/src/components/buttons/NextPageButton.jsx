@@ -2,6 +2,7 @@ import React                     from "react"
 import { Tooltip }               from "@mui/material"
 import { statusNames, isMobile } from "../../data/helperFunctions"
 import { useContext }            from "../../contexts/contextProvider"
+import { NavLink } from "react-router-dom"
 
 export default function NextPageButton() {
    const { activeSidebar } = useContext()
@@ -12,11 +13,11 @@ export default function NextPageButton() {
       margin: ".5em 0 .5em 0",
    }}>
       <Tooltip title="" placement="left">
-         <a href={
-            !(activeSidebar && isMobile()) && statusNames.nextUrl(window)
-         }>
+         <NavLink to={"/" + statusNames.nextUrl(window)} onClick={event => {
+            activeSidebar && isMobile() && event.preventDefault()
+         }}>
             Go to {statusNames.nextUrl(window)} {" "} →
-         </a>
+         </NavLink>
       </Tooltip>
    </button>
 }

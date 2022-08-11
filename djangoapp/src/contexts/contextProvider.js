@@ -9,10 +9,10 @@ export function ContextProvider({ children }) {
    const [ darkMode,       setDarkMode,      ] = React.useState(false)
    const [ isPrinting,     setIsPrinting,    ] = React.useState(false)
    const [ wsConnected,    setWsConnected,   ] = React.useState(false)
+   const [ todoModel,      setTodoModel,     ] = React.useState([])
+   const [ addedTasks,     setAddedTasks,    ] = React.useState([])
    const [ screenSize,     setScreenSize,    ] = React.useState(undefined)
-   const [ todoModel,      setTodoModel,     ] = React.useState(undefined)
    const [ websocket,      setWebsocket,     ] = React.useState(undefined)
-   const [ addedTasks,     setAddedTasks,    ] = React.useState(undefined)
  
    return (
       <Context.Provider value={{ 
