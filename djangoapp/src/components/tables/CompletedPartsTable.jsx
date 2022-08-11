@@ -23,17 +23,17 @@ export default function CompletedPartsTable(props) {
 
    <tbody>
       {/* Invalid Tasks */}
-      {isInvalid(filteredModel) && <InvalidRow />}
+      {isInvalid(filteredModel()) && <InvalidRow />}
 
       {/* No Tasks */}
-      {!isInvalid(filteredModel) && filteredModel.length <= 0 &&
+      {!isInvalid(filteredModel()) && filteredModel().length <= 0 &&
          <tr><td colSpan={"100%"}>
             <em>No Tasks</em>
          </td></tr>
       }
 
       {/* Valid Tasks */}
-      {!isInvalid(filteredModel) && 
+      {!isInvalid(filteredModel()) && 
       filteredModel().map(rowData => <tr 
       id={"CompleteTodoRow" + rowData.id} key={rowData.id}>
 

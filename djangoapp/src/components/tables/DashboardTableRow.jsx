@@ -11,6 +11,9 @@ export default function DashboardTableRow(props) {
    const { activeSidebar } = context
    const { rowData, selectedTask, setSelectedTask } = props
 
+   const status = () =>  h.capitalize(h.statusNames.get(rowData.status))
+   const sets = () => [0, 1].includes(rowData.status) // ?stamp/spray
+
    return <>
 
       {/* Dashboard Table Row */}
@@ -22,25 +25,25 @@ export default function DashboardTableRow(props) {
             </p>
          </td>
 
-         <td> {[0, 1].includes(rowData.status) ? // ?stamp/spray
+         <td> {sets() ?
             <Tooltip title="Note: 1 Set = 18 Each" placement="left">
                <p>
-                  {rowData.quantity / 18 + " Sets"}
+                  {parseInt(rowData.quantity / 18) + " Sets"}
                </p>
             </Tooltip> 
             : 
             <p>
-               {rowData.quantity + " Each"}
+               {parseInt(rowData.quantity) + " Each"}
             </p>
          } </td>
 
          <td align="center">
-            <NavLink to={h.statusNames.getUrl(rowData.status)}
-            style={{
-               pointerEvents: h.isMobile() && activeSidebar ? "none" : "",
+            <NavLink to={'/' + status()}
+            onClick={event => {
+               if (activeSidebar) event.preventDefault()
             }}>
                <button>
-                  {h.capitalize(h.statusNames.get(rowData.status))}
+                  {status()}
                </button>
             </NavLink>
          </td>
