@@ -21,7 +21,7 @@ export default function Dashboard() {
    }, [])
    
    return <div id={document.title}>
-      <span style={{maxWidth: "60em"}}>
+      <span id="topButtons">
          <span style={{gap: "0"}}>
             <SortByDropdown />
             <buttons.NextPageButton to="Stamp" />

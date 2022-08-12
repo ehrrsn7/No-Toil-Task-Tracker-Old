@@ -3,6 +3,7 @@
    --headerHeight: 5em;
    --toggleSidebarOffset: 65px;
    --sidebarWidth: 13.5em;
+   --table-width: 70em;
    --footerHeight: 100px;
    --defaultPadding: 10px;
    --cornerButtonsWidth: 50px;
@@ -35,6 +36,17 @@ button {
    padding-left: .5em !important;
    padding-right: .5em !important;
    border-radius: .25em;
+}
+
+span#topButtons {
+   max-width: var(--table-width);
+   padding: 0;
+   gap: 0;
+}
+
+span#topButtons button {
+   margin-left: 0;
+   margin-right: 0;
 }
 
 @media (prefers-color-scheme: dark)  {
@@ -90,6 +102,14 @@ select, input {
    }
    .showOnPrint {
       display: block;
+   }
+
+   * {
+      background-color: transparent;
+   }
+
+   #headerTitle {
+      margin: 0 !important;
    }
 }
 @media only screen and (max-width: 600px) {
@@ -357,7 +377,7 @@ select, input {
 
 table {
    width: 100%;
-   max-width: 1000px;
+   max-width: var(--table-width);
    font-family: "sf mono";
    text-align: left;
    position: relative;
