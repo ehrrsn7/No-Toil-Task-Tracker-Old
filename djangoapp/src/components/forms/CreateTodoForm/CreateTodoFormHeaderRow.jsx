@@ -9,7 +9,7 @@ export default function CreateTodoFormHeaderRow() {
             Title
          </p>
       </td>
-      <td> 
+      <td style={{minWidth: "100px"}}> 
          <Tooltip title="1 Set = 18 Parts" placement="top">
             <p>
                Sets

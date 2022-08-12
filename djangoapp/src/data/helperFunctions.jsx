@@ -11,9 +11,10 @@ export function capitalize(string) {
 
 export const isMobile = (override = true) => {
    if (!override) return false
-   return (!window.screen.orientation.type.includes("landscape") && 
-      deviceIsMobile) || (window.matchMedia && 
-      window.matchMedia("(max-width: 600px)").matches)
+   return window?.screen?.orientation?.type && 
+      !window?.screen?.orientation?.type.includes("landscape") && 
+      deviceIsMobile || window.matchMedia && 
+      window.matchMedia("(max-width: 600px)").matches
 }
 
 export const isDarkMode = window => {
