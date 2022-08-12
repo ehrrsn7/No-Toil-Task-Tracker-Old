@@ -378,7 +378,7 @@ select, input {
 table {
    width: 100%;
    max-width: var(--table-width);
-   font-family: "sf mono";
+   font-family: "sf mono", monospace, "times new roman";
    text-align: left;
    position: relative;
 }
