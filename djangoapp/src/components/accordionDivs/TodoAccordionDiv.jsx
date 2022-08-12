@@ -54,7 +54,10 @@ export default function TodoAccordionDiv(props) {
                </tr>
                <tr>
                   <td width={colWidth}>lastModified:</td>
-                  <td>{(rowData.lastModified)}</td>
+                  <td>
+                     {`${new Date(rowData.lastModified).toDateString()}
+                     ${new Date(rowData.lastModified).toLocaleTimeString()}`}
+                  </td>
                </tr>
 
             </tbody>

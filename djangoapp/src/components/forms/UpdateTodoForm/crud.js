@@ -67,7 +67,7 @@ async function updateGreaterThanExpected(
       getPatchInfo(todoModel, newStatus, rowData)
 
    await axios.patch(`${todo_api_url}${patchID}/`, {
-      quantity: quantity /* new quantity */ + patchQuantity,
+      quantity: patchQuantity + quantity, /* new quantity */
    })
    .then(request => console.log(
       `task expected += extra (or rather expected <- quantity),`,
@@ -96,14 +96,15 @@ async function shiftNormal(rowData, newStatus) {
 }
 
 async function shiftLessThanExpected(rowData, quantity, expected) {
-   await axios.patch(`${todo_api_url}${rowData.id}/`, { // else
-      ...rowData,
+   await axios.post(`${todo_api_url}`, { // else
+      ...rowData, 
+      id: undefined, // let django model assign new id for the new object
       quantity: quantity,
-      status: rowData.status + 1,
+status: rowData.status + 1,
    }).then(request => {console.log(
       "new task of quantity with status += 1", 
       request
-   )})
+   )}).catch(error => console.warn(error))
    
    await axios.patch(`${todo_api_url}${rowData.id}/`, {
       ...rowData,
@@ -176,6 +177,13 @@ export async function onCreate(newStatus, rowData, numVal) {
 
 export async function onUpdate(activeSidebar, todoModel, rowData, numVal) {
    if (h.isMobile && activeSidebar) return // disable
+
+   console.log({
+      "activeSidebar": activeSidebar,
+      "todoModel": todoModel,
+      "rowData": rowData,
+      "numVal": numVal
+   })
 
    const quantity = parseInt(numVal)
    const expected = parseInt(rowData.quantity)

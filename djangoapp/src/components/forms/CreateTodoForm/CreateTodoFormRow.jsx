@@ -50,17 +50,16 @@ export default function CreateTodoFormRow(props) {
          />
       </td>
 
-      {h.isMobile() ? "" : <>
-
-         <td>
-            <input id={`$RowMid${i}-Oil`}
-               name="toOil"
-               type="checkbox" 
-               value={toOil}
-               onChange={() => {setToOil(!toOil)}}
-            />
-         </td>
-         
+      <td>
+         <input id={`$RowMid${i}-Oil`}
+            name="toOil"
+            type="checkbox" 
+            value={toOil}
+            onChange={() => {setToOil(!toOil)}}
+         />
+      </td>
+      
+      {!h.isMobile() &&
          <td>
             <select id={`RowMid${i}-Status`} 
             name={"status"} 
@@ -74,17 +73,16 @@ export default function CreateTodoFormRow(props) {
                })}
             </select>
          </td>
-         
-         <td>
-            <input id={`$RowMid${i}-HighPriority`}
-               name={"highPriority"} 
-               type="checkbox" 
-               style={{height: 20}} 
-               value={highPriority}
-               onChange={() => {setHighPriority(!highPriority)}}
-            />
-         </td> 
-      
-      </>}
+      }
+
+      <td>
+         <input id={`$RowMid${i}-HighPriority`}
+            name={"highPriority"} 
+            type="checkbox" 
+            style={{height: 20}} 
+            value={highPriority}
+            onChange={() => {setHighPriority(!highPriority)}}
+         />
+      </td> 
    </>
 }

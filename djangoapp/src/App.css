@@ -32,7 +32,7 @@ html, body, #App {
 /* App Styles */
 button {
    border: 1px solid #EEEEEE;
-   background-color: #fbfbfb;
+   background-color: #fbfbfb !important;
    padding-left: .5em !important;
    padding-right: .5em !important;
    border-radius: .25em;
@@ -52,7 +52,7 @@ span#topButtons button {
 @media (prefers-color-scheme: dark)  {
    button {
       border: 1px solid #555555;
-      background-color: gray;
+      background-color: gray !important;
    }
 }
 
@@ -105,11 +105,15 @@ select, input {
    }
 
    * {
-      background-color: transparent;
+      background-color: transparent !important;
    }
 
    #headerTitle {
       margin: 0 !important;
+   }
+
+   table {
+      max-width: 100%;
    }
 }
 @media only screen and (max-width: 600px) {
@@ -156,6 +160,7 @@ select, input {
 
 #toggleSidebarButton {
    position: absolute;
+   background: transparent !important;
    border: none;
    padding: 0;
    left: calc(-1 * var(--toggleSidebarOffset));
@@ -394,7 +399,7 @@ tr {
 }
 
 tr[class*="AccordionDiv"] {
-   background-color: var(--gray) !important;
+   background-color: var(--gray);
 }
 
 td {
