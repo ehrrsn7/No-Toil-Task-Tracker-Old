@@ -39,7 +39,10 @@ export default function CreateTodoForm(props) {
 
          <span style={{marginTop: "1em"}}>
             <Button id="submitCreateTodoFormButton" type="primary" 
-            style={{border: "1px solid lightgray"}} htmlType="submit" 
+            style={{
+               border: "1px solid lightgray",
+               padding: ".5em"
+            }} htmlType="submit" 
             onSubmit={onSubmit}>
                Submit
             </Button>
@@ -47,7 +50,10 @@ export default function CreateTodoForm(props) {
             <div></div>
 
             <Button id="add5RowsButton" type="primary"
-            style={{border: "1px solid lightgray"}} 
+            style={{
+               border: "1px solid lightgray",
+               padding: ".5em"
+            }} 
             onClick={() => {
                if (h.isMobile && activeSidebar) return // disable
                setRowsAmount(rowsAmount + 5) 

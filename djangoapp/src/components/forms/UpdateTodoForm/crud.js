@@ -187,5 +187,9 @@ export async function onUpdate(activeSidebar, todoModel, rowData, numVal) {
 
 export async function onDiscard(activeSidebar, todoModel, rowData) {
    if (h.isMobile && activeSidebar) return // disable
-   todoModel.filter(r => r.id === rowData.id).discarded = true
+   todoModel.filter(r => r.id === rowData.id).forEach(task => {
+      axios.patch(`${todo_api_url}${task.id}/`, { discarded: true })
+      .then(request => console.log(request))
+      .catch(error => console.warn(error))
+   })
 }

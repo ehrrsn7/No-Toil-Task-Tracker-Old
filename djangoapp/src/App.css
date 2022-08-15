@@ -39,20 +39,21 @@ button {
    height: fit-content;
 }
 
-span#topButtons {
+span#topButtons, span#bottomButtons {
    max-width: var(--table-width);
-   padding: 0;
+   margin-bottom: 0 1em 0 1em;
+   padding: .5em;
    gap: 0;
 }
 
-span#topButtons button {
+span#topButtons button, span#bottomButtons button {
    padding: .5em;
    margin: .5em 0 .5em 0;
    height: fit-content;
 }
 
 button.deleteButton {
-   background-color: rgb(247, 215, 215);
+   background-color: rgb(247, 215, 215) !important;
    border: 1px solid rgb(247, 215, 215);
 }
 
@@ -455,7 +456,6 @@ td.titleColumn {
 }
 
 #DashboardTodoTable td.idColumn {
-   width: 50px;
    margin-bottom: 1em;
 }
 
@@ -673,45 +673,6 @@ tr.AccordionRow {
 tr.AccordionRow.Expanded {
    display: table-row;
 }
-/* 
-.alignChildrenRight {
-   display: flex;
-justify-content: center;
-}
-
-.row-updated-highlight {
-   background-color: rgb(209, 245, 205);
-   transition: 1s;
-}
-
-.row-created-highlight {
-   background-color: rgb(189, 237, 255);
-   transition: 1s;
-}
-
-.row-deleted-highlight {
-   background-color: rgb(255, 189, 189);
-   transition: 1s;
-}
-
-@media (prefers-color-scheme: dark) {
-   
-   .row-updated-highlight {
-      background-color: rgb(77, 98, 75);
-      transition: 1s;
-   }
-   
-   .row-created-highlight {
-      background-color: rgb(66, 87, 95);
-      transition: 1s;
-   }
-      
-   .row-deleted-highlight {
-      background-color: rgb(136, 64, 64);
-      transition: 1s;
-   }
-
-} */
 
 @keyframes highlightGreenAnimation {
    0% {

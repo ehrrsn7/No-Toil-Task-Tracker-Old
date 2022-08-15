@@ -40,3 +40,7 @@ export default function PrintAndDeleteAllDiscardedButton(props) {
       }
    </>
 }
+
+
+
+// todo: print buttons don't properly turn pink right now

@@ -6,6 +6,7 @@ import { SortByDropdown }        from "../components/dropdowns"
 import { CreateTodoForm }        from "../components/forms"
 import { DashboardTodoTable }    from "../components/tables"
 import { useContext }            from "../contexts/contextProvider"
+import { NavLink } from "react-router-dom"
 
 export default function Dashboard() {
    const context = useContext()
@@ -33,22 +34,26 @@ export default function Dashboard() {
       setSelectedTask={setSelectedTask} 
       />
 
-      <button className="add" onClick={() => {
-         if (h.isMobile && activeSidebar) return // disable
-         setAddMore(!addMore)
-      }}
-      style={{
-         marginBottom: "1em",
-         marginTop: "1em",
-      }}>
-         {addMore ? "Cancel" : "Add more" }
-      </button>
+      <span id="bottomButtons">
+         <button className="add" onClick={() => {
+            if (h.isMobile && activeSidebar) return // disable
+            setAddMore(!addMore)
+         }}>
+            {addMore ? "Cancel" : "Add more" }
+         </button>
 
-      <div id="addMoreDropdown" style={{
+         <NavLink to="/DiscardedParts">
+            <button>
+               Go to Discarded Parts →
+            </button>
+         </NavLink>
+      </span>
+
+      <span id="addMoreDropdown" style={{
          visibility: addMore ? "visible" : "hidden",
       }}>
          <CreateTodoForm />
-      </div>
+      </span>
 
    </div>
 }

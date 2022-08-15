@@ -24,11 +24,11 @@ export async function onSubmit(event) {
       chunks[chunks.length - 1].push(element)
    })
 
-   chunks = chunks.filter(chunk => {
-      // don't parse any empty fields
-      return chunk[0].value !== '' && chunk[1].value !== ''
-   
-   }).map(chunk => {
+   chunks = chunks.filter(
+      // only parse when 'title' field exists, use default for the rest
+      chunk => chunk[0].value !== ''
+
+   ).map(chunk => {
       // parse chunk into data
       const chunkObj = {}
       
@@ -36,18 +36,29 @@ export async function onSubmit(event) {
          let value = element.value
          
          // handle sets to quantity
-         if (element.id && element.id.toLowerCase().includes("quantity")) {
-            value = parseInt(value) * 18
-            console.log("quantity", value)
+         if (["quantity"].includes(element.name)) {
+            if (isNaN(value) || value <= 0) value = 1 // default 1 
+            value *= 18 // sets to quantity
          }
          
-         // handle str to bool
-         if (["true", "false"].some(text => text.includes(element.value)))
-            value = element.value === "true" 
+         // handle sets to quantity
+         if (["status"].includes(element.name)) {
+            if (typeof value === "string") value = parseInt(value)
+            if (isNaN(value)) console.warn("status val parsing error")
+            if (value < 0 || value > 5) value = 0 // min-max
+         }
+         
+         // handle str to bool (toOil/highPriority)
+         if (["toOil", "highPriority"].includes(element.name)) {
+            if (typeof value === "string") 
+               value = value.toLowerCase() === "true"
+            else console.warn("non-string boolean repr", value)
+         }
          
          chunkObj[element.name] = value
       })
 
+      console.table(chunkObj)
       return chunkObj
    }).filter(element => element !== undefined)
 
@@ -59,5 +70,5 @@ export async function onSubmit(event) {
    })
 
    // this just makes things nicer, and prevents duplicates
-   window.location.reload()
+   // window.location.reload()
 }

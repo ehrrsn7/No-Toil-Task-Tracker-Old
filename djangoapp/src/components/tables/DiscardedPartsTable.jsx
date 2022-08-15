@@ -1,5 +1,6 @@
 import React                     from "react"
 import InvalidRow, { isInvalid } from "./InvalidRow"
+import { statusNames }           from "../../data/helperFunctions"
 
 export default function DiscardedPartsTable(props) {
    const { context } = props
@@ -17,6 +18,10 @@ export default function DiscardedPartsTable(props) {
 
          <td>
             Quantity
+         </td>
+
+         <td>
+            Status
          </td>
 
       </tr>
@@ -40,6 +45,7 @@ export default function DiscardedPartsTable(props) {
 
          <td>{rowData.title}</td>
          <td>{rowData.quantity}</td>
+         <td>{statusNames.get(rowData.status)}</td>
       
       </tr> )}
    </tbody>
