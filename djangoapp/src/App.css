@@ -39,6 +39,32 @@ button {
    height: fit-content;
 }
 
+a {
+   text-decoration: none;
+}
+
+li {
+   display: inline;
+}
+
+a {
+   display: inline;
+}
+
+span {
+   display: inline-flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   align-items: center;
+   width: 100%;
+   gap: 1em;
+}
+
+select, input {
+   padding: .1em .1em .1em .5em;
+   background-color: var(--primary-background);
+}
+
 span#topButtons, span#bottomButtons {
    max-width: var(--table-width);
    margin-bottom: 0 1em 0 1em;
@@ -57,11 +83,6 @@ button.deleteButton {
    border: 1px solid rgb(247, 215, 215);
 }
 
-button#toggleSidebarButton {
-   background-color: transparent !important;
-   border: transparent !important;
-}
-
 @media (prefers-color-scheme: dark)  {
    button {
       border: 1px solid #555555;
@@ -74,32 +95,6 @@ button#toggleSidebarButton {
    }
 
 }
-
-a {
-   text-decoration: none;
-}
-
-li {
-   display: inline;
-}
-
-a {
-   display: inline;
-}
-
-span {
-   display: inline-flex;
-   flex-wrap: wrap;
-   justify-content: space-between;
-   width: 100%;
-   gap: 1em;
-}
-
-select, input {
-   padding: .1em .1em .1em .5em;
-   background-color: var(--primary-background);
-}
-
 
 @media (prefers-color-scheme: dark) {
    select, input {
@@ -149,7 +144,6 @@ select, input {
 
 #Header > div {
    padding: var(--defaultPadding);
-
 }
 
 @media (prefers-color-scheme: dark) {
@@ -161,7 +155,6 @@ select, input {
 
 #headerTitle {
    margin-left: var(--toggleSidebarOffset);
-   margin-top: -5px;
    font-size: 2.5em;
    font-weight: bolder;
    letter-spacing: -0.05em;
@@ -177,18 +170,20 @@ select, input {
    transition: .3s all;
 }
 
-#toggleSidebarButton {
+button#toggleSidebarButton {
    position: absolute;
-   background: transparent;
-   border: none;
+   left: 0;
+   top: calc(var(--headerHeight / 2));
    padding: 0;
-   left: calc(-1 * var(--toggleSidebarOffset));
+   background: transparent !important;
+   border: transparent !important;
+   border: none;
    transition: .3s all;
    z-index: 2;
 }
 
-#toggleSidebarButton.activeSidebar {
-   left: 15px;
+button#toggleSidebarButton.activeSidebar {
+   left: calc(-1 * var(--toggleSidebarOffset));
 }
 
 @media (max-width: 600px) {

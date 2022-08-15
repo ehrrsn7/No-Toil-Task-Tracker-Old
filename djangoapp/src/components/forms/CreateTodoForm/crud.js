@@ -70,5 +70,5 @@ export async function onSubmit(event) {
    })
 
    // this just makes things nicer, and prevents duplicates
-   // window.location.reload()
+   window.location.reload()
 }

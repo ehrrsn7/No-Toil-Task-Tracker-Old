@@ -7,14 +7,14 @@ import { isMobile }        from "../../data/helperFunctions"
 export default function ToggleSidebarButton() {
    const { activeSidebar, setActiveSidebar } = useContext()
 
-   return <div>
+   return <>
 
       {/* Collapse/Show Sidebar Hamburger Button */}
       <Tooltip title="Toggle Sidebar">
 
          {/* Tooltip needs a button as a child to work */}
          <button id="toggleSidebarButton" 
-         className={activeSidebar ? "" : "activeSidebar"} 
+         className={activeSidebar ?  "activeSidebar" : ""} 
          onClick={() => {setActiveSidebar(!activeSidebar)}}>
 
             {/* Hamburger Icon */}
@@ -24,5 +24,5 @@ export default function ToggleSidebarButton() {
             }
          </button>
       </Tooltip>
-   </div>
+   </>
 }
