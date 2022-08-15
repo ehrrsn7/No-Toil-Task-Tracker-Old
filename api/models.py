@@ -29,6 +29,7 @@ class Todo(models.Model):
     highPriority = models.BooleanField(default=False)
     partNumber = models.CharField(max_length=20, default="0000 or *000-00")
     lastModified = models.DateTimeField(auto_now=True)
+    discarded = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

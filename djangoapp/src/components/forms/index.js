@@ -1,6 +1,5 @@
 import CreateTodoForm from "./CreateTodoForm/CreateTodoForm"
 import UpdateTodoForm from "./UpdateTodoForm/UpdateTodoForm"
-import PrintAndDeleteAllCompleteForm from 
-   "./PrintAndDeleteAllCompleteForm/PrintAndDeleteAllCompleteForm"
+import DeleteAllCompleteForm from "./DeleteAllCompleteForm/DeleteAllCompleteForm"
 
-export { CreateTodoForm, UpdateTodoForm, PrintAndDeleteAllCompleteForm }
+export { CreateTodoForm, UpdateTodoForm, DeleteAllCompleteForm }

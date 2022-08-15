@@ -127,35 +127,6 @@ async function shiftGreaterThanExpected(rowData, quantity) {
    )})
 }
 
-/************************************************************
- * Todo Reset (Update)
- ************************************************************/
-async function resetUpdate(todoModel, rowData, newStatus = 0) {
-   const { patchID, patchQuantity } = 
-      getPatchInfo(todoModel, newStatus, rowData)
-
-   await axios.patch(todo_api_url + patchID + '/', {
-      quantity: patchQuantity + rowData.quantity,
-   }).then(request => console.log(
-      `reset task (adding this.quantity [${rowData.quantity}] to task
-         with same name of status 0 -->>quantity [${patchQuantity}]:
-         [${rowData.quantity + patchQuantity}])`, 
-      request
-   )).catch(error => console.warn(error))
-}
-
-/************************************************************
- * Todo Reset (Shift)
- ************************************************************/
-async function resetShift(rowData, newStatus = 0) {
-   await axios.patch(todo_api_url + rowData.id + '/', {
-      status: newStatus,
-   }).then(request => console.log(
-      "reset task", 
-      request
-   )).catch(error => console.warn(error))
-}
-
 export async function onCreate(newStatus, rowData, numVal) {
    try { 
       if (!(numVal && rowData && newStatus))
@@ -214,15 +185,7 @@ export async function onUpdate(activeSidebar, todoModel, rowData, numVal) {
 
 }
 
-export async function onReset(
-   activeSidebar, todoModel, rowData, newStatus = 0
-) {
+export async function onDiscard(activeSidebar, todoModel, rowData) {
    if (h.isMobile && activeSidebar) return // disable
-
-   if (todoModel.filter(
-      row => row.status === newStatus).filter(
-         row => row.title === rowData.title).length > 0)
-            resetUpdate(todoModel, rowData)
-
-   resetShift(rowData)
+   todoModel.filter(r => r.id === rowData.id).discarded = true
 }

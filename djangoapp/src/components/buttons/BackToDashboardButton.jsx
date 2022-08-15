@@ -10,7 +10,7 @@ export default function BackToDashboardButton() {
          activeSidebar && isMobile() && event.preventDefault()
       }}>
          <button>
-            ← Back to dashboard
+            ← Back to Dashboard
          </button>
       </NavLink>
    </div>

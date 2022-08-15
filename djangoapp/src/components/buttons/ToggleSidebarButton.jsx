@@ -14,7 +14,6 @@ export default function ToggleSidebarButton() {
 
          {/* Tooltip needs a button as a child to work */}
          <button id="toggleSidebarButton" 
-         style={{background: "rgba(0,0,0,0)"}}
          className={activeSidebar ? "" : "activeSidebar"} 
          onClick={() => {setActiveSidebar(!activeSidebar)}}>
 

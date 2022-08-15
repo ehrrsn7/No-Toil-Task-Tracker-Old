@@ -13,7 +13,7 @@ export default function TodoTable(props) {
    const { todoModel, sortedBy } = context
 
    const filteredModel = () => (
-      todoModel.filter(
+      todoModel.filter(r => !r.discarded).filter(
          rowData => statusNames.matches(rowData.status, filter)
       )
    )

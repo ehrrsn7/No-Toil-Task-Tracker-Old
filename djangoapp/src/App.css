@@ -35,7 +35,8 @@ button {
    background-color: #fbfbfb !important;
    padding-left: .5em !important;
    padding-right: .5em !important;
-   border-radius: .25em;
+   border-radius: .25em !important;
+   height: fit-content;
 }
 
 span#topButtons {
@@ -45,15 +46,32 @@ span#topButtons {
 }
 
 span#topButtons button {
-   margin-left: 0;
-   margin-right: 0;
+   padding: .5em;
+   margin: .5em 0 .5em 0;
+   height: fit-content;
+}
+
+button.deleteButton {
+   background-color: rgb(247, 215, 215);
+   border: 1px solid rgb(247, 215, 215);
+}
+
+button#toggleSidebarButton {
+   background-color: transparent !important;
+   border: transparent !important;
 }
 
 @media (prefers-color-scheme: dark)  {
    button {
       border: 1px solid #555555;
-      background-color: gray !important;
+      background-color: gray;
    }
+
+   button.deleteButton {
+      background-color: rgb(144, 61, 61);
+      border: 1px solid rgb(144, 61, 61);
+   }
+
 }
 
 a {
@@ -61,11 +79,11 @@ a {
 }
 
 li {
-   display: inline !important;
+   display: inline;
 }
 
 a {
-   display: inline !important;
+   display: inline;
 }
 
 span {
@@ -77,7 +95,7 @@ span {
 }
 
 select, input {
-   padding: .1em .1em .1em .5em !important;
+   padding: .1em .1em .1em .5em;
    background-color: var(--primary-background);
 }
 
@@ -105,11 +123,11 @@ select, input {
    }
 
    * {
-      background-color: transparent !important;
+      background-color: transparent;
    }
 
    #headerTitle {
-      margin: 0 !important;
+      margin: 0;
    }
 
    table {
@@ -160,7 +178,7 @@ select, input {
 
 #toggleSidebarButton {
    position: absolute;
-   background: transparent !important;
+   background: transparent;
    border: none;
    padding: 0;
    left: calc(-1 * var(--toggleSidebarOffset));
@@ -238,13 +256,13 @@ select, input {
 }
 
 .sidebarLink button {
-   border: transparent !important;
-   background-color: transparent !important;
+   border: transparent;
+   background-color: transparent;
    transition: .3s;
 }
 
 .sidebarLink button:hover {
-   background-color: #00000044 !important;
+   background-color: #00000044;
 }
 
 #printButtonTooltip {
@@ -431,7 +449,7 @@ td.titleColumn {
    }
 
    tr[class*="AccordionDiv"] {
-      background-color: #333333 !important;
+      background-color: #333333;
    }
 
 }
@@ -539,13 +557,13 @@ td.titleColumn {
 }
 
 [class*="AccordionDiv"] button {
-   background-color: rgb(253, 253, 253) !important;
+   background-color: rgb(253, 253, 253);
 }
 
 @media (prefers-color-scheme: dark) {
 
    [class*="AccordionDiv"] button {
-      background-color: #555555 !important;
+      background-color: #555555;
    }
 
 }
@@ -623,17 +641,17 @@ button.TaskEditDeleteButton:hover {
 }
 
 #BradsNoNoSquare {
-   background-color: lightgray !important;
+   background-color: lightgray;
    transition: .3s;
 }
 
 #BradsNoNoSquare:hover {
-   background-color: rgba(255, 50, 50, .7) !important;
+   background-color: rgba(255, 50, 50, .7);
 }
 
 @media (prefers-color-scheme: dark) {
    #BradsNoNoSquare {
-      background-color: #888888 !important;
+      background-color: #888888;
       transition: .3s;
    } 
 }
@@ -752,4 +770,8 @@ justify-content: center;
 .no-highlight {
    background-color: rgba(0,0,0,0);
    transition: 1s;
+}
+
+button.transparentBackground, .transparentBackround {
+   background-color: transparent !important;
 }

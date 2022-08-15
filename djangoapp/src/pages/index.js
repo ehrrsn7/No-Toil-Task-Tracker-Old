@@ -1,7 +1,7 @@
 import Dashboard from "./Dashboard"
 import CompletedParts from "./CompletedParts"
+import DiscardedParts from "./DiscardedParts"
 import { Stamp, Spray, Check, Oil, Bag } from "./tasks"
-import GoogleImagesPlayground from "./GoogleImagesPlayground"
 
 export {
    Dashboard,
@@ -11,5 +11,5 @@ export {
    Spray,
    Check,
    CompletedParts,
-   GoogleImagesPlayground
+   DiscardedParts,
 }

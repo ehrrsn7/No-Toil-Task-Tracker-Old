@@ -1,7 +1,7 @@
-import { Tooltip } from "@mui/material"
-import React                  from "react"
-import { useContext }         from "../../../contexts/contextProvider"
-import { onUpdate, onReset }  from "./crud"
+import { Tooltip }               from "@mui/material"
+import React                     from "react"
+import { useContext }            from "../../../contexts/contextProvider"
+import { onUpdate, onDiscard }   from "./crud"
 
 export default function UpdateTodoForm(props) {
    const { rowData, sets } = props
@@ -49,12 +49,12 @@ export default function UpdateTodoForm(props) {
 
          </button>
 
-         {/* Reset Button */}
+         {/* Discard Button */}
          <button style={{marginLeft: "1em"}} onClick={() => {
-            onReset(activeSidebar, todoModel, rowData)}
+            onDiscard(activeSidebar, todoModel, rowData)}
          }>
 
-            Reset
+            Discard
 
          </button>
 

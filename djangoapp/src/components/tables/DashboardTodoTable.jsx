@@ -80,7 +80,7 @@ export default function DashboardTodoTable(props)  {
 
          {/* Valid Tasks */}
          {!isInvalid(todoModel) && 
-         todoModel.map(rowData => 
+         todoModel.filter(r => !r.discarded).map(rowData => 
             <DashboardTableRow 
             key={rowData.id} rowData={rowData} 
             selectedTask={selectedTask} 

@@ -49,21 +49,26 @@ export default function TodoAccordionDiv(props) {
                   <td>{rowData.highPriority ? "True" : "False"}</td>
                </tr>
                <tr>
-                  <td width={colWidth}>partNumber:</td>
-                  <td>{rowData.partNumber}</td>
-               </tr>
-               <tr>
                   <td width={colWidth}>lastModified:</td>
                   <td>
                      {`${new Date(rowData.lastModified).toDateString()}
                      ${new Date(rowData.lastModified).toLocaleTimeString()}`}
                   </td>
                </tr>
+               <tr>
+                  <td width={colWidth}><em>partNumber:</em></td>
+                  <td><em>{rowData.partNumber}</em></td>
+               </tr>
+               <tr>
+                  <td width={colWidth}><em>Discarded</em>:</td>
+                  <td><em>{rowData.discarded ? "True" : "False"}</em></td>
+               </tr>
 
             </tbody>
          </table>
 
-         <Buttons.TaskEditDeleteButton id={rowData.id} style={{marginTop: 15}} />
+         <Buttons.TaskEditDeleteButton 
+         id={rowData.id} style={{marginTop: 15}} />
       </div>}
    </div>
 }

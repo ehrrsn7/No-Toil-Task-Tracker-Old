@@ -17,7 +17,7 @@ export default function CompletedParts() {
    return <div id={ document.title.replace(' ', '') }>
       <span id="topButtons">
          <Buttons.PreviousPageButton to="Bag" />
-         <Buttons.PrintCompletedPartsButton />
+         <Buttons.PrintAndDeleteAllCompleteButton />
       </span> 
       
       <CompletedPartsTable context={ context } /> 

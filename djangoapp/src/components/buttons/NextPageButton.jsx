@@ -15,11 +15,7 @@ export default function NextPageButton(props) {
       else return nextUrl()
    }
 
-   return <button style={{
-      height: "fit-content",
-      padding: ".5em",
-      margin: ".5em 0 .5em 0",
-   }}>
+   return <button>
       <NavLink to={"/" + nextUrl()} onClick={event => {
          if (activeSidebar) event.preventDefault()
       }}>

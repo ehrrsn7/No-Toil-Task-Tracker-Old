@@ -1,13 +1,12 @@
 import React                     from "react"
 import InvalidRow, { isInvalid } from "./InvalidRow"
 
-export default function CompletedPartsTable(props) {
-   const { todoModel } = props.context
-   const filteredModel = () => {
-      return todoModel.filter(r => !r.discarded).filter(x => x.status === 5)
-   }
+export default function DiscardedPartsTable(props) {
+   const { context } = props
+   const { todoModel } = context
+   const filteredModel = () => todoModel.filter(r => r.discarded)
 
-   return <table id={props.filter + "TodoTable"} className="TodoTable">
+   return <table id="DiscardedTable" className="DiscardedTable">
 
    <thead>
       <tr>
@@ -37,7 +36,7 @@ export default function CompletedPartsTable(props) {
       {/* Valid Tasks */}
       {!isInvalid(filteredModel()) && 
       filteredModel().map(rowData => <tr 
-      id={"CompleteTodoRow" + rowData.id} key={rowData.id}>
+      id={"DiscardedTodoRow" + rowData.id} key={rowData.id}>
 
          <td>{rowData.title}</td>
          <td>{rowData.quantity}</td>

@@ -9,11 +9,7 @@ export default function PreviousPageButton(props) {
 
    const previousUrl = () => to ?? statusNames.previousUrl(window)
 
-   return <button style={{
-      height: "fit-content",
-      padding: ".5em",
-      margin: ".5em 0 .5em 0",
-   }}>
+   return <button>
       <NavLink to={'/' + previousUrl()} onClick={event => {
          if (activeSidebar) event.preventDefault()
       }}>

@@ -1,7 +1,8 @@
 import BackToDashboardButton from "./BackToDashboardButton"
 import CollapseAllButton from "./CollapseAllButton"
 import ToggleSidebarButton from "./ToggleSidebarButton"
-import PrintCompletedPartsButton from "./PrintCompletedPartsButton"
+import PrintAndDeleteAllCompleteButton from "./PrintAndDeleteAllCompleteButton"
+import PrintAndDeleteAllDiscardedButton from "./PrintAndDeleteAllDiscardedButton"
 import AccordionButton from "./AccordionButton"
 import DashboardAccordionStatusButton from "./DashboardAccordionStatusButton"
 import TaskEditDeleteButton from "./TaskEditDeleteButton"
@@ -12,7 +13,8 @@ export {
    BackToDashboardButton, 
    CollapseAllButton, 
    ToggleSidebarButton, 
-   PrintCompletedPartsButton,
+   PrintAndDeleteAllCompleteButton,
+   PrintAndDeleteAllDiscardedButton,
    AccordionButton,
    DashboardAccordionStatusButton,
    TaskEditDeleteButton,

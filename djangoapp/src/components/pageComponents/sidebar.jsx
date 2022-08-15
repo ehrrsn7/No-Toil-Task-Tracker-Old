@@ -51,6 +51,7 @@ export default function Sidebar() {
                            <Tooltip title="" arrow={true} placement="right">
 
                               <IconButton id="sidebarIconButton" 
+                              className="transparentBackground"
                               aria-label={item} sx={sidebarIconButtonStyle}>
 
                                  <p className="text-left uppercase tracking-widest dark:text-white text-slate-600">
@@ -65,6 +66,27 @@ export default function Sidebar() {
                      </div> /* End Sidebar Link Div */
                   )
                )} {/* End Sidebar Page Links Collection */}
+
+               <div className="sidebarLink">
+
+                  <NavLink to={"/DiscardedParts"}>
+
+                     <Tooltip title="" arrow={true} placement="right">
+
+                        <IconButton id="sidebarIconButton" 
+                        className="transparentBackground"
+                        sx={sidebarIconButtonStyle}>
+
+                           <p className="text-left uppercase tracking-widest dark:text-white text-slate-600">
+                              <em>Discarded</em>
+                           </p>
+
+                        </IconButton>
+                     </Tooltip>
+
+
+                  </NavLink>
+               </div>
             </div>
          </div>
 
@@ -78,7 +100,9 @@ export default function Sidebar() {
                   title={"http://" + window.location.hostname + ":8000/admin/"}
                   arrow={true} placement="right">
 
-                     <IconButton id="sidebarIconButton" style={{borderRadius: ".3em"}}>
+                     <IconButton id="sidebarIconButton" 
+                     className="transparentBackground"
+                     style={{borderRadius: ".3em"}}>
 
                         <p>
                            Admin
@@ -96,7 +120,9 @@ export default function Sidebar() {
                   title={todo_api_url}
                   arrow={true} placement="right">
 
-                     <IconButton id="sidebarIconButton" style={{borderRadius: ".3em"}}>
+                     <IconButton id="sidebarIconButton" 
+                     className="transparentBackground"
+                     style={{borderRadius: ".3em"}}>
 
                         <p>
                            API Root
