@@ -1,7 +1,7 @@
 import React                     from "react"
 import { Tooltip }               from "@mui/material"
 import { useContext }            from "../../contexts/contextProvider"
-import { DeleteAllCompleteForm } from "../forms"
+import { DeleteAllDiscardedForm } from "../forms"
 
 const removeButtonTooltipMsg = "removeButtonTooltipMsg"
 
@@ -34,7 +34,7 @@ export default function PrintAndDeleteAllDiscardedButton(props) {
          /* Remove Completed Tasks Button */
          <Tooltip title={removeButtonTooltipMsg} placement="top">
             <div>
-               <DeleteAllCompleteForm />
+               <DeleteAllDiscardedForm />
             </div>
          </Tooltip>
       }

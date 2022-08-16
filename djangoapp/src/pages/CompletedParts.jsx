@@ -21,5 +21,9 @@ export default function CompletedParts() {
       </span> 
       
       <CompletedPartsTable context={ context } /> 
+
+      <span>
+         <Buttons.BackToDashboardButton />
+      </span>
    </div>
 }

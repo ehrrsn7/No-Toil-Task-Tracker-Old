@@ -71,11 +71,9 @@ export default function DashboardTableRow(props) {
       </tr>
 
       {/* Accordion Div (Dashboard Dropdown Row) */}
-      <tr className={
-         selectedTask === rowData.id ? 
-         "AccordionRow Expanded" : 
-         "AccordionRow"}
-      >
+      <tr className={selectedTask === rowData.id ? 
+         "AccordionRow Expanded" : "AccordionRow"
+      }>
          <td colSpan={"100%"} style={{}}>
             <DashboardAccordionDiv 
             context={context} 

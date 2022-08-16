@@ -1,19 +1,15 @@
 import React                  from "react"
-import { isDarkMode }         from "../../../data/helperFunctions"
 import { deleteAllDiscarded } from "./crud"
+import { useContext }         from "../../../contexts/contextProvider"
 
-export default function DeleteAllDiscardedForm(props) {
+export default function DeleteAllDiscardedForm() {
+   const { todoModel } = useContext()
+
+   console.log("delete discarded component loaded")
+
    return <form id="DeleteDiscardedPartsForm">
-      <button 
-      style={{...props.style, 
-         transition: "1s", 
-         background: !isDarkMode(window) ? "pink" : "darkred",
-         border: !isDarkMode(window) ? "red" : "darkred",
-      }} 
-      onClick={() => {
-         deleteAllDiscarded(todoModel)
-         window.location.reload()
-      }}> 
+      <button className="deleteButton" 
+      onClick={() => deleteAllDiscarded(todoModel)}> 
       
          <p>Remove All Discarded Parts</p>
 

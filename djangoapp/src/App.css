@@ -102,34 +102,6 @@ button.deleteButton {
    }
 }
 
-.hideOnPrint {
-   display: block;
-}
-.showOnPrint {
-   display: none;
-}
-@media print {
-   button, #sidebar,
-   [class*="tooltip"] *,
-   .hideOnPrint {
-      display: none;
-   }
-   .showOnPrint {
-      display: block;
-   }
-
-   * {
-      background-color: transparent;
-   }
-
-   #headerTitle {
-      margin: 0;
-   }
-
-   table {
-      max-width: 100%;
-   }
-}
 @media only screen and (max-width: 600px) {
    .hideOnMobile {
       display: none;
@@ -730,4 +702,36 @@ tr.AccordionRow.Expanded {
 
 button.transparentBackground, .transparentBackround {
    background-color: transparent !important;
+}
+
+.hideOnPrint {
+   display: block;
+}
+
+.showOnPrint {
+   display: none;
+}
+
+@media print {
+   button, #sidebar,
+   [class*="tooltip"] *,
+   .hideOnPrint {
+      display: none;
+   }
+   .showOnPrint {
+      display: block;
+   }
+
+   * {
+      background-color: transparent;
+   }
+
+   #headerTitle {
+      margin: 0;
+      left: 0;
+   }
+
+   table {
+      max-width: 100%;
+   }
 }

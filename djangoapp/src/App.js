@@ -3,7 +3,7 @@
  **********/
 // React Application
 import React from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 
 // Single-Page App Pages
 import * as pages from "./pages"
@@ -202,19 +202,35 @@ export default function App() {
             <div id="content">
                
                <Routes>
-                  {/* Default */}
-                  <Route element={<pages.Dashboard />} path="/" />
-                  <Route element={<pages.Dashboard />} path="/Dashboard" />
-                  {/* Subpages */}
-                  <Route element={<pages.Stamp />} path="/Stamp" />
-                  <Route element={<pages.Spray />} path="/Spray" />
-                  <Route element={<pages.Check />} path="/Check" />
-                  <Route element={<pages.Oil />}   path="/Oil"   />
-                  <Route element={<pages.Bag />}   path="/Bag"   />
+                  {/* Default: Dashboard */}
+                  <Route path="/Dashboard" 
+                  element={<pages.Dashboard />} />
+                  
+                  <Route path="/" 
+                  element={<Navigate to="/Dashboard" />} />
+
+                  {/* Tasks */}
+                  <Route path="/Stamp" element={<pages.Stamp />} />
+                  <Route path="/Spray" element={<pages.Spray />} />
+                  <Route path="/Check" element={<pages.Check />} />
+                  <Route path="/Oil"   element={<pages.Oil />}   />
+                  <Route path="/Bag"   element={<pages.Bag />}   />
+
+                  {/* Print Pages */}
                   <Route path="/CompletedParts" 
                   element={<pages.CompletedParts />} />
+                  <Route path="/Complete" 
+                  element={<Navigate to="/CompletedParts" />} />
+                  <Route path="/Completed" 
+                  element={<Navigate to="/CompletedParts" />} />
+                  
                   <Route path="/DiscardedParts" 
                   element={<pages.DiscardedParts />} />
+                  <Route path="/Discard" 
+                  element={<Navigate to="/DiscardedParts" />} />
+                  <Route path="/Discarded" 
+                  element={<Navigate to="/DiscardedParts" />} />
+                  
                </Routes>
             </div> {/* End Content Div */}
          </div> {/* End Non-Sidebar Div */}

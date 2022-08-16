@@ -20,21 +20,22 @@ function sortByCallback(sortCallback, context) {
 }
 
 function performSort(descending, columnName, context) {
+   columnName = columnName.toLowerCase()
+   
    if (descending) {
       switch (columnName) {
-         
          // numbers/booleans/dates
          case "id":
          case "quantity":
          case "status":
          case "toOil":
-         case "highPriority":
-         case "lastModified":
+         case "highpriority":
+         case "lastmodified":
             sortByCallback((a, b) => a[columnName] - b[columnName], context)
             break
          
          // text
-         case "partNumber":
+         case "partnumber":
          case "title":
             sortByCallback(
                (a, b) => a[columnName].localeCompare(b[columnName]), 
@@ -50,19 +51,18 @@ function performSort(descending, columnName, context) {
    
    else {
       switch (columnName) {
-         
          // numbers/booleans/dates
          case "id":
          case "quantity":
          case "status":
          case "toOil":
-         case "highPriority":
-         case "lastModified":
+         case "highpriority":
+         case "lastmodified":
             sortByCallback((b, a) => a[columnName] - b[columnName], context)
             break
          
          // text
-         case "partNumber":
+         case "partnumber":
          case "title":
             sortByCallback(
                (b, a) => a[columnName].localeCompare(b[columnName]), 

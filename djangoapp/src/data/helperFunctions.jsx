@@ -1,4 +1,4 @@
-import { isMobile as deviceIsMobile }  from "react-device-detect"
+import { isMobile as deviceIsMobile } from "react-device-detect"
 
 export function range(n) { return [...Array(n).keys()] }
 
@@ -41,11 +41,13 @@ export const statusNames = {
    3: "oil",
    4: "bag",
    5: "complete",
+
    get: function(statusId) {
       if (Number.isInteger(statusId) && statusId >= 0 && statusId <= 5)
          return this[statusId]
       else return "unknown status"
    },
+
    getNumber: function(statusStr) {
       if (statusStr === "CompletedParts") return 5
       let status = 0
@@ -54,24 +56,27 @@ export const statusNames = {
       })
       return status
    },
+
    getArray: function() {
       let arr = []
       range(6).forEach(i => arr.push(this[i]))
       return arr
    },
+
    getUrl: function(statusId) {
       if (!range(6).includes(statusId)) return ""
-      let statusName = this[statusId]
-      if (statusName === "complete") statusName = "CompletedParts"
-      return statusName
+      return this[statusId]
    },
+
    isOilStatus: function(statusId) {
       return this[statusId] === "oil"
    },
+
    matches: function(statusId, statusName) {
       if (typeof statusName !== "string") return false
       return this.get(statusId).toLowerCase() === statusName.toLowerCase()
    },
+
    next: function(currentStatus) {
 
       if (typeof currentStatus === "string") {
@@ -85,11 +90,12 @@ export const statusNames = {
          }
       }
 
-      if (typeof currentStatus === "number") 
+      if (typeof currentStatus === "number" && range(6).includes(currentStatus)) 
          return this.get(currentStatus + 1)
 
       return this.get(0)
    },
+
    previous: function(currentStatus) {
 
       if (typeof currentStatus === "string") {
@@ -109,11 +115,13 @@ export const statusNames = {
       // else
       return "Dashboard"
    },
+
    nextUrl: function(window) {
       return this.next(
          window.location.pathname.replace("/djangoapp/", '').replace('/', '')
       )
    },
+
    previousUrl: function(window) {
       return this.previous(
          window.location.pathname.replace("/djangoapp/", '').replace('/', '')
