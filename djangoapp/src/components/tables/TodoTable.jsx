@@ -2,7 +2,7 @@ import React                     from "react"
 import TodoTableRow              from "./TodoTableRow"
 import InvalidRow, { isInvalid } from "./InvalidRow"
 import { useContext }            from "../../contexts/contextProvider"
-import { statusNames }           from "../../data/helperFunctions"
+import { isMobile, statusNames }           from "../../data/helperFunctions"
 import { sortBy }                from "../../data/sort"
 import SortedByCarret            from "../other/SortedByCaret"
 import * as Buttons              from "../buttons"
@@ -49,6 +49,18 @@ export default function TodoTable(props) {
                   <SortedByCarret sortedBy={sortedBy} columnName="quantity" />
                </span>
             </td>
+
+            {!isMobile() &&
+               <td onClick={() => {sortBy("lastModified", context)}}>
+                  <span style={{width: "100%", flexWrap: "nowrap"}}>
+                     <p>Last Modified</p>
+
+                     <SortedByCarret 
+                     sortedBy={sortedBy} 
+                     columnName="lastModified" />
+                  </span>
+               </td>
+            }
 
             <td onClick={() => {sortBy("highPriority-ascending", context)}}>
                <span style={{width: "100%", flexWrap: "nowrap"}}>

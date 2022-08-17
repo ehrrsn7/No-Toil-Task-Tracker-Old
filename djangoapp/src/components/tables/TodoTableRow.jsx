@@ -8,6 +8,8 @@ export default function TodoTableRow(props) {
    const { activeSidebar } = useContext()
    const { sets, rowData, selectedTask, setSelectedTask } = props
 
+   const lastModified = () => new Date(rowData.lastModified)?.toLocaleDateString()
+
    const onClick = () => {
       if (h.isMobile && activeSidebar) return // disable
       setSelectedTask(selectedTask === rowData.id ? -1 : rowData.id)
@@ -29,6 +31,14 @@ export default function TodoTableRow(props) {
                {sets ? parseInt(rowData.quantity / 18) : rowData.quantity}
             </p>
          </td>
+
+         {!h.isMobile() &&
+            <td>
+               <p>
+                  {lastModified()}
+               </p>
+            </td>
+         }
 
          <td>
             <p>

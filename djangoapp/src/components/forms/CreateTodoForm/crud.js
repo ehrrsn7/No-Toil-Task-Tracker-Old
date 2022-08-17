@@ -66,7 +66,7 @@ export async function onSubmit(event) {
    chunks.forEach(chunk => {
       axios.post(todo_api_url, chunk)
       .then(request => console.log(request))
-      .catch(error => console.warn(error))
+      .catch(error => {throw new Error(error)})
    })
 
    // this just makes things nicer, and prevents duplicates

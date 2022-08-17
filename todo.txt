@@ -1,0 +1,3 @@
+TODO: figure out how to show errors/other stuff using toasts
+TODO: put axios operations in function calls, and encapsulate the older
+   functions with try/catch blocks (this will help with debugging)

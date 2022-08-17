@@ -1,15 +1,16 @@
-import React                  from "react"
-import { deleteAllDiscarded } from "./crud"
-import { useContext }         from "../../../contexts/contextProvider"
+import React            from "react"
+import { deleteAll }    from "../crud"
+import { useContext }   from "../../../contexts/contextProvider"
 
 export default function DeleteAllDiscardedForm() {
-   const { todoModel } = useContext()
-
-   console.log("delete discarded component loaded")
+   const { todoModel, setTodoModel } = useContext()
 
    return <form id="DeleteDiscardedPartsForm">
       <button className="deleteButton" 
-      onClick={() => deleteAllDiscarded(todoModel)}> 
+      onClick={event => {
+         event.preventDefault()
+         deleteAll("discarded", todoModel, setTodoModel)
+      }}> 
       
          <p>Remove All Discarded Parts</p>
 

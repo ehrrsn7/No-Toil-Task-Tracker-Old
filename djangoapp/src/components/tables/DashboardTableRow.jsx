@@ -1,10 +1,10 @@
-import React                     from "react"
-import { NavLink }               from "react-router-dom"
-import { Tooltip }               from "@mui/material"
-import * as Buttons              from "../buttons"
-import { DashboardAccordionDiv } from "../accordionDivs"
-import { useContext }            from "../../contexts/contextProvider"
-import * as h                    from "../../data/helperFunctions"
+import React                  from "react"
+import { NavLink }            from "react-router-dom"
+import { Tooltip }            from "@mui/material"
+import * as Buttons           from "../buttons"
+import { TodoAccordionDiv }   from "../accordionDivs"
+import { useContext }         from "../../contexts/contextProvider"
+import * as h                 from "../../data/helperFunctions"
 
 export default function DashboardTableRow(props) {
    const context = useContext()
@@ -13,6 +13,7 @@ export default function DashboardTableRow(props) {
 
    const status = () =>  h.capitalize(h.statusNames.get(rowData.status))
    const sets = () => [0, 1].includes(rowData.status) // ?stamp/spray
+   const lastModified = () => new Date(rowData.lastModified).toLocaleDateString()
 
    return <>
 
@@ -37,6 +38,14 @@ export default function DashboardTableRow(props) {
             </p>
          } </td>
 
+         { !h.isMobile() &&
+            <td align="center">
+               <span>
+                  {lastModified()}
+               </span>
+            </td>
+         }
+
          <td align="center">
             <NavLink to={'/' + status()}
             onClick={event => {
@@ -54,7 +63,7 @@ export default function DashboardTableRow(props) {
             </p>
          </td>
          
-         {h.isMobile() ? <></> : 
+         {!h.isMobile() &&
             <td align="center" className="AccordionButtonColumn" style={{
                width: "10px",
             }}>
@@ -70,14 +79,14 @@ export default function DashboardTableRow(props) {
          }
       </tr>
 
-      {/* Accordion Div (Dashboard Dropdown Row) */}
-      <tr className={selectedTask === rowData.id ? 
-         "AccordionRow Expanded" : "AccordionRow"
-      }>
-         <td colSpan={"100%"} style={{}}>
-            <DashboardAccordionDiv 
-            context={context} 
-            rowData={rowData} />
+      {/* Dropdown Row (Hidden Todo Accordion Div) */}
+      <tr className={
+         selectedTask === rowData.id ? 
+         "AccordionRow Expanded" : 
+         "AccordionRow"}
+      >
+         <td colSpan={"100%"}>
+            <TodoAccordionDiv id={rowData.id} sets={sets} rowData={rowData} />
          </td>
       </tr>
    </>

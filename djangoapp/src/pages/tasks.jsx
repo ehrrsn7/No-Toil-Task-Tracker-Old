@@ -16,21 +16,23 @@ export default function TaskPageTemplate(props) {
    }, [ name ])
    
    return <div id={document.title}>
-      <span id="topButtons">
-         <span style={{gap: "0"}}>
-            <buttons.PreviousPageButton />
-            <buttons.NextPageButton />
-         </span>
-         <span>
-            <div></div>
-            <SortByDropdown />
-         </span>
+      <span id="topButtons" style={{gap: "0"}}>
+         <buttons.PreviousPageButton />
+         <buttons.NextPageButton />
+      </span>
+      <span>
+         <div></div>
+         <SortByDropdown />
       </span>
 
       <TodoTable filter={name} sets={sets}
       selectedTask={selectedTask} 
       setSelectedTask={setSelectedTask} 
       />
+
+      <span style={{marginTop: "3em"}}>
+         <buttons.BackToDashboardButton />
+      </span>
    </div>
 }
 

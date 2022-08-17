@@ -1,13 +1,16 @@
-import React                  from "react"
-import { deleteAllComplete }  from "./crud"
-import { useContext }         from "../../../contexts/contextProvider"
+import React            from "react"
+import { useContext }   from "../../../contexts/contextProvider"
+import { deleteAll }    from "../crud"
 
 export default function DeleteAllCompleteForm() {
-   const { todoModel } = useContext()
+   const { todoModel, setTodoModel } = useContext()
 
    return <form id="DeleteCompletedPartsForm">
       <button className="deleteButton" 
-      onClick={() => deleteAllComplete(todoModel)}> 
+      onClick={event => {
+         event.preventDefault()
+         deleteAll("complete", todoModel, setTodoModel)
+      }}> 
       
          <p>Remove All Completed Parts</p>
 

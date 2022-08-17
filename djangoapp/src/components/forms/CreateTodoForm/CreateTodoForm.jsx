@@ -36,31 +36,31 @@ export default function CreateTodoForm(props) {
                )}
             </tbody>
          </table>
+      </span>
 
-         <span style={{marginTop: "1em"}}>
-            <Button id="submitCreateTodoFormButton" type="primary" 
-            style={{
-               border: "1px solid lightgray",
-               padding: ".5em"
-            }} htmlType="submit" 
-            onSubmit={onSubmit}>
-               Submit
-            </Button>
+      <span style={{marginTop: "1em"}}>
+         <Button id="submitCreateTodoFormButton" type="primary" 
+         style={{
+            border: "1px solid lightgray",
+            padding: ".5em"
+         }} htmlType="submit" 
+         onSubmit={onSubmit}>
+            Submit
+         </Button>
 
-            <div></div>
+         <div></div>
 
-            <Button id="add5RowsButton" type="primary"
-            style={{
-               border: "1px solid lightgray",
-               padding: ".5em"
-            }} 
-            onClick={() => {
-               if (h.isMobile && activeSidebar) return // disable
-               setRowsAmount(rowsAmount + 5) 
-            }}>
-               Add 5 Extra Rows
-            </Button>
-         </span>
+         <Button id="add5RowsButton" type="primary"
+         style={{
+            border: "1px solid lightgray",
+            padding: ".5em"
+         }} 
+         onClick={() => {
+            if (h.isMobile && activeSidebar) return // disable
+            setRowsAmount(rowsAmount + 5) 
+         }}>
+            Add 5 Extra Rows
+         </Button>
       </span>
    </Form>
 }

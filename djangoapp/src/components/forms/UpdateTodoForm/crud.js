@@ -29,12 +29,12 @@ async function updateNormal(todoModel, rowData, newStatus, quantity) {
          ${rowData.id}] to the quantity of the task with the same name that 
          is in the next status [${patchID}] [${patchQuantity}]`,
       request
-   )}).catch(error => {console.warn(error)})
+   )}).catch(error => {throw new Error(error)}) // let callee catch
 
    // clean up
    axios.delete(`${todo_api_url}${rowData.id}/`)
    .then(request => {console.log("clean up old row", request)})
-   .catch(error => console.warn(error))
+   .catch(error => {throw new Error(error)})
 }
 
 async function updateLessThanExpected(
@@ -49,7 +49,7 @@ async function updateLessThanExpected(
       `update new task [${patchID}] with status += 1 to be it.quantity 
          [${patchQuantity}] + this.quantity [${quantity}]`, 
       request
-   )}).catch(error => console.warn(error))
+   )}).catch(error => {throw new Error(error)})
    
    await axios.patch(`${todo_api_url}${rowData.id}/`, {
       ...rowData,
@@ -57,7 +57,7 @@ async function updateLessThanExpected(
    }).then(request => {console.log(
       "current task expected -= quantity", 
       request
-   )}).catch(error => console.warn(error))
+   )}).catch(error => {throw new Error(error)})
 }
 
 async function updateGreaterThanExpected(
@@ -78,7 +78,7 @@ async function updateGreaterThanExpected(
    // clean up
    axios.delete(`${todo_api_url}${rowData.id}/`)
    .then(request => {console.log("clean up old row", request)})
-   .catch(error => console.warn(error))
+   .catch(error => {throw new Error(error)})
 }
 
 /************************************************************
@@ -92,7 +92,7 @@ async function shiftNormal(rowData, newStatus) {
    }).then(request => {console.log(
       "update task status += 1 (and ++1 if skipping oil)", 
       request
-   )}).catch(error => console.warn(error))
+   )}).catch(error => {throw new Error(error)})
 }
 
 async function shiftLessThanExpected(rowData, quantity, expected) {
@@ -104,7 +104,7 @@ status: rowData.status + 1,
    }).then(request => {console.log(
       "new task of quantity with status += 1", 
       request
-   )}).catch(error => console.warn(error))
+   )}).catch(error => {throw new Error(error)})
    
    await axios.patch(`${todo_api_url}${rowData.id}/`, {
       ...rowData,
@@ -112,7 +112,7 @@ status: rowData.status + 1,
    }).then(request => {console.log(
       "current task expected -= quantity", 
       request
-   )}).catch(error => console.warn(error))
+   )}).catch(error => {throw new Error(error)})
 }
 
 async function shiftGreaterThanExpected(rowData, quantity) {
@@ -158,11 +158,9 @@ export async function onUpdate(activeSidebar, todoModel, rowData, numVal) {
 
    const quantity = parseInt(numVal)
    const expected = parseInt(rowData.quantity)
-   
-   const newStatus = !rowData.oil && 
-      h.statusNames.isOilStatus(parseInt(rowData.status + 1)) ?
-         parseInt(rowData.status + 2) :
-         parseInt(rowData.status + 1)
+   let newStatus = rowData.status + 1
+   if (!rowData.toOil && newStatus === 3) newStatus++
+   if (newStatus > 5) throw new Error("cannot update status above 5")
 
    if (!todoModel.filter(
    row => row.status === newStatus).filter(
@@ -190,6 +188,6 @@ export async function onDiscard(activeSidebar, todoModel, rowData) {
    todoModel.filter(r => r.id === rowData.id).forEach(task => {
       axios.patch(`${todo_api_url}${task.id}/`, { discarded: true })
       .then(request => console.log(request))
-      .catch(error => console.warn(error))
+      .catch(error => {throw new Error(error)})
    })
 }

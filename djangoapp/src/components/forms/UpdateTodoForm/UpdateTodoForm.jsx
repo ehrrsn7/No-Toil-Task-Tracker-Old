@@ -30,7 +30,9 @@ export default function UpdateTodoForm(props) {
 
          <input id={inputId} style={{width: "5em"}}
          name="quantity" type="number" value={numVal} min={0} 
-         placeholder={parseInt(sets ? rowData.quantity : rowData.quantity / 18)}
+         placeholder={parseInt(sets ? 
+            rowData.quantity : rowData.quantity / 18
+         )}
          onChange={event => { setNumVal(event.target.value) }} />
       
       </span>

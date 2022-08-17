@@ -1,12 +1,12 @@
-import React               from "react"
-import { Tooltip }         from "@mui/material"
-import InvalidRow, { isInvalid }          from "./InvalidRow"
-import DashboardTableRow   from "./DashboardTableRow"
-import * as Buttons        from "../buttons"
-import SortedByCaret       from "../other/SortedByCaret"
-import * as h              from "../../data/helperFunctions"
-import { useContext }      from "../../contexts/contextProvider"
-import { sortBy }          from "../../data/sort"
+import React                     from "react"
+import { Tooltip }               from "@mui/material"
+import InvalidRow, { isInvalid } from "./InvalidRow"
+import DashboardTableRow         from "./DashboardTableRow"
+import * as Buttons              from "../buttons"
+import SortedByCaret             from "../other/SortedByCaret"
+import * as h                    from "../../data/helperFunctions"
+import { useContext }            from "../../contexts/contextProvider"
+import { sortBy }                from "../../data/sort"
 
 export default function DashboardTodoTable(props)  {
    const context = useContext()
@@ -18,26 +18,37 @@ export default function DashboardTodoTable(props)  {
       <thead>
          <tr>
             
-            <td className="titleColumn" onClick={() => sortBy("title", context)}>
-               <span style={{width: "100%", flexWrap: "nowrap"}}>
-                  <p>
-                     Title
-                  </p>
+            <td className="titleColumn" 
+            onClick={() => sortBy("title", context)}>
+               <span>
+                  <p>Title</p>
 
                   <SortedByCaret sortedBy={sortedBy} columnName="title" />
                </span>
             </td>
             
-            <td onClick={() => sortBy("quantity", context)}> 
-               <span style={{width: "100%", flexWrap: "nowrap"}}>
+            <td onClick={() => sortBy("quantity-ascending", context)}> 
+               <span>
                   <p>Quantity</p>
 
                   <SortedByCaret sortedBy={sortedBy} columnName="quantity" />
                </span>
             </td>
             
+            {!h.isMobile() &&
+               <td onClick={() => sortBy("dateModified", context)}> 
+                  <span>
+                     <p>Date Modified</p>
+
+                     <SortedByCaret 
+                     sortedBy={sortedBy} 
+                     columnName="dateModified" />
+                  </span>
+               </td>
+            }
+            
             <td onClick={() => sortBy("status", context)}>
-               <span style={{width: "100%", flexWrap: "nowrap", justifyContent: "center"}}>
+               <span>
                   <p>Status</p>
 
                   <SortedByCaret sortedBy={sortedBy} columnName="status" />
@@ -47,7 +58,7 @@ export default function DashboardTodoTable(props)  {
             <td>
                <Tooltip title="High Priority" placement="top" 
                onClick={() => sortBy("highPriority-ascending", context)}>
-                  <span style={{width: "100%", flexWrap: "nowrap"}}>
+                  <span>
                      <p>!</p>
 
                      <SortedByCaret 
@@ -57,7 +68,7 @@ export default function DashboardTodoTable(props)  {
                </Tooltip>
             </td>
             
-            {h.isMobile() ? <></> : 
+            {!h.isMobile() && 
                <td align="center" >
                   <Buttons.CollapseAllButton 
                   selectedTask={selectedTask} 
