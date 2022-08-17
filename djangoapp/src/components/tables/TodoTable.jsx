@@ -2,7 +2,7 @@ import React                     from "react"
 import TodoTableRow              from "./TodoTableRow"
 import InvalidRow, { isInvalid } from "./InvalidRow"
 import { useContext }            from "../../contexts/contextProvider"
-import { isMobile, statusNames }           from "../../data/helperFunctions"
+import { isMobile, statusNames } from "../../data/helperFunctions"
 import { sortBy }                from "../../data/sort"
 import SortedByCarret            from "../other/SortedByCaret"
 import * as Buttons              from "../buttons"
@@ -72,12 +72,12 @@ export default function TodoTable(props) {
                </span>
             </td>
 
-            <td align="right">
+            {!isMobile() && <td align="right">
                <Buttons.CollapseAllButton 
                selectedTask={selectedTask} 
                setSelectedTask={setSelectedTask} 
                />
-            </td>
+            </td>}
             
          </tr>
       </thead>

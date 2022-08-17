@@ -46,13 +46,13 @@ export default function TodoTableRow(props) {
             </p>
          </td>
 
-         <td>
+         {!h.isMobile() && <td>
             <Buttons.AccordionButton 
             style={{flexWrap: "nowrap"}}
             selected={selectedTask === rowData.id}>
                {selectedTask === rowData.id ? "cancel" : "update"}
             </Buttons.AccordionButton>
-         </td>
+         </td>}
       </tr>
 
       {/* Dropdown Row (Hidden Todo Accordion Div) */}

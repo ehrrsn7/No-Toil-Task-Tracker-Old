@@ -65,7 +65,7 @@ select, input {
    background-color: var(--primary-background);
 }
 
-span#topButtons, span#bottomButtons {
+span#topButtons, span#bottomButtons, .table-width {
    max-width: var(--table-width);
    margin-bottom: 0 1em 0 1em;
    padding: .5em;

@@ -21,7 +21,6 @@ export default function TaskPageTemplate(props) {
          <buttons.NextPageButton />
       </span>
       <span>
-         <div></div>
          <SortByDropdown />
       </span>
 

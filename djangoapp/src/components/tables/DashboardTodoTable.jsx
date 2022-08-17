@@ -68,13 +68,11 @@ export default function DashboardTodoTable(props)  {
                </Tooltip>
             </td>
             
-            {!h.isMobile() && 
-               <td align="center" >
-                  <Buttons.CollapseAllButton 
-                  selectedTask={selectedTask} 
-                  setSelectedTask={setSelectedTask} />
-               </td>
-            }
+            {!h.isMobile() && <td align="center" >
+               <Buttons.CollapseAllButton 
+               selectedTask={selectedTask} 
+               setSelectedTask={setSelectedTask} />
+            </td>}
          </tr>
       </thead>
 

@@ -80,7 +80,7 @@ async function removeTodoRow(data, context) {
    }
 
    // provide some animation to indicate removal
-   console.log("removing row", data)
+   console.log("removing row from todoModel:", data)
    const el = document.querySelector(`[id*="Row${data.id}"]`)
    el.className = "highlightRed"
    setTimeout(() => {

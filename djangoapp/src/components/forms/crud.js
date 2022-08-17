@@ -22,23 +22,23 @@ export async function deleteAll(filter, todoModel, setTodoModel) {
       if (!Array.isArray(todoModel)) 
          throw new Error("'todoModel' not an Array")
 
+      // set filter lambda function according to param
+      const filterLambda = {
+         complete: () => row => row.status === 5,
+         Complete: () => row => row.status === 5,
+         completed: () => row => row.status === 5,
+         Completed: () => row => row.status === 5,
+         completedParts: () => row => row.status === 5,
+         CompletedParts: () => row => row.status === 5,
+         discarded: () => row => row.discarded,
+         Discarded: () => row => row.discarded,
+      }[filter] // error throws Key error and aborts here
+
       // do nothing if filtered list is empty
       if (todoModel.filter(filterLambda).length <= 0) {
          console.log(`No rows detected matching '${filter}'`)
          return
       }
-
-      // set filter lambda function according to param
-      const filterLambda = {
-         complete: () => rowData => rowData.status === 5,
-         Complete: () => rowData => rowData.status === 5,
-         completed: () => rowData => rowData.status === 5,
-         Completed: () => rowData => rowData.status === 5,
-         completedParts: () => rowData => rowData.status === 5,
-         CompletedParts: () => rowData => rowData.status === 5,
-         discarded: () => rowData => rowData.discarded,
-         Discarded: () => rowData => rowData.discarded,
-      }[filter] // error throws Key error and aborts here
 
       todoModel.filter(filterLambda).forEach(rowData => {
          try { 
