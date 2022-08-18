@@ -1,3 +1,18 @@
 TODO: figure out how to show errors/other stuff using toasts
 TODO: put axios operations in function calls, and encapsulate the older
    functions with try/catch blocks (this will help with debugging)
+TODO: check to bag for entries where quantity != expected results in 
+   unintended check to oil
+TODO: buttons in dark mode displaying as white (only default-styled)
+TODO: UpdateForm on dashboard only showing 'sets' rather than changing
+   to 'quantity'. This is intended when updated to [check] status
+   (we'll need to change the 'sets' logic from props to checking 
+   if rowData.status > 1)
+TODO: remove methods remove more than just the task filtered. 
+   This should only ever remove only discarded or completed tasks -- 
+   individually by id. 
+TODO: after removing all items and going back to dashboard, I noticed
+   the *no tasks* row wasn't being displayed, instead only an empty tbody.
+TODO: implement the app -- have it be the ultimate front end for all
+   the different projects: filter bible, task tracker (add oil tasks), 
+   integration with quickbooks

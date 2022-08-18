@@ -8,12 +8,17 @@ import * as h                 from "../../data/helperFunctions"
 
 export default function DashboardTableRow(props) {
    const context = useContext()
-   const { activeSidebar } = context
+   const { activeSidebar, todoModel } = context
    const { rowData, selectedTask, setSelectedTask } = props
+   const [ sets, setSets ] = React.useState(rowData?.status <= 1)
 
    const status = () =>  h.capitalize(h.statusNames.get(rowData.status))
-   const sets = () => [0, 1].includes(rowData.status) // ?stamp/spray
    const lastModified = () => new Date(rowData.lastModified).toLocaleDateString()
+
+   React.useEffect(() => {
+      const updatedRow = todoModel.filter(row => row.id === rowData.id).shift()
+      setSets(updatedRow?.status <= 1)
+   }, [ todoModel ])
 
    return <>
 
@@ -26,7 +31,7 @@ export default function DashboardTableRow(props) {
             </p>
          </td>
 
-         <td> {sets() ?
+         <td> {sets ?
             <Tooltip title="Note: 1 Set = 18 Each" placement="left">
                <p>
                   {parseInt(rowData.quantity / 18) + " Sets"}
