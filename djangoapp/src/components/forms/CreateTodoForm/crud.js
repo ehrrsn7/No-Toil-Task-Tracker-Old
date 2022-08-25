@@ -6,6 +6,7 @@ import { todo_api_url } from "../../../App"
  ************************************************************/
 export async function onSubmit(event) {
    event.preventDefault()
+   console.log("on submit", event)
 
    try {
       if (!event.target.elements) throw new Error(`invalid event ${event}`)
@@ -70,6 +71,8 @@ export async function onSubmit(event) {
          .then(request => console.log({request}))
          .catch(error => {throw new Error(error)})
       })
+
+      onReset(event)
    }
 
    catch (error) {
@@ -78,6 +81,7 @@ export async function onSubmit(event) {
 }
 
 export async function onReset(event) {
+   console.log("on reset", event)
    event.target.reset() // magic all knowing button
    document.querySelectorAll("form#CreateTodoForm input").forEach(node => {
       if (node.type === "checkbox") node.value = false

@@ -35,12 +35,16 @@ export default function CreateTodoForm({style}) {
       <span style={{marginTop: "1em", gap: "1em"}}>
 
          {/* Submit Button */}
-         <button id="submitCreateTodoFormButton" style={bottomButtonsStyle}>
+         <button type="submit" 
+         id="submitCreateTodoFormButton" 
+         style={bottomButtonsStyle}>
             <input type="submit" value="Submit" />
          </button>
 
          {/* Reset All Input Fields Button */}
-         <button style={bottomButtonsStyle}>
+         <button type="reset"
+         id="resetCreateTodoFormButton" 
+         style={bottomButtonsStyle} >
             <input type="reset" value="Reset" />
          </button>
 
@@ -48,9 +52,11 @@ export default function CreateTodoForm({style}) {
          <div style={{flexGrow: 1}}></div>
 
          {/* Add 5 Rows Button */}
-         <button id="add5RowsButton" type="primary"
-         style={bottomButtonsStyle} 
-         onClick={() => {
+         <button type="button"
+         id="add5RowsButton" 
+         style={bottomButtonsStyle}
+         onClick={event => {
+            console.log("add five rows", event)
             if (h.isMobile && activeSidebar) return // disable
             setRowsAmount(rowsAmount + 5) 
          }}>
