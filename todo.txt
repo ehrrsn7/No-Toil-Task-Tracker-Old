@@ -1,8 +1,3 @@
-TODO: show more caret icon has a background, where its bg should have been 
-   transparent
-TODO: tooltip message on completed/discarded parts delete button
-   is still the placeholder. Go through all places that have/could
-   have a tooltip and make sure they're all formatted correctly.
 TODO: figure out how to show errors/other stuff using toasts
 TODO: implement the app -- have it be the ultimate front end for all
    the different projects: filter bible, task tracker (add oil tasks), 

@@ -19,7 +19,15 @@ export default function DashboardTableRow(props) {
    return <>
 
       {/* Dashboard Table Row */}
-      <tr id={"DashboardRow" + rowData.id} key={rowData.id}>
+      <tr id={"DashboardRow" + rowData.id} key={rowData.id}
+      onClick={event => {
+         event.preventDefault()
+         console.log("hello")
+         if (!h.isMobile()) return 
+         setSelectedTask(
+            selectedTask === rowData.id ? -1 : rowData.id
+         )
+      }}>
 
          <td>
             <p>

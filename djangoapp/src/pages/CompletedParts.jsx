@@ -1,8 +1,9 @@
-import React                    from "react"
-import { documentTitleSuffix }  from "../App"
-import { useContext }           from "../contexts/contextProvider"
-import * as buttons             from "../components/buttons"
-import { CompletedPartsTable }  from "../components/tables"
+import React                     from "react"
+import { Tooltip }               from "@mui/material"
+import { documentTitleSuffix }   from "../App"
+import { CompletedPartsTable }   from "../components/tables"
+import * as buttons              from "../components/buttons"
+import { useContext }            from "../contexts/contextProvider"
 
 export default function CompletedParts() {
    const context = useContext()
@@ -15,12 +16,20 @@ export default function CompletedParts() {
    }, [])
 
    return <div id={ document.title.replace(' ', '') }>
-      <span id="topButtons">
+      <span id="topButtons" style={{flexWrap: "wrap"}}>
          <buttons.PreviousPageButton to="Bag" />
          <buttons.PrintAndDeleteAllCompleteButton />
       </span> 
       
-      <CompletedPartsTable context={ context } /> 
+      <CompletedPartsTable context={ context } />
+
+      <br></br>
+
+      <Tooltip style={{width: "fit-content"}} title="">
+         <p>Notes:</p>
+      </Tooltip>
+
+      <div contentEditable={true} /> 
 
       <span style={{marginTop: "3em"}}>
          <buttons.BackToDashboardButton />

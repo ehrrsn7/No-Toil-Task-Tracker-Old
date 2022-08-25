@@ -60,7 +60,7 @@ export default function CreateTodoForm({style}) {
             if (h.isMobile && activeSidebar) return // disable
             setRowsAmount(rowsAmount + 5) 
          }}>
-            Add 5 Extra Rows
+            <p>Add 5 Extra Rows</p>
          </button>
       </span>
    </form>

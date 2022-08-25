@@ -16,7 +16,7 @@ export default function DiscardedParts() {
    }, [])
 
    return <div id="DiscardedParts" className="table-width">
-      <span id="topButtons">
+      <span id="topButtons" style={{flexWrap: "wrap"}}>
          <Buttons.BackToDashboardButton />
          <Buttons.PrintAndDeleteAllDiscardedButton />
       </span> 
@@ -25,7 +25,7 @@ export default function DiscardedParts() {
 
       <br></br>
 
-      <Tooltip style={{width: "fit-content"}} title="Hello world!">
+      <Tooltip style={{width: "fit-content"}} title="">
          <p>Notes:</p>
       </Tooltip>
 

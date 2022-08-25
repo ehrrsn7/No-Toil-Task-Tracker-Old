@@ -3,7 +3,8 @@ import { Tooltip }               from "@mui/material"
 import { useContext }            from "../../contexts/contextProvider"
 import { DeleteAllDiscardedForm } from "../forms"
 
-const removeButtonTooltipMsg = "removeButtonTooltipMsg"
+const removeButtonTooltipMsg = "Click to confirm delete." + 
+"This will remove all items from this list from the database."
 
 export default function PrintAndDeleteAllDiscardedButton(props) {
    const { activeSidebar } = useContext()

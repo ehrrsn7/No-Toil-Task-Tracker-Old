@@ -63,8 +63,9 @@ export async function deleteAll(arr) {
 
       // clear all the forms included on the discarded parts page
       const query = "div[contenteditable]"
-      console.log(document.querySelector(query))
-      document.querySelector(query).innerHTML = ""
+      const el = document.querySelector(query) 
+      console.log({query}, document.querySelector(query))
+      if (el) el.innerHTML = ""
 
       // do nothing to array if filtered list is empty
       if (arr.length <= 0) {
