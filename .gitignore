@@ -2,6 +2,7 @@
 .vscode
 .DS_Store
 bin
+.bashrc
 node_modules
 private
 db.sqlite3
