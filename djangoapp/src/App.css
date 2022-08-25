@@ -16,6 +16,8 @@
    --secondary-background: #CCCCCC;
    --tertiary-background: #AAAAAA;
    --gray: #f5f5f5;
+   --midgray: #555555;
+   --darkgray: #333333;
 }
 
 html, body, #App {
@@ -85,7 +87,7 @@ button.deleteButton {
 
 @media (prefers-color-scheme: dark)  {
    button {
-      border: 1px solid #555555;
+      border: 1px solid var(--midgray);
       background-color: gray !important;
    }
 
@@ -409,15 +411,15 @@ td.titleColumn {
 @media (prefers-color-scheme: dark) {
    
    tr {
-      background-color: #555555;
+      background-color: var(--midgray);
    }
 
    td {
-      border: 1px solid #333333;
+      border: 1px solid var(--darkgray);
    }
 
    tr[class*="AccordionDiv"] {
-      background-color: #333333;
+      background-color: var(--darkgray);
    }
 
 }
@@ -536,9 +538,34 @@ td.titleColumn {
 @media (prefers-color-scheme: dark) {
 
    [class*="AccordionDiv"] button {
-      background-color: #555555;
+      background-color: var(--midgray);
    }
 
+}
+
+div[contentEditable] {
+   width: 100%;
+   height: fit-content;
+   overflow: auto;
+   min-height: 100px;
+   padding: 1em;
+   margin-top: 1em;
+   background: var(--gray);
+   border: 1px solid lightgray;
+   border-radius: 3px;
+   justify-content: left;
+   align-content: top;
+}
+
+div[contentEditable]:focus {
+   outline: none;
+}
+
+@media (prefers-color-scheme: dark) {
+   div[contentEditable] {
+      background: var(--midgray);
+      border: 1px solid var(--darkgray);
+   }
 }
 
 /* Container */
@@ -580,7 +607,7 @@ button.TaskEditDeleteButton:hover {
    border: 1px solid teal;
 }
 
-@media (prefers-color-scheme: dark)  {
+@media (prefers-color-scheme: dark) {
    .flexbox > p:hover,
    .flexbox > button:hover 
    {
@@ -635,7 +662,7 @@ button.TaskEditDeleteButton:hover {
 
 @media (prefers-color-scheme: dark) {
    .AccordionRow {
-      background-color: #333333;
+      background-color: var(--darkgray);
    } 
 }
 

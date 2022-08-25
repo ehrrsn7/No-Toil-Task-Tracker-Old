@@ -61,7 +61,12 @@ export async function deleteAll(arr) {
       if (arr === undefined) throw new Error("'arr' is undefined")
       if (!Array.isArray(arr)) throw new Error("'arr' not an Array")
 
-      // do nothing if filtered list is empty
+      // clear all the forms included on the discarded parts page
+      const query = "div[contenteditable]"
+      console.log(document.querySelector(query))
+      document.querySelector(query).innerHTML = ""
+
+      // do nothing to array if filtered list is empty
       if (arr.length <= 0) {
          console.log(`No rows detected matching filter`)
          return

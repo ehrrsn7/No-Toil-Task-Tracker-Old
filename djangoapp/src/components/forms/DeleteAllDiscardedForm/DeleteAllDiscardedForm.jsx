@@ -1,5 +1,5 @@
 import React            from "react"
-import { deleteAll, deleteRow }    from "../crud"
+import { deleteAll }    from "../crud"
 import { useContext }   from "../../../contexts/contextProvider"
 
 export default function DeleteAllDiscardedForm() {
