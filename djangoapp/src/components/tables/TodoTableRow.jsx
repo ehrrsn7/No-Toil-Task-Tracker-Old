@@ -11,7 +11,7 @@ export default function TodoTableRow(props) {
    const lastModified = () => new Date(rowData.lastModified)?.toLocaleDateString()
 
    const onClick = () => {
-      if (h.isMobile && activeSidebar) return // disable
+      if (activeSidebar) return // disable
       setSelectedTask(selectedTask === rowData.id ? -1 : rowData.id)
    }
 

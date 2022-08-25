@@ -48,7 +48,9 @@ export const websocket = new WebSocket(websocket_uri)
 export default function App() {
    const context = useContext()
    const { sortedBy } = useContext()
+   const { setScreenSize } = useContext()
    const { wsConnected, setWsConnected } = useContext()
+   const { activeSidebar, setActiveSidebar } = useContext()
    const { todoModel, setTodoModel } = useContext()
    const { todoDiscarded, setTodoDiscarded } = useContext()
 
@@ -72,26 +74,26 @@ export default function App() {
             todo_api_url
          )}).catch(error => {
             console.log(error)
-            context.setTodoModel([ invalidRow ])
-            context.setTodoDiscarded([ invalidRow ])
+            setTodoModel([ invalidRow ])
+            setTodoDiscarded([ invalidRow ])
          })
            
          // dimension events
-         const resize = () => { context.setScreenSize(window.innerWidth) }
+         const resize = () => { setScreenSize(window.innerWidth) }
          window.addEventListener("resize", resize) // runtime
-         context.setScreenSize(window.innerWidth) // on construct
+         setScreenSize(window.innerWidth) // on construct
 
          // key down events
          const onEscape = (event) => {
             if (event.code === "Escape" || event.isComposing) {
                console.log("esc key pressed")
-               context.setActiveSidebar(false)
+               setActiveSidebar(false)
             }
          }; document.addEventListener("keydown", onEscape)
 
          // media query events
          const handleDarkMode = event => { 
-            context.setDarkMode(event.matches) 
+            setDarkMode(event.matches) 
          }
          window.matchMedia(
             "(prefers-color-scheme: dark)"
@@ -194,7 +196,7 @@ export default function App() {
          <Sidebar />
    
          <div id="nonSidebar" 
-         className={context.activeSidebar ? "activeSidebar" : ""} 
+         className={activeSidebar ? "activeSidebar" : ""} 
          onClick={() => {
             const { activeSidebar, setActiveSidebar } = context
             

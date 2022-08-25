@@ -1,7 +1,7 @@
-import React                     from "react"
-import { Tooltip }               from "@mui/material"
-import { useContext }            from "../../contexts/contextProvider"
-import { DeleteAllDiscardedForm } from "../forms"
+import React                        from "react"
+import { Tooltip }                  from "@mui/material"
+import { DeleteAllDiscardedForm }   from "../forms"
+import { useContext }               from "../../contexts/contextProvider"
 
 const removeButtonTooltipMsg = "Click to confirm delete." + 
 "This will remove all items from this list from the database."

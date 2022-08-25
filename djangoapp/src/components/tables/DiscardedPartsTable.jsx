@@ -25,30 +25,39 @@ export default function DiscardedPartsTable() {
             </span>
          </td>
  
-         <td onClick={() => sortBy("quantity-ascending", 
-            todoDiscarded, setTodoDiscarded,
-            { sortedBy, setSortedBy }
-         )}>
+         <td onClick={() => {
+            if (activeSidebar) return
+            sortBy("quantity-ascending", 
+               todoDiscarded, setTodoDiscarded,
+               { sortedBy, setSortedBy }
+            )
+         }}>
             <span style={{flexWrap: "nowrap"}}>
                <p>Quantity</p>
                <SortedByCaret sortedBy={sortedBy} columnName="quantity" />
             </span>
          </td>
  
-         <td onClick={() => sortBy("status", 
-            todoDiscarded, setTodoDiscarded,
-            { sortedBy, setSortedBy }
-         )}>
+         <td onClick={() => {
+            if (activeSidebar) return
+            sortBy("status", 
+               todoDiscarded, setTodoDiscarded,
+               { sortedBy, setSortedBy }
+            )
+         }}>
             <span style={{flexWrap: "nowrap"}}>
                <p>Status</p>
                <SortedByCaret sortedBy={sortedBy} columnName="status" />
             </span>
          </td>
  
-         <td onClick={() => sortBy("highPriority-ascending", 
-            todoDiscarded, setTodoDiscarded,
-            { sortedBy, setSortedBy }
-         )}>
+         <td onClick={() => {
+            if (activeSidebar) return
+            sortBy("highPriority-ascending", 
+               todoDiscarded, setTodoDiscarded,
+               { sortedBy, setSortedBy }
+            )
+         }}>
             <span style={{flexWrap: "nowrap"}}>
                <p>{"!"}</p>
                <SortedByCaret sortedBy={sortedBy} columnName="highPriority" />

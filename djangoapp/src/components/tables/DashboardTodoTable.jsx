@@ -8,20 +8,23 @@ import * as h                    from "../../data/helperFunctions"
 import { useContext }            from "../../contexts/contextProvider"
 import { sortBy }                from "../../data/sort"
 
-export default function DashboardTodoTable(props)  {
-   const { todoModel, setTodoModel } = useContext()
+export default function DashboardTodoTable({selectedTask, setSelectedTask}) {
+   const { activeSidebar } = useContext()
    const { sortedBy, setSortedBy } = useContext()
-   const { selectedTask, setSelectedTask } = props
+   const { todoModel, setTodoModel } = useContext()
 
    return <table id="DashboardTodoTable">
 
       <thead>
          <tr>
             
-            <td className="titleColumn" onClick={() => sortBy("title", 
-               todoModel, setTodoModel,
-               { sortedBy, setSortedBy }
-            )}>
+            <td className="titleColumn" onClick={() => {
+               if (activeSidebar) return
+               sortBy("title", 
+                  todoModel, setTodoModel,
+                  { sortedBy, setSortedBy }
+               )
+            }}>
                <span>
                   <p>Title</p>
 
@@ -29,10 +32,13 @@ export default function DashboardTodoTable(props)  {
                </span>
             </td>
             
-            <td onClick={() => sortBy("quantity-ascending", 
-               todoModel, setTodoModel,
-               { sortedBy, setSortedBy }
-            )}>
+            <td onClick={() => {
+               if (activeSidebar) return
+               sortBy("quantity-ascending", 
+                  todoModel, setTodoModel,
+                  { sortedBy, setSortedBy }
+               )
+            }}>
                <span>
                   <p>Quantity</p>
 
@@ -41,10 +47,13 @@ export default function DashboardTodoTable(props)  {
             </td>
             
             {!h.isMobile() &&
-               <td onClick={() => sortBy("lastModified", 
-               todoModel, setTodoModel,
-               { sortedBy, setSortedBy }
-            )}>
+               <td onClick={() => {
+                  if (activeSidebar) return
+                  sortBy("lastModified", 
+                     todoModel, setTodoModel,
+                     { sortedBy, setSortedBy }
+                  )
+               }}>
                   <span>
                      <p>Date Modified</p>
 
@@ -55,10 +64,13 @@ export default function DashboardTodoTable(props)  {
                </td>
             }
             
-            <td onClick={() => sortBy("status", 
-               todoModel, setTodoModel,
-               { sortedBy, setSortedBy }
-            )}>
+            <td onClick={() => {
+               if (activeSidebar) return
+               sortBy("status", 
+                  todoModel, setTodoModel,
+                  { sortedBy, setSortedBy }
+               )
+            }}>
                <span>
                   <p>Status</p>
 
@@ -66,10 +78,13 @@ export default function DashboardTodoTable(props)  {
                </span>
             </td>
             
-            <td onClick={() => sortBy("highPriority-ascending", 
-               todoModel, setTodoModel,
-               { sortedBy, setSortedBy }
-            )}>
+            <td onClick={() => {
+               if (activeSidebar) return
+               sortBy("highPriority-ascending", 
+                  todoModel, setTodoModel,
+                  { sortedBy, setSortedBy }
+               )
+            }}>
                <Tooltip title="High Priority" placement="top">
                   <span>
                      <p>!</p>

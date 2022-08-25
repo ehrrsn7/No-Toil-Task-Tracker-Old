@@ -1,9 +1,9 @@
 import React                     from "react"
+import { Tooltip }               from "@mui/material"
 import { documentTitleSuffix }   from "../App"
-import { useContext }            from "../contexts/contextProvider"
-import * as Buttons              from "../components/buttons"
 import { DiscardedPartsTable }   from "../components/tables"
-import { Tooltip } from "@mui/material"
+import * as Buttons              from "../components/buttons"
+import { useContext }            from "../contexts/contextProvider"
 
 export default function DiscardedParts() {
    const context = useContext()

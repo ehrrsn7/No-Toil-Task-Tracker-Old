@@ -8,7 +8,7 @@ export default function CollapseAllButton(props) {
 
    return <div className="CollapseAllButton">
       <button onClick={() => {
-         if (isMobile && activeSidebar) return // disable
+         if (activeSidebar) return // disable
          setSelectedTask(-1)
       }}
       style={{

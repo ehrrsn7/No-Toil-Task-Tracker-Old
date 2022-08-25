@@ -1,9 +1,13 @@
-import React from "react"
+import React            from "react"
+import { useContext }   from "../../contexts/contextProvider"
 
-export default function AccordionButton(props) {
-   const { selected, setSelected, style, onClick, children } = props
+export default function AccordionButton({ 
+   selected, setSelected, style, onClick, children 
+}) {
+   const { activeSidebar } = useContext()
 
    function onClickInherited(event) {
+      if (activeSidebar) return
       // toggle [selected] (from props/parent)
       if (setSelected && selected !== undefined) setSelected(!selected)
             

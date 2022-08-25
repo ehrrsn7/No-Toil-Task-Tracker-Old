@@ -9,6 +9,7 @@ export default function DeleteAllDiscardedForm() {
       <button className="deleteButton" 
       onClick={event => {
          event.preventDefault()
+         if (activeSidebar) return
          deleteAll(todoDiscarded)
       }}> 
       

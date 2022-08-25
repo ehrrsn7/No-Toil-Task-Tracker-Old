@@ -1,4 +1,5 @@
 import React                     from "react"
+import { Tooltip }               from "@mui/material"
 import TodoTableRow              from "./TodoTableRow"
 import InvalidRow, { isInvalid } from "./InvalidRow"
 import * as buttons              from "../buttons"
@@ -8,8 +9,9 @@ import { isMobile, statusNames } from "../../data/helperFunctions"
 import { useContext }            from "../../contexts/contextProvider"
 
 export default function TodoTable({filter, selectedTask, setSelectedTask}) {
-   const { todoModel, setTodoModel } = useContext()
+   const { activeSidebar } = useContext()
    const { sortedBy, setSortedBy } = useContext()
+   const { todoModel, setTodoModel } = useContext()
 
    const filteredModel = () => (
       todoModel.filter(r => !r.discarded).filter(
@@ -23,6 +25,7 @@ export default function TodoTable({filter, selectedTask, setSelectedTask}) {
          <tr>
             
             <td className="titleColumn" onClick={() => {
+               if (activeSidebar) return
                sortBy("title", 
                   todoModel, setTodoModel, 
                   {sortedBy, setSortedBy}
@@ -38,6 +41,7 @@ export default function TodoTable({filter, selectedTask, setSelectedTask}) {
             </td>
 
             <td onClick={() => {
+               if (activeSidebar) return
                sortBy("quantity-ascending", 
                   todoModel, setTodoModel, 
                   {sortedBy, setSortedBy}
@@ -57,6 +61,7 @@ export default function TodoTable({filter, selectedTask, setSelectedTask}) {
 
             {!isMobile() &&
                <td onClick={() => {
+                  if (activeSidebar) return
                   sortBy("lastModified", 
                      todoModel, setTodoModel, 
                      {sortedBy, setSortedBy}
@@ -73,15 +78,16 @@ export default function TodoTable({filter, selectedTask, setSelectedTask}) {
             }
 
             <td onClick={() => {
+               if (activeSidebar) return
                sortBy("highPriority-ascending", 
                   todoModel, setTodoModel, 
                   {sortedBy, setSortedBy}
                )
             }}>
-               <span style={{width: "100%", flexWrap: "nowrap"}}>
-                  <p>
-                     !
-                  </p>
+               <span>
+                  <Tooltip title="High Priority" placement="left">
+                     <p> ! </p>
+                  </Tooltip>
 
                   <SortedByCarret sortedBy={sortedBy} columnName="highPriority" />
                </span>

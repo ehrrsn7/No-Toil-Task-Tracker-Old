@@ -67,6 +67,10 @@ select, input {
    background-color: var(--primary-background);
 }
 
+input[type="submit"], input[type="reset"] {
+   cursor: pointer;
+}
+
 span#topButtons, span#bottomButtons, .table-width {
    max-width: var(--table-width);
    margin-bottom: 0 1em 0 1em;

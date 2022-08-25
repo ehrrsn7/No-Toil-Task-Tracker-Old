@@ -1,12 +1,12 @@
 import React                     from "react"
 import { documentTitleSuffix }   from "../App"
-import * as h                    from "../data/helperFunctions"
 import * as buttons              from "../components/buttons"
 import { SortByDropdown }        from "../components/dropdowns"
 import { CreateTodoForm }        from "../components/forms"
 import { DashboardTodoTable }    from "../components/tables"
 import { useContext }            from "../contexts/contextProvider"
 import { NavLink } from "react-router-dom"
+import { Tooltip } from "@mui/material"
 
 export default function Dashboard() {
    const context = useContext()
@@ -35,18 +35,25 @@ export default function Dashboard() {
       />
 
       <span id="bottomButtons" style={{flexWrap: "wrap"}}>
-         <button className="add" onClick={() => {
-            if (h.isMobile && activeSidebar) return // disable
-            setAddMore(!addMore)
-         }}>
-            {addMore ? "Cancel" : "Add more" }
-         </button>
-
-         <NavLink to="/DiscardedParts">
-            <button>
-               Go to Discarded Parts →
+         <Tooltip title="Toggle the Create Tasks Form." placement="right">
+            <button className="add" onClick={() => {
+               if (activeSidebar) return // disable
+               setAddMore(!addMore)
+            }}>
+               {addMore ? "Cancel" : "Add more" }
             </button>
-         </NavLink>
+         </Tooltip>
+
+         <Tooltip title="Go to the Discarded Parts page." placement="left">
+            <NavLink to="/DiscardedParts"
+            onClick={event => {
+               if (activeSidebar) event.preventDefault()
+            }}>
+               <button>
+                  Go to Discarded Parts →
+               </button>
+            </NavLink>
+         </Tooltip>
       </span>
 
       <span id="addMoreDropdown" style={{

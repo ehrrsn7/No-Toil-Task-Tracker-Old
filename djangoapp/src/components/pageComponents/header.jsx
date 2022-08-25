@@ -50,7 +50,10 @@ export default function Header() {
                /* Disconnected (with reload action) */
                <Tooltip title="Please reload the page." placement="top">
                   <p className="hideOnPrint" 
-                  onClick={() => window.location.reload()}
+                  onClick={() => {
+                     if (activeSidebar) return
+                     window.location.reload()
+                  }}
                   style={{color: h.isDarkMode(window) ? "lightred" : "red"}}>
                      Disconnected
                   </p>

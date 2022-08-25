@@ -3,12 +3,13 @@ import { useContext }   from "../../../contexts/contextProvider"
 import { deleteAll }    from "../crud"
 
 export default function DeleteAllCompleteForm() {
-   const { todoModel } = useContext()
+   const { todoModel, activeSidebar } = useContext()
 
    return <form id="DeleteCompletedPartsForm">
       <button className="deleteButton" 
       onClick={event => {
          event.preventDefault()
+         if (activeSidebar) return
          deleteAll(todoModel.filter(r => r.status === 5))
       }}> 
       

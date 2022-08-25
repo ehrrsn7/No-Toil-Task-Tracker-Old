@@ -6,10 +6,10 @@ import { TodoAccordionDiv }   from "../accordionDivs"
 import { useContext }         from "../../contexts/contextProvider"
 import * as h                 from "../../data/helperFunctions"
 
-export default function DashboardTableRow(props) {
-   const context = useContext()
-   const { activeSidebar } = context
-   const { rowData, selectedTask, setSelectedTask } = props
+export default function DashboardTableRow({ 
+   rowData, selectedTask, setSelectedTask 
+}) {
+   const { activeSidebar } = useContext()
 
    const status = () =>  h.capitalize(h.statusNames.get(rowData.status))
    const sets = () => rowData.status <= 1
@@ -22,8 +22,7 @@ export default function DashboardTableRow(props) {
       <tr id={"DashboardRow" + rowData.id} key={rowData.id}
       onClick={event => {
          event.preventDefault()
-         console.log("hello")
-         if (!h.isMobile()) return 
+         if (!h.isMobile() || activeSidebar) return 
          setSelectedTask(
             selectedTask === rowData.id ? -1 : rowData.id
          )

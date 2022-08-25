@@ -1,10 +1,13 @@
 import React                     from "react"
-import { useContext }            from "../../contexts/contextProvider"
 import InvalidRow, { isInvalid } from "./InvalidRow"
+import SortedByCaret             from "../other/SortedByCaret"
+import { sortBy }                from "../../data/sort"
+import { useContext }            from "../../contexts/contextProvider"
 
 export default function CompletedPartsTable({filter}) {
-   const { todoModel, setTodoModel } = useContext()
+   const { activeSidebar } = useContext()
    const { sortedBy, setSortedBy } = useContext()
+   const { todoModel, setTodoModel } = useContext()
 
    const filteredModel = () => todoModel.filter(x => x.status === 5)
 
@@ -13,18 +16,32 @@ export default function CompletedPartsTable({filter}) {
    <thead>
       <tr>
          
-         <td className="titleColumn" onClick={() => sortBy("title", 
-            todoModel, setTodoModel,
-            { sortedBy, setSortedBy }
-         )}>
-            Title
+         <td className="titleColumn" onClick={() => {
+            if (activeSidebar) return
+            sortBy("title", 
+               todoModel, setTodoModel,
+               { sortedBy, setSortedBy }
+            )}
+         }>
+            <span>
+               <p>Title</p>
+
+               <SortedByCaret sortedBy={sortedBy} columnName="title" />
+            </span>
          </td>
 
-         <td onClick={() => sortBy("quantity-ascending", 
-            todoModel, setTodoModel,
-            { sortedBy, setSortedBy }
-         )}>
-            Quantity
+         <td onClick={() => {
+            if (activeSidebar) return
+            sortBy("quantity-ascending", 
+               todoModel, setTodoModel,
+               { sortedBy, setSortedBy }
+            )
+         }}>
+            <span>
+               <p>Quantity</p>
+
+               <SortedByCaret sortedBy={sortedBy} columnName="quantity" />
+            </span>
          </td>
 
       </tr>

@@ -7,7 +7,7 @@ export default function BackToDashboardButton() {
    const { activeSidebar } = useContext()
    return <div className="BackToDashboardButton">
       <NavLink to="/" onClick={event => {
-         activeSidebar && isMobile() && event.preventDefault()
+         if (activeSidebar) event.preventDefault()
       }}>
          <button>
             ← Back to Dashboard
