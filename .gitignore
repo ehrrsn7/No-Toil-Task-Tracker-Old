@@ -11,6 +11,7 @@ lib
 staticfiles
 djangoapp/node_modules
 djangoproject/private
+__pycache__
 */__pycache__
 */*/__pycache__
 */.DS_Store
