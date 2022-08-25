@@ -1,24 +1,28 @@
 import React               from "react"
+import * as buttons        from "../buttons"
 import { UpdateTodoForm }  from "../forms"
-import * as Buttons        from "../buttons"
+import { useContext }      from "../../contexts/contextProvider"
 
 export default function TodoAccordionDiv(props) {
-   const { id, sets, rowData } = props
-   const [ showMore, setShowMore ] = React.useState(false)
-   const colWidth = 100
+   const { id }                     = props
+   const { todoModel }              = useContext()
+   const [ showMore, setShowMore ]  = React.useState(false)
+   const colWidth                   = 100
+
+   const rowData = () => todoModel?.filter(r => r.id === id).shift()
 
    return <div className={id ? id : "TodoAccordionDiv"}>
-      <UpdateTodoForm id={id} sets={sets} rowData={rowData} />
+      <UpdateTodoForm id={id} />
 
-      <Buttons.AccordionButton 
+      <buttons.AccordionButton 
       selected={showMore} setSelected={setShowMore}
-      style={{position: "relative", margin: ".3em"}}>
+      style={{position: "relative", margin: ".3em", paddingRight: "1em"}}>
          <p>
 
             Show More
             
          </p>
-      </Buttons.AccordionButton>
+      </buttons.AccordionButton>
 
       {showMore && <div style={{margin: ".3em"}}>
          <table style={{wordWrap: "break-word"}}>
@@ -26,49 +30,49 @@ export default function TodoAccordionDiv(props) {
                
                <tr>
                   <td width={colWidth}>id:</td>
-                  <td>{rowData.id}</td>
+                  <td>{rowData().id}</td>
                </tr>
                <tr>
                   <td width={colWidth}>title:</td>
-                  <td>{rowData.title}</td>
+                  <td>{rowData().title}</td>
                </tr>
                <tr>
                   <td width={colWidth}>quantity:</td>
-                  <td>{rowData.quantity}</td>
+                  <td>{rowData().quantity}</td>
                </tr>
                <tr>
                   <td width={colWidth}>toOil:</td>
-                  <td>{rowData.toOil ? "True" : "False"}</td>
+                  <td>{rowData().toOil ? "True" : "False"}</td>
                </tr>
                <tr>
                   <td width={colWidth}>status:</td>
-                  <td>{rowData.status}</td>
+                  <td>{rowData().status}</td>
                </tr>
                <tr>
                   <td width={colWidth}>highPriority:</td>
-                  <td>{rowData.highPriority ? "True" : "False"}</td>
+                  <td>{rowData().highPriority ? "True" : "False"}</td>
                </tr>
                <tr>
                   <td width={colWidth}>lastModified:</td>
                   <td>
-                     {`${new Date(rowData.lastModified).toDateString()}
-                     ${new Date(rowData.lastModified).toLocaleTimeString()}`}
+                     {`${new Date(rowData().lastModified).toDateString()}
+                     ${new Date(rowData().lastModified).toLocaleTimeString()}`}
                   </td>
                </tr>
                <tr>
                   <td width={colWidth}><em>partNumber:</em></td>
-                  <td><em>{rowData.partNumber}</em></td>
+                  <td><em>{rowData().partNumber}</em></td>
                </tr>
                <tr>
                   <td width={colWidth}><em>Discarded</em>:</td>
-                  <td><em>{rowData.discarded ? "True" : "False"}</em></td>
+                  <td><em>{rowData().discarded ? "True" : "False"}</em></td>
                </tr>
 
             </tbody>
          </table>
 
-         <Buttons.TaskEditDeleteButton 
-         id={rowData.id} style={{marginTop: 15}} />
+         <buttons.TaskEditDeleteButton 
+         id={rowData().id} style={{marginTop: 15}} />
       </div>}
    </div>
 }

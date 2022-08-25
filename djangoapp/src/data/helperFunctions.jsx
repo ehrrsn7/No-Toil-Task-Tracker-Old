@@ -51,9 +51,7 @@ export const statusNames = {
    getNumber: function(statusStr) {
       if (statusStr === "CompletedParts") return 5
       let status = 0
-      range(6).forEach(statusInt => { 
-         if (this.matches(statusStr, statusInt)) status = statusInt 
-      })
+      range(6).forEach(i => { if (this.matches(i, statusStr)) status = i })
       return status
    },
 

@@ -23,7 +23,7 @@ export default function Dashboard() {
    
    return <div id={document.title}>
       <span id="topButtons">
-         <span style={{gap: "0"}}>
+         <span style={{gap: "0", flexWrap: "wrap"}}>
             <SortByDropdown />
             <buttons.NextPageButton to="Stamp" />
          </span>
@@ -34,7 +34,7 @@ export default function Dashboard() {
       setSelectedTask={setSelectedTask} 
       />
 
-      <span id="bottomButtons">
+      <span id="bottomButtons" style={{flexWrap: "wrap"}}>
          <button className="add" onClick={() => {
             if (h.isMobile && activeSidebar) return // disable
             setAddMore(!addMore)

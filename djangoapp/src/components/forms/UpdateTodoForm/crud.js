@@ -1,40 +1,29 @@
-import axios            from "axios"
-import { todo_api_url } from "../../../App"
-import * as h           from "../../../data/helperFunctions"
-
-function getPatchInfo(todoModel, newStatus, rowData) {
-   const patchID = todoModel.filter(
-      row => row.status === newStatus).filter(
-         row => row.title === rowData.title)[0].id
-   
-   const patchQuantity = todoModel.filter(
-      row => row.status === newStatus).filter(
-         row => row.title === rowData.title)[0].quantity
-         
-   console.log(patchID, patchQuantity)
-   return { patchID, patchQuantity }
-}
+import { patchRow, postRow, deleteRow, getPatchInfo } from "../crud"
 
 /************************************************************
  * Update Todo Form
  ************************************************************/
-async function updateNormal(todoModel, rowData, newStatus, quantity) {
+async function updateNormal(
+   todoModel, rowData, newStatus, quantity 
+) {
    const { patchID, patchQuantity } = 
       getPatchInfo(todoModel, newStatus, rowData)
 
-   axios.patch(`${todo_api_url}${patchID}/`, {
-      quantity: patchQuantity + quantity,
-   }).then(request => {console.log(
+   const patchMessage = 
       `add the quantity [${quantity}] of *this [${rowData.title}: 
-         ${rowData.id}] to the quantity of the task with the same name that 
-         is in the next status [${patchID}] [${patchQuantity}]`,
-      request
-   )}).catch(error => {throw new Error(error)}) // let callee catch
+      ${rowData.id}] to the quantity of the task with the same name that 
+      is in the next status [${patchID}] [${patchQuantity}]`
+   
+   const deleteMessage = `delete(${rowData.id}: ${rowData.title}) success:`
+   
+   const data = {
+      id: patchID,
+      quantity: patchQuantity + quantity,
+   }
 
-   // clean up
-   axios.delete(`${todo_api_url}${rowData.id}/`)
-   .then(request => {console.log("clean up old row", request)})
-   .catch(error => {throw new Error(error)})
+   await patchRow(data, patchMessage)
+
+   await deleteRow(rowData, deleteMessage)
 }
 
 async function updateLessThanExpected(
@@ -43,42 +32,45 @@ async function updateLessThanExpected(
    const { patchID, patchQuantity } = 
       getPatchInfo(todoModel, newStatus, rowData)
 
-   await axios.patch(`${todo_api_url}${patchID}/`, {
-      quantity: patchQuantity + quantity,
-   }).then(request => {console.log(
+   const nextStatusMessage = 
       `update new task [${patchID}] with status += 1 to be it.quantity 
-         [${patchQuantity}] + this.quantity [${quantity}]`, 
-      request
-   )}).catch(error => {throw new Error(error)})
-   
-   await axios.patch(`${todo_api_url}${rowData.id}/`, {
+      [${patchQuantity}] + this.quantity [${quantity}]`
+
+   const currentStatusMessage = "current task expected -= quantity"
+
+   const nextStatusData = {
+      id: patchID,
+      quantity: patchQuantity + quantity,
+   }
+
+   const currentStatusData = {
       ...rowData,
       quantity: expected - quantity,
-   }).then(request => {console.log(
-      "current task expected -= quantity", 
-      request
-   )}).catch(error => {throw new Error(error)})
+   }
+
+   await patchRow(nextStatusData, nextStatusMessage)
+
+   await patchRow(currentStatusData, currentStatusMessage)
 }
 
 async function updateGreaterThanExpected(
-   todoModel, rowData, newStatus, quantity
+   todoModel, rowData, newStatus, quantity 
 ) {
    const { patchID, patchQuantity } = 
       getPatchInfo(todoModel, newStatus, rowData)
 
-   await axios.patch(`${todo_api_url}${patchID}/`, {
-      quantity: patchQuantity + quantity, /* new quantity */
-   })
-   .then(request => console.log(
-      `task expected += extra (or rather expected <- quantity),`,
-      `and add it to task in the next status list [${patchID}]`, 
-      request
-   ))
+   const data = {
+      id: patchID,
+      quantity: patchQuantity + quantity,
+   }
 
-   // clean up
-   axios.delete(`${todo_api_url}${rowData.id}/`)
-   .then(request => {console.log("clean up old row", request)})
-   .catch(error => {throw new Error(error)})
+   const message = 
+      `task expected += extra (or rather expected <- quantity), 
+      and add it to task in the next status list [${patchID}]`
+
+   await patchRow(data, message)
+
+   await deleteRow({id: rowData.id}, "clean up old row")
 }
 
 /************************************************************
@@ -86,52 +78,53 @@ async function updateGreaterThanExpected(
  * (Same as update, but no identical task in next status section)
  ************************************************************/
 async function shiftNormal(rowData, newStatus) {
-   await axios.patch(`${todo_api_url}${rowData.id}/`, { // else
+   const data = {
       ...rowData,
       status: newStatus,
-   }).then(request => {console.log(
-      "update task status += 1 (and ++1 if skipping oil)", 
-      request
-   )}).catch(error => {throw new Error(error)})
+   }
+
+   const message = "update task status += 1 (and ++1 if skipping oil)"
+
+   await patchRow(data, message)
 }
 
 async function shiftLessThanExpected(rowData, quantity, expected) {
-   await axios.post(`${todo_api_url}`, { // else
-      ...rowData, 
-      id: undefined, // let django model assign new id for the new object
+   const postData = {
+      ...rowData,
+      id: undefined, // let django model assign new id for the ect
       quantity: quantity,
-status: rowData.status + 1,
-   }).then(request => {console.log(
-      "new task of quantity with status += 1", 
-      request
-   )}).catch(error => {throw new Error(error)})
-   
-   await axios.patch(`${todo_api_url}${rowData.id}/`, {
+      status: rowData.status + 1,
+   }
+
+   const patchData = {
       ...rowData,
       quantity: expected - quantity,
-   }).then(request => {console.log(
-      "current task expected -= quantity", 
-      request
-   )}).catch(error => {throw new Error(error)})
+   }
+
+   const postMessage = "new task of quantity with status += 1"
+   const patchMessage = "current task expected -= quantity"
+
+   await postRow(postData,  postMessage)
+
+   await patchRow(patchData, patchMessage)
 }
 
 async function shiftGreaterThanExpected(rowData, quantity) {
-   await axios.patch(`${todo_api_url}${rowData.id}/`, {
+   const data = {
       ...rowData,
       quantity: quantity, // new quantity
       status: rowData.status + 1,
-   }).then(request => {console.log(
-      "task expected += extra (or rather expected <- quantity),",
-      "and status += 1", 
-      request
-   )})
+   }
+
+   const message =  
+      "task expected += extra (or rather expected <- quantity)," +
+      "and status += 1"
+
+   await patchRow(data, message)
 }
 
 export async function onCreate(newStatus, rowData, numVal) {
-   try { 
-      if (!(numVal && rowData && newStatus))
-         throw Error("Undefined Parameters")
-   } catch(error) { console.log(error); return }
+   if (!(newStatus && rowData && numVal)) throw Error("Undefined Parameters")
 
    const quantity = parseInt(numVal)
    const expected = parseInt(rowData.quantity)
@@ -146,48 +139,61 @@ export async function onCreate(newStatus, rowData, numVal) {
       shiftGreaterThanExpected(rowData, quantity) 
 }
 
-export async function onUpdate(activeSidebar, todoModel, rowData, numVal) {
-   if (h.isMobile && activeSidebar) return // disable
+export async function onUpdate(todoModel, rowData, numVal) {
+   
+   try {
+      // define
+      const quantity = parseInt(numVal)
+      const expected = parseInt(rowData.quantity)
 
-   console.log({
-      "activeSidebar": activeSidebar,
-      "todoModel": todoModel,
-      "rowData": rowData,
-      "numVal": numVal
-   })
+      let newStatus = rowData.status + 1
+      if (!rowData.toOil && (rowData.status + 1) === 3) newStatus++
+      if (newStatus > 5) // abort
+         throw new Error("cannot update status above 5")
 
-   const quantity = parseInt(numVal)
-   const expected = parseInt(rowData.quantity)
-   let newStatus = rowData.status + 1
-   if (!rowData.toOil && newStatus === 3) newStatus++
-   if (newStatus > 5) throw new Error("cannot update status above 5")
+      // if item with same title/new status not found, create new
+      const statusFound = r => r.status === newStatus
+      const titleFound = r => r.title === rowData.title
+      if (todoModel.filter(statusFound).filter(titleFound).length <= 0) {
+         console.log("no matching task found to merge")
+         onCreate(newStatus, rowData, numVal)
+         return
+      }
 
-   if (!todoModel.filter(
-   row => row.status === newStatus).filter(
-   row => row.title === rowData.title).length > 0) {
-      onCreate(newStatus, rowData, numVal)
-      return
+      // else update
+      if (quantity === expected)
+         await updateNormal(todoModel, rowData, newStatus, quantity)
+
+      if (quantity < expected)
+         await updateLessThanExpected(
+            todoModel, rowData, newStatus, quantity, expected
+         )
+
+      if (quantity > expected)
+         await updateGreaterThanExpected(
+            todoModel, rowData, newStatus, quantity
+         )
    }
 
-   if (quantity === expected)
-      updateNormal(
-         todoModel, rowData, newStatus, quantity)
-
-   if (quantity < expected)
-      updateLessThanExpected(
-         todoModel, rowData, newStatus, quantity, expected)
-
-   if (quantity > expected)
-      updateGreaterThanExpected(
-         todoModel, rowData, newStatus, quantity)
-
+   catch (error) {
+      console.error(error)
+   }
 }
 
-export async function onDiscard(activeSidebar, todoModel, rowData) {
-   if (h.isMobile && activeSidebar) return // disable
-   todoModel.filter(r => r.id === rowData.id).forEach(task => {
-      axios.patch(`${todo_api_url}${task.id}/`, { discarded: true })
-      .then(request => console.log(request))
-      .catch(error => {throw new Error(error)})
-   })
+export async function onDiscard(rowData) {
+
+   try {
+      const data = {
+         ...rowData,
+         discarded: true
+      }
+
+      const message = `discarding ${data.id}:${data.title}`
+      
+      await patchRow(data, message)
+   }
+   
+   catch(error) {
+      console.error(error)
+   }
 }

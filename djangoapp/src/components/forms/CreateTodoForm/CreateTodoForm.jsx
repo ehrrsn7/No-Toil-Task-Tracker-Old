@@ -1,20 +1,21 @@
-import React                        from "react"
-import { Form, Button }             from "antd"
-import CreateTodoFormRow            from "./CreateTodoFormRow"
-import CreateTodoFormHeaderRow      from "./CreateTodoFormHeaderRow"
-import { onSubmit }                 from "./crud"
-import { useContext }               from "../../../contexts/contextProvider"
-import * as h                       from "../../../data/helperFunctions"
+import React                     from "react"
+import CreateTodoFormRow         from "./CreateTodoFormRow"
+import CreateTodoFormHeaderRow   from "./CreateTodoFormHeaderRow"
+import { onSubmit, onReset }     from "./crud"
+import { useContext }            from "../../../contexts/contextProvider"
+import * as h                    from "../../../data/helperFunctions"
 
-export default function CreateTodoForm(props) {
+const bottomButtonsStyle = {
+   border: "1px solid lightgray",
+   padding: ".5em"
+}
+
+export default function CreateTodoForm({style}) {
    const { activeSidebar } = useContext()
-   const { style } = props
    const [ rowsAmount, setRowsAmount ] = React.useState(5)
-   const [ rowsStatus, setRowsStatus ] = React.useState({})
-   const [ rowsToOil, setRowsToOil ]   = React.useState({})
-   const [ highPriorityRows, setHighPriorityRows ] = React.useState({})
 
-   return <Form id="CreateTodoForm" style={style} onSubmitCapture={onSubmit}>
+   return <form id="CreateTodoForm" style={style} 
+   onSubmitCapture={onSubmit} onReset={onReset}>
       <span>
          <table>
 
@@ -23,44 +24,38 @@ export default function CreateTodoForm(props) {
             </thead>
 
             <tbody>
-               {h.range(rowsAmount).map(i => <tr key={i}>
-                  <CreateTodoFormRow i={i} 
-                  rowsStatus={rowsStatus}
-                  setRowsStatus={setRowsStatus}
-                  rowsToOil={rowsToOil}
-                  setRowsToOil={setRowsToOil}
-                  highPriorityRows={highPriorityRows}
-                  setHighPriorityRows={setHighPriorityRows}
-                  />
-               </tr>
+               {h.range(rowsAmount).map(
+                  i => <CreateTodoFormRow key={i} i={i} />
                )}
             </tbody>
          </table>
       </span>
 
-      <span style={{marginTop: "1em"}}>
-         <Button id="submitCreateTodoFormButton" type="primary" 
-         style={{
-            border: "1px solid lightgray",
-            padding: ".5em"
-         }} htmlType="submit" 
-         onSubmit={onSubmit}>
-            Submit
-         </Button>
+      {/* Bottom Buttons Bar */}
+      <span style={{marginTop: "1em", gap: "1em"}}>
 
-         <div></div>
+         {/* Submit Button */}
+         <button id="submitCreateTodoFormButton" style={bottomButtonsStyle}>
+            <input type="submit" value="Submit" />
+         </button>
 
-         <Button id="add5RowsButton" type="primary"
-         style={{
-            border: "1px solid lightgray",
-            padding: ".5em"
-         }} 
+         {/* Reset All Input Fields Button */}
+         <button style={bottomButtonsStyle}>
+            <input type="reset" value="Reset" />
+         </button>
+
+         {/* Spacer */}
+         <div style={{flexGrow: 1}}></div>
+
+         {/* Add 5 Rows Button */}
+         <button id="add5RowsButton" type="primary"
+         style={bottomButtonsStyle} 
          onClick={() => {
             if (h.isMobile && activeSidebar) return // disable
             setRowsAmount(rowsAmount + 5) 
          }}>
             Add 5 Extra Rows
-         </Button>
+         </button>
       </span>
-   </Form>
+   </form>
 }

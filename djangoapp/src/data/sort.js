@@ -1,5 +1,4 @@
 import { todo_api_url } from "../App"
-import { isMobile }     from "./helperFunctions"
 
 export const columnNames = [
    "id",
@@ -12,16 +11,17 @@ export const columnNames = [
    "title",
 ]
 
-function sortByCallback(sortCallback, context) {
-   if (!Array.isArray(context.todoModel)) context.setTodoModel([])
-   let newSortedBy = [...context.todoModel]
+function sortByCallback(sortCallback, {arr, setArr}) {
+   if (!Array.isArray(arr)) setArr([])
+   let newSortedBy = [...arr]
    newSortedBy.sort(sortCallback) // sorts the array *in place*
-   context.setTodoModel(newSortedBy)
+   if (setArr) setArr(newSortedBy)
+   return newSortedBy
 }
 
-function performSort(descending, columnName, context) {
+export function performSort(descending, columnName, arr, setArr) {
    columnName = columnName.toLowerCase()
-   
+
    if (descending) {
       switch (columnName) {
          // numbers/booleans/dates
@@ -31,17 +31,18 @@ function performSort(descending, columnName, context) {
          case "toOil":
          case "highpriority":
          case "lastmodified":
-            sortByCallback((a, b) => a[columnName] - b[columnName], context)
-            break
+            return sortByCallback(
+               (a, b) => a[columnName] - b[columnName], 
+               {arr, setArr}
+            )
          
          // text
          case "partnumber":
          case "title":
-            sortByCallback(
+            return sortByCallback(
                (a, b) => a[columnName].localeCompare(b[columnName]), 
-               context
+               {arr, setArr}
             )
-            break
 
          default:
             console.log("'columnName' - descending invalid:", columnName)
@@ -58,17 +59,18 @@ function performSort(descending, columnName, context) {
          case "toOil":
          case "highpriority":
          case "lastmodified":
-            sortByCallback((b, a) => a[columnName] - b[columnName], context)
-            break
+            return sortByCallback(
+               (b, a) => a[columnName] - b[columnName], 
+               {arr, setArr}
+            )
          
          // text
          case "partnumber":
          case "title":
-            sortByCallback(
+            return sortByCallback(
                (b, a) => a[columnName].localeCompare(b[columnName]), 
-               context
+               {arr, setArr}
             )
-            break
 
          default:
             console.log("'columnName' - ascending invalid:", columnName)
@@ -77,19 +79,12 @@ function performSort(descending, columnName, context) {
    }
 }
 
-export function sortBy(which, context) {
-   const { activeSidebar } = context
-   if (isMobile() && activeSidebar) return // disable
+export function sortBy(which, arr, setArr, {sortedBy, setSortedBy}) {
 
    // exception handling: undefined values
    try {
-      if (context === undefined) throw Error(
-         "context not defined " + 
-         "(check to see if context was passed in as a parameter)"
-      )
-
-      if (!Array.isArray(context.todoModel)) throw Error(
-         "Context.todoModel is not iterable... " + 
+      if (!Array.isArray(arr)) throw Error(
+         arr + " is not iterable... " + 
          "please wait for the application to fetch data from " + 
          todo_api_url + " and set it in the global context."
       )
@@ -100,8 +95,8 @@ export function sortBy(which, context) {
    }
 
    // strip column names
-   const contextSortedBy = 
-      context.sortedBy.replace("-descending", '').replace("-ascending", '')
+   const contextSortedBy = (!sortedBy) ? "" :
+      sortedBy.replace("-descending", '').replace("-ascending", '')
    const whichSortedBy = 
       which.replace("-descending", '').replace("-ascending", '')
 
@@ -113,16 +108,16 @@ export function sortBy(which, context) {
    let descending = !which.includes("ascending")
    
    // toggle descending if existing context value matches selected sort value
-   if (contextSortedBy === whichSortedBy) {
-      descending = !context.sortedBy.includes("descending")
+   if ((contextSortedBy === whichSortedBy) && sortedBy) {
+      descending = !sortedBy.includes("descending")
    }
 
    // reset which based on column name and descending boolean var 
    // and save to context
-   context.setSortedBy(
+   if (setSortedBy) setSortedBy(
       toBeSortedBy + (descending ? "-descending" : "-ascending")
    )
 
    // now, perform sort
-   performSort(descending, toBeSortedBy, context)
+   performSort(descending, toBeSortedBy, arr, setArr)
 }

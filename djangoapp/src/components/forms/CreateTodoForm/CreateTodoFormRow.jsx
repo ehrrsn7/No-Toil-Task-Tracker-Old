@@ -1,52 +1,30 @@
 import React      from "react"
-import { Input }  from "antd"
 import * as h     from "../../../data/helperFunctions"
 
-export default function CreateTodoFormRow(props) {
-   const { i,
-      rowsStatus, setRowsStatus,
-      rowsToOil, setRowsToOil,
-      highPriorityRows, setHighPriorityRows } = props
+export default function CreateTodoFormRow({ i }) {
 
-   const [ status, setStatus ] = React.useState(0)
    const [ toOil, setToOil ] = React.useState(false)
+   const [ status, setStatus ] = React.useState(0)
    const [ highPriority, setHighPriority ] = React.useState(false)
-   
-   React.useEffect(() => {
-      const newRowsStatus = {...rowsStatus}
-      newRowsStatus[i] = status
-      setRowsStatus(newRowsStatus)
 
-      const newRowsToOil = {...rowsToOil}
-      newRowsToOil[i] = toOil
-      setRowsToOil(newRowsToOil)
-
-      const newHighPriorityRows = {...highPriorityRows}
-      newHighPriorityRows[i] = highPriority
-      setHighPriorityRows(newHighPriorityRows)
-
-   }, [
-      status, 
-      toOil, 
-      highPriority, 
-   ])
-
-   return <>
+   return <tr>
       <td>
-         <Input 
+         <input 
          name="title"    
          id={`RowStart${i}`}         
          placeholder="Title" 
          type="text"
+         style={{width: "100%", minWidth: 100, paddingLeft: ".5em"}}
          />
       </td>
       <td>
-         <Input 
+         <input 
          name="quantity" 
          type="number"
          id={`RowMid${i}-Quantity`}  
          placeholder={1}
          default={1}
+         style={{width: 100, paddingLeft: ".5em"}}
          />
       </td>
 
@@ -55,6 +33,7 @@ export default function CreateTodoFormRow(props) {
             name="toOil"
             type="checkbox" 
             value={toOil}
+            defaultChecked={false}
             onChange={() => {setToOil(!toOil)}}
          />
       </td>
@@ -66,8 +45,8 @@ export default function CreateTodoFormRow(props) {
             value={status} 
             onChange={event => { setStatus(parseInt(event.target.value)) }}>  
 
-               {h.statusNames.getArray().map((name, index) => {
-                  return <option key={name} value={index}>
+               {h.statusNames.getArray().map((name, i) => {
+                  return <option key={name} value={i}>
                      {h.capitalize(name)}
                   </option>
                })}
@@ -84,5 +63,5 @@ export default function CreateTodoFormRow(props) {
             onChange={() => {setHighPriority(!highPriority)}}
          />
       </td> 
-   </>
+   </tr>
 }

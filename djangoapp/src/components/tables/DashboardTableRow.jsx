@@ -8,18 +8,14 @@ import * as h                 from "../../data/helperFunctions"
 
 export default function DashboardTableRow(props) {
    const context = useContext()
-   const { activeSidebar, todoModel } = context
+   const { activeSidebar } = context
    const { rowData, selectedTask, setSelectedTask } = props
-   const [ sets, setSets ] = React.useState(rowData?.status <= 1)
 
    const status = () =>  h.capitalize(h.statusNames.get(rowData.status))
-   const lastModified = () => new Date(rowData.lastModified).toLocaleDateString()
-
-   React.useEffect(() => {
-      const updatedRow = todoModel.filter(row => row.id === rowData.id).shift()
-      setSets(updatedRow?.status <= 1)
-   }, [ todoModel ])
-
+   const sets = () => rowData.status <= 1
+   const lastModified = () => 
+      new Date(rowData.lastModified).toLocaleDateString()
+   
    return <>
 
       {/* Dashboard Table Row */}
@@ -31,10 +27,11 @@ export default function DashboardTableRow(props) {
             </p>
          </td>
 
-         <td> {sets ?
+         <td> {sets() ?
             <Tooltip title="Note: 1 Set = 18 Each" placement="left">
                <p>
-                  {parseInt(rowData.quantity / 18) + " Sets"}
+                  {parseInt(rowData.quantity / 18) + " Set"}
+                  {parseInt(rowData.quantity) !== 18 && 's'}
                </p>
             </Tooltip> 
             : 
@@ -75,7 +72,7 @@ export default function DashboardTableRow(props) {
                <Buttons.AccordionButton 
                selected={selectedTask === rowData.id} 
                onClick={() => {
-                  if (h.isMobile && activeSidebar) return // disable
+                  if (activeSidebar) return // disable
                   setSelectedTask(
                      selectedTask === rowData.id ? -1 : rowData.id
                   )
@@ -91,7 +88,7 @@ export default function DashboardTableRow(props) {
          "AccordionRow"}
       >
          <td colSpan={"100%"}>
-            <TodoAccordionDiv id={rowData.id} sets={sets} rowData={rowData} />
+            <TodoAccordionDiv id={rowData.id} />
          </td>
       </tr>
    </>

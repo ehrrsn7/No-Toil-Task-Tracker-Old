@@ -6,7 +6,7 @@ import { useContext }         from "../../contexts/contextProvider"
 
 export default function TodoTableRow(props) {
    const { activeSidebar } = useContext()
-   const { sets, rowData, selectedTask, setSelectedTask } = props
+   const { rowData, selectedTask, setSelectedTask } = props
 
    const lastModified = () => new Date(rowData.lastModified)?.toLocaleDateString()
 
@@ -28,7 +28,10 @@ export default function TodoTableRow(props) {
 
          <td>
             <p>
-               {sets ? parseInt(rowData.quantity / 18) : rowData.quantity}
+               {  rowData.status <= 1 ? 
+                  parseInt(rowData.quantity / 18) : 
+                  rowData.quantity
+               }
             </p>
          </td>
 
@@ -62,7 +65,7 @@ export default function TodoTableRow(props) {
          "AccordionRow"}
       >
          <td colSpan={"100%"}>
-            <TodoAccordionDiv id={rowData.id} sets={sets} rowData={rowData} />
+            <TodoAccordionDiv id={rowData.id} rowData={rowData} />
          </td>
       </tr>
    </> 

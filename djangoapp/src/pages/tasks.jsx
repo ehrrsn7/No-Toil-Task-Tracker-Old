@@ -16,7 +16,7 @@ export default function TaskPageTemplate(props) {
    }, [ name ])
    
    return <div id={document.title}>
-      <span id="topButtons" style={{gap: "0"}}>
+      <span id="topButtons" style={{flexWrap: "wrap", justifyContent: "space-between"}}>
          <buttons.PreviousPageButton />
          <buttons.NextPageButton />
       </span>

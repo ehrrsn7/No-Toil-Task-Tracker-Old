@@ -1,22 +1,29 @@
 import React                     from "react"
+import { useContext }            from "../../contexts/contextProvider"
 import InvalidRow, { isInvalid } from "./InvalidRow"
 
-export default function CompletedPartsTable(props) {
-   const { todoModel } = props.context
-   const filteredModel = () => {
-      return todoModel.filter(r => !r.discarded).filter(x => x.status === 5)
-   }
+export default function CompletedPartsTable({filter}) {
+   const { todoModel, setTodoModel } = useContext()
+   const { sortedBy, setSortedBy } = useContext()
 
-   return <table id={props.filter + "TodoTable"} className="TodoTable">
+   const filteredModel = () => todoModel.filter(x => x.status === 5)
+
+   return <table id={filter + "TodoTable"} className="TodoTable">
 
    <thead>
       <tr>
          
-         <td className="titleColumn">
+         <td className="titleColumn" onClick={() => sortBy("title", 
+            todoModel, setTodoModel,
+            { sortedBy, setSortedBy }
+         )}>
             Title
          </td>
 
-         <td>
+         <td onClick={() => sortBy("quantity-ascending", 
+            todoModel, setTodoModel,
+            { sortedBy, setSortedBy }
+         )}>
             Quantity
          </td>
 

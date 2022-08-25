@@ -4,12 +4,17 @@ import { isMobile } from "../../data/helperFunctions"
 import { columnNames, sortBy }   from "../../data/sort"
 
 export default function SortByDropdown() {
-   const context = useContext()
-   const { activeSidebar, sortedBy } = context
+   const { activeSidebar } = useContext()
+   const { todoModel, setTodoModel } = useContext()
+   const { todoDiscarded, setTodoDiscarded } = useContext()
+   const { sortedBy, setSortedBy } = useContext()
 
    function onChange(event) {
       if (event.target.value === undefined) return
-      sortBy(`${event.target.value}`.replace(" — ", '-'), context)
+      const toBeSortedBy = `${event?.target?.value}`.replace(" — ", '-')
+      const obj = { sortedBy, setSortedBy }
+      sortBy(toBeSortedBy, todoModel, setTodoModel, obj)
+      sortBy(toBeSortedBy, todoDiscarded, setTodoDiscarded, obj)
    }
 
    const columnNamesWithDirection = [
@@ -19,7 +24,7 @@ export default function SortByDropdown() {
    ]
 
    return <div style={{padding: "1em 0 1em 1em"}}>
-      <span>
+      <span style={{flexWrap: "wrap"}}>
          <p>{sortedBy === '' ? "Sort By:" : "Sorted By:"}</p>
          <select value={sortedBy} onChange={onChange} disabled={isMobile && activeSidebar}>
             {columnNamesWithDirection.map(name => {

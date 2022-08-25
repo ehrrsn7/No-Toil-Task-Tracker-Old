@@ -9,14 +9,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import * as pages from "./pages"
 
 // Single-Page App Page Components
-import Sidebar from "./components/pageComponents/sidebar"
-import Header  from "./components/pageComponents/header"
+import { Sidebar, Header } from "./components/pageComponents"
 
 // Other Components
 import { invalidRow } from "./components/tables/InvalidRow"
 
-// Other (stylesheets/scripts)
+// Other (stylesheets/scripts/helper functions)
 import "./App.css"
+import { performSort } from "./data/sort"
 import { useContext } from "./contexts/contextProvider"
 
 /**********
@@ -24,7 +24,7 @@ import { useContext } from "./contexts/contextProvider"
  **********/
 // BrowserRouter basename
 export const djangoappName = ((parseInt(window.location.port) === 3000) ? 
-   "" :        // development
+   "" :        // frontend development
    "djangoapp" // hosted on server
 )
 
@@ -39,82 +39,43 @@ export const filter_bible_api_url =
    `http://${window.location.hostname}:8000/api/filter-bible/`
 
 // Django Channels URI Endpoint/Connection
-const websocket_uri = `ws://${window.location.host}/ws/api/`
-const websocket = new WebSocket(websocket_uri)
+export const websocket_uri = `ws://${window.location.host}/ws/api/`
+export const websocket = new WebSocket(websocket_uri)
 
-async function updateTodoRow(data, context) {
-   const { todoModel, setTodoModel, addedTasks, setAddedTasks } = context
-   const rowIndex = todoModel.findIndex(object => object.id === data.id)
-
-   if (rowIndex !== -1) { // row exists (model event was update, not create)
-      let newTodoModel = JSON.parse(JSON.stringify(todoModel)) // deep clone
-
-      newTodoModel[rowIndex].quantity = data.quantity
-      newTodoModel[rowIndex].status = data.status
-      newTodoModel[rowIndex].lastModified = data.lastModified
-
-      console.log("row update success")
-
-      setTodoModel(newTodoModel)
-
-      // provide some animation to indicate update
-
-      const el = document.querySelector(`[id*="Row${data.id}"]`)
-      if (el) el.className = "highlightBlue"
-      else console.error(`[id*="Row${data.id}"]`, "not found")
-   }
-
-   else {
-      // simply append this new entry to the list and let it be added
-      setTodoModel([...todoModel, data])
-      setAddedTasks([...addedTasks, data.id]) // add animation to queue
-   }
-}
-
-async function removeTodoRow(data, context) {
-   const { todoModel, setTodoModel } = context
-   
-   if (todoModel.findIndex(object => object.id === data.id) === -1) {
-      console.error("item to delete not found! data:", data)
-      return
-   }
-
-   // provide some animation to indicate removal
-   console.log("removing row from todoModel:", data)
-   const el = document.querySelector(`[id*="Row${data.id}"]`)
-   el.className = "highlightRed"
-   setTimeout(() => {
-      setTodoModel(todoModel.filter(rowData => rowData.id !== data.id))
-   }, 1000)
-}
-
-/********************
+/**********************************************************************
  * Application
- ********************/
+ **********************************************************************/
 export default function App() {
    const context = useContext()
-   const { addedTasks, setAddedTasks } = context
+   const { sortedBy } = useContext()
+   const { wsConnected, setWsConnected } = useContext()
+   const { todoModel, setTodoModel } = useContext()
+   const { todoDiscarded, setTodoDiscarded } = useContext()
 
-   // initializer
+   /**********************************************************************
+    * Initializer
+    **********************************************************************/
    const initialized = React.useRef(false)
    React.useEffect(() => {
       if (!initialized.current) {
          initialized.current = true
-            
+
          // get data from tasklist api endpoint
          fetch(todo_api_url)
          .then(response => response.json())
-         .then(response => { context.setTodoModel(response) })
+         .then(response => { 
+            setTodoModel(response.filter(r => !r.discarded))
+            setTodoDiscarded(response.filter(r => r.discarded))
+         })
          .then(() => { console.log(
             "Successfully fetched data from", 
             todo_api_url
          )}).catch(error => {
             console.log(error)
-            context.setTodoModel([
-               invalidRow
-            ])
+            context.setTodoModel([ invalidRow ])
+            context.setTodoDiscarded([ invalidRow ])
          })
-
+           
          // dimension events
          const resize = () => { context.setScreenSize(window.innerWidth) }
          window.addEventListener("resize", resize) // runtime
@@ -139,50 +100,95 @@ export default function App() {
       }
    }, [ context ])
 
-   // on addedTasks change
-   React.useEffect(() => {
-      if (!addedTasks) setAddedTasks([])
-      else {
-         const newTasks = addedTasks.splice(0, addedTasks.length)
-         newTasks.forEach(newTask => {
-            const el = document.querySelector(`[id*="Row${newTask}"]`)
-            if (el) el.className = "highlightGreen"
-         })
-      }
-
-   }, [ addedTasks, setAddedTasks ])
-   
-   // websocket (to get live updates from model)
+   /************************************************************
+    * WEBSOCKETS
+    ************************************************************/
+   // initialized
    websocket.onopen = (event) => {
-      console.log("Connection established:", event)
-      context.setWsConnected(true)
+      console.log("Handshake:", new Date(), event)
+      
+      // update react hooks here so that we can use the data later
+      setWsConnected(true)
    }
 
-   websocket.onmessage = event => {
-      if (context === undefined || context.todoModel === undefined) return
-      const data = JSON.parse(event.data)
-      switch (data.type) {
-         case "update/create":
-            updateTodoRow(data.rowData, context)
-            break
-         case "delete":
-            removeTodoRow(data.rowData, context)
-            break
-         default:
-            console.warn("unknown ws message type:", data.type)
+   // when 'set' react hook functions are successfully updated above
+   function onWsConnectedChange() {
+      if (wsConnected) {
+         // do stuff here
       }
    }
+
+   // listen to react hook 'wsConnected'
+   React.useEffect(() => { onWsConnectedChange() }, [ wsConnected ])
+
+   // websocket (to get live updates from model)
    
+   websocket.onmessage = event => {
+      if (context === undefined || todoModel === undefined) return
+      const data = JSON.parse(event.data)
+      const rowData = JSON.parse(event.data).rowData
+
+      if (!data) throw new Error("'data' undefined")
+      if (!(rowData && rowData.id)) throw new Error("invalid data.rowData")
+
+      const notMatchesID = r => r.id !== rowData.id
+
+      if (JSON.parse(event.data).type === "update/create") {
+         console.log("from server: update/create", rowData)
+
+         const insertAndSort = (arr, setArr) => {
+            performSort(
+               true, // descending
+               sortedBy.replace("-descending", '').replace("-ascending", '') 
+                  || "title", 
+               [...arr, rowData], 
+               setArr
+            )
+         }
+
+         if (rowData.discarded) {
+            // remove row from todoModel and update/put in todoDiscarded
+            setTodoModel(todoModel.filter(notMatchesID))
+            insertAndSort(todoDiscarded.filter(notMatchesID), setTodoDiscarded)
+         }
+
+         else {
+            // remove row from todoDiscarded and update/put in todoModel
+            insertAndSort(todoModel.filter(notMatchesID), setTodoModel)
+            setTodoDiscarded(todoDiscarded.filter(notMatchesID))
+         } 
+
+         return
+      }
+
+      if (data.type === "delete") {
+         console.log("from server: delete", rowData)
+
+         const discarded      = r => r.discarded
+         const notDiscarded   = r => !r.discarded
+
+         // remove from both todoModel and todoDiscarded if found
+         setTodoModel(todoModel.filter(notDiscarded).filter(notMatchesID))
+         setTodoDiscarded(todoDiscarded.filter(discarded).filter(notMatchesID))
+
+         return
+      }
+
+      console.warn("unknown ws message type:", data.type)
+   }
+
    websocket.onclose = (closeEvent) => {
       console.log("Websocket close:", closeEvent)
-      context.setWsConnected(false)
+      setWsConnected(false)
    }
 
    websocket.onerror = (errorMessage) => {
       console.warn("Websocket warning:", errorMessage)
    }
    
-   // render (return jsx html object)
+   /**********************************************************************
+    * Render
+    **********************************************************************/
    return <div id="App">
       <BrowserRouter basename={djangoappName}>
          <Sidebar />

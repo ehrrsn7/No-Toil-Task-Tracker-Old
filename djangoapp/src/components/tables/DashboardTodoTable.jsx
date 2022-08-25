@@ -2,15 +2,15 @@ import React                     from "react"
 import { Tooltip }               from "@mui/material"
 import InvalidRow, { isInvalid } from "./InvalidRow"
 import DashboardTableRow         from "./DashboardTableRow"
-import * as Buttons              from "../buttons"
+import * as buttons              from "../buttons"
 import SortedByCaret             from "../other/SortedByCaret"
 import * as h                    from "../../data/helperFunctions"
 import { useContext }            from "../../contexts/contextProvider"
 import { sortBy }                from "../../data/sort"
 
 export default function DashboardTodoTable(props)  {
-   const context = useContext()
-   const { todoModel, sortedBy } = context
+   const { todoModel, setTodoModel } = useContext()
+   const { sortedBy, setSortedBy } = useContext()
    const { selectedTask, setSelectedTask } = props
 
    return <table id="DashboardTodoTable">
@@ -18,8 +18,10 @@ export default function DashboardTodoTable(props)  {
       <thead>
          <tr>
             
-            <td className="titleColumn" 
-            onClick={() => sortBy("title", context)}>
+            <td className="titleColumn" onClick={() => sortBy("title", 
+               todoModel, setTodoModel,
+               { sortedBy, setSortedBy }
+            )}>
                <span>
                   <p>Title</p>
 
@@ -27,7 +29,10 @@ export default function DashboardTodoTable(props)  {
                </span>
             </td>
             
-            <td onClick={() => sortBy("quantity-ascending", context)}> 
+            <td onClick={() => sortBy("quantity-ascending", 
+               todoModel, setTodoModel,
+               { sortedBy, setSortedBy }
+            )}>
                <span>
                   <p>Quantity</p>
 
@@ -36,18 +41,24 @@ export default function DashboardTodoTable(props)  {
             </td>
             
             {!h.isMobile() &&
-               <td onClick={() => sortBy("dateModified", context)}> 
+               <td onClick={() => sortBy("lastModified", 
+               todoModel, setTodoModel,
+               { sortedBy, setSortedBy }
+            )}>
                   <span>
                      <p>Date Modified</p>
 
                      <SortedByCaret 
                      sortedBy={sortedBy} 
-                     columnName="dateModified" />
+                     columnName="lastModified" />
                   </span>
                </td>
             }
             
-            <td onClick={() => sortBy("status", context)}>
+            <td onClick={() => sortBy("status", 
+               todoModel, setTodoModel,
+               { sortedBy, setSortedBy }
+            )}>
                <span>
                   <p>Status</p>
 
@@ -55,9 +66,11 @@ export default function DashboardTodoTable(props)  {
                </span>
             </td>
             
-            <td>
-               <Tooltip title="High Priority" placement="top" 
-               onClick={() => sortBy("highPriority-ascending", context)}>
+            <td onClick={() => sortBy("highPriority-ascending", 
+               todoModel, setTodoModel,
+               { sortedBy, setSortedBy }
+            )}>
+               <Tooltip title="High Priority" placement="top">
                   <span>
                      <p>!</p>
 
@@ -69,7 +82,7 @@ export default function DashboardTodoTable(props)  {
             </td>
             
             {!h.isMobile() && <td align="center" >
-               <Buttons.CollapseAllButton 
+               <buttons.CollapseAllButton 
                selectedTask={selectedTask} 
                setSelectedTask={setSelectedTask} />
             </td>}
@@ -89,7 +102,7 @@ export default function DashboardTodoTable(props)  {
 
          {/* Valid Tasks */}
          {!isInvalid(todoModel) && 
-         todoModel.filter(r => !r.discarded).map(rowData => 
+         todoModel.filter(r => r.id).filter(r => !r.discarded).map(rowData => 
             <DashboardTableRow 
             key={rowData.id} rowData={rowData} 
             selectedTask={selectedTask} 

@@ -1,20 +1,19 @@
 import React                     from "react"
 import TodoTableRow              from "./TodoTableRow"
 import InvalidRow, { isInvalid } from "./InvalidRow"
-import { useContext }            from "../../contexts/contextProvider"
-import { isMobile, statusNames } from "../../data/helperFunctions"
-import { sortBy }                from "../../data/sort"
+import * as buttons              from "../buttons"
 import SortedByCarret            from "../other/SortedByCaret"
-import * as Buttons              from "../buttons"
+import { sortBy }                from "../../data/sort"
+import { isMobile, statusNames } from "../../data/helperFunctions"
+import { useContext }            from "../../contexts/contextProvider"
 
-export default function TodoTable(props) {
-   const { filter, sets, selectedTask, setSelectedTask } = props
-   const context = useContext()
-   const { todoModel, sortedBy } = context
+export default function TodoTable({filter, selectedTask, setSelectedTask}) {
+   const { todoModel, setTodoModel } = useContext()
+   const { sortedBy, setSortedBy } = useContext()
 
    const filteredModel = () => (
       todoModel.filter(r => !r.discarded).filter(
-         rowData => statusNames.matches(rowData.status, filter)
+         r => statusNames.matches(r.status, filter)
       )
    )
 
@@ -23,8 +22,12 @@ export default function TodoTable(props) {
       <thead>
          <tr>
             
-            <td className="titleColumn" 
-            onClick={() => {sortBy("title", context)}}>
+            <td className="titleColumn" onClick={() => {
+               sortBy("title", 
+                  todoModel, setTodoModel, 
+                  {sortedBy, setSortedBy}
+               )
+            }}>
                <span style={{width: "100%", flexWrap: "nowrap"}}>
                   <p>
                      Title
@@ -34,15 +37,17 @@ export default function TodoTable(props) {
                </span>
             </td>
 
-            <td onClick={() => {sortBy("quantity", context)}}>
+            <td onClick={() => {
+               sortBy("quantity-ascending", 
+                  todoModel, setTodoModel, 
+                  {sortedBy, setSortedBy}
+               )
+            }}>
                <span style={{width: "100%", flexWrap: "nowrap"}}>
                   <p>
                      {/* stamp/spray should show sets instead of quantity */}
-                     { [ 0, 1 ].some( 
-                        statusInt => statusNames.matches(statusInt, filter)
-                     ) ? 
-                        "Sets" : 
-                        "Quantity"
+                     {  statusNames.getNumber(filter) <= 1 ? 
+                        "Sets" : "Quantity"
                      }
                   </p>
 
@@ -51,7 +56,12 @@ export default function TodoTable(props) {
             </td>
 
             {!isMobile() &&
-               <td onClick={() => {sortBy("lastModified", context)}}>
+               <td onClick={() => {
+                  sortBy("lastModified", 
+                     todoModel, setTodoModel, 
+                     {sortedBy, setSortedBy}
+                  )
+               }}>
                   <span style={{width: "100%", flexWrap: "nowrap"}}>
                      <p>Last Modified</p>
 
@@ -62,7 +72,12 @@ export default function TodoTable(props) {
                </td>
             }
 
-            <td onClick={() => {sortBy("highPriority-ascending", context)}}>
+            <td onClick={() => {
+               sortBy("highPriority-ascending", 
+                  todoModel, setTodoModel, 
+                  {sortedBy, setSortedBy}
+               )
+            }}>
                <span style={{width: "100%", flexWrap: "nowrap"}}>
                   <p>
                      !
@@ -73,7 +88,7 @@ export default function TodoTable(props) {
             </td>
 
             {!isMobile() && <td align="right">
-               <Buttons.CollapseAllButton 
+               <buttons.CollapseAllButton 
                selectedTask={selectedTask} 
                setSelectedTask={setSelectedTask} 
                />
@@ -97,7 +112,6 @@ export default function TodoTable(props) {
          {!isInvalid(filteredModel()) && 
          filteredModel().map(rowData => (
             <TodoTableRow 
-            sets={sets}
             key={rowData.id} 
             rowData={rowData} 
             selectedTask={selectedTask} 

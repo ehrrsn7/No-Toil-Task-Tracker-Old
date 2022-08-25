@@ -23,7 +23,7 @@ class FilterBible(models.Model):
 
 class Todo(models.Model):
     title = models.CharField(max_length=120, default="0000 or *000-00")
-    quantity = models.PositiveIntegerField(default=0)
+    quantity = models.PositiveIntegerField(default=18) # 18 each or 1 set
     toOil = models.BooleanField(default=False)
     status = models.IntegerField(default=0)
     highPriority = models.BooleanField(default=False)

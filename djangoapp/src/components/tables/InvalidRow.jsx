@@ -9,14 +9,10 @@ export const invalidRow = {
    status: -1,
 }
 
-export function isInvalid(todoModel) {
-   return !Array.isArray(todoModel) ||
-      (todoModel.length > 0 && 
-         todoModel[0] === invalidRow)
-}
+export const isInvalid = todoModel => !Array.isArray(todoModel) ||
+   todoModel.length > 0 && todoModel[0] === invalidRow
 
 export default function InvalidRow() {
-
    return <tr className="InvalidRow">        
       <td colSpan={"100%"}>
          <p> Not valid data </p>

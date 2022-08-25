@@ -1,53 +1,86 @@
 import axios            from "axios"
-import { todo_api_url } from "../../App"
 import { toast }        from "react-toastify"
+import { todo_api_url } from "../../App"
 
-// helper functions
-function deleteRow(todoModel, setTodoModel, rowData) {
-   axios.delete(todo_api_url + rowData.id + '/')
-   .then(request => {
-      console.log(`delete(${rowData.id}: ${rowData.title}) success:`, request)
-      setTodoModel(todoModel.filter(row => row.id !== rowData.id))
-   }).catch(error => {throw new Error(error)})
+/************************************************************
+ * axios functions
+ ************************************************************/
+
+// delete row from database and from todoModel
+export async function deleteRow(data, message=`deleting row`) {
+
+   if (!(data && message)) throw new Error("invalid parameters")
+
+   await axios.delete(`${todo_api_url}${data.id}/`, data)
+   .then(request => { console.log(message, request) })
+   .catch(error => {throw new Error(error)})
+}
+
+// update row in database and todoModel at data.id
+export async function patchRow(data, message=`patching row`) {
+
+   if (!(data && message)) throw new Error("invalid parameters")
+
+   await axios.patch(`${todo_api_url}${data.id}/`, data)
+   .then(request => { console.log(message, request) })
+   .catch(error => { throw new Error(error) })
+}
+
+// update row in database and todoModel
+export async function postRow(data, message=`posting row`) {
+
+   // error handling
+   if (!(data && message)) throw new Error("invalid parameters")
+
+   await axios.post(todo_api_url, data)
+   .then(request => { console.log(message, request) })
+   .catch(error => { throw new Error(error) })
 }
 
 /************************************************************
- * Delete all Discarded Items
+ * helper functions
  ************************************************************/
-export async function deleteAll(filter, todoModel, setTodoModel) {
+
+export function getPatchInfo(todoModel, newStatus, data) {
+   const patchID = todoModel.filter(
+      row => row.status === newStatus).filter(
+         row => row.title === data.title)[0].id
+   
+   const patchQuantity = todoModel.filter(
+      row => row.status === newStatus).filter(
+         row => row.title === data.title)[0].quantity
+         
+   return { patchID, patchQuantity }
+}
+
+// Delete all Discarded/Complete/etc. Items
+export async function deleteAll(arr) {
+
    try {
       // known error conditions 
-      if (todoModel === undefined) 
-         throw new Error("'todoModel' is undefined")
-      if (!Array.isArray(todoModel)) 
-         throw new Error("'todoModel' not an Array")
-
-      // set filter lambda function according to param
-      const filterLambda = {
-         complete: () => row => row.status === 5,
-         Complete: () => row => row.status === 5,
-         completed: () => row => row.status === 5,
-         Completed: () => row => row.status === 5,
-         completedParts: () => row => row.status === 5,
-         CompletedParts: () => row => row.status === 5,
-         discarded: () => row => row.discarded,
-         Discarded: () => row => row.discarded,
-      }[filter] // error throws Key error and aborts here
+      if (arr === undefined) throw new Error("'arr' is undefined")
+      if (!Array.isArray(arr)) throw new Error("'arr' not an Array")
 
       // do nothing if filtered list is empty
-      if (todoModel.filter(filterLambda).length <= 0) {
-         console.log(`No rows detected matching '${filter}'`)
+      if (arr.length <= 0) {
+         console.log(`No rows detected matching filter`)
          return
       }
 
-      todoModel.filter(filterLambda).forEach(rowData => {
+      arr.forEach(row => {
+
+         const data = row
+   
+         const message = `deleting row ${data.id}:${data.title}`
+
          try { 
             // perform delete on each matching row
-            deleteRow(todoModel, setTodoModel, rowData)
+            deleteRow(data, message)
          } 
+         
          catch (error) {
             // pass error to catch in upper scope
-            throw new Error("[in forEach] " + error) 
+            throw new Error(`[in forEach] row.id === ${row.id}` + error) 
          }
       })
 

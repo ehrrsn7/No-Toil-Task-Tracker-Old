@@ -3,8 +3,7 @@ import { NavLink }      from "react-router-dom"
 import { statusNames }  from "../../data/helperFunctions"
 import { useContext }   from "../../contexts/contextProvider"
 
-export default function NextPageButton(props) {
-   const { to } = props
+export default function NextPageButton({to}) {
    const { activeSidebar } = useContext()
 
    const nextUrl = () => to ?? statusNames.nextUrl(window)

@@ -10,6 +10,7 @@ export function ContextProvider({ children }) {
    const [ isPrinting,     setIsPrinting,    ] = React.useState(false)
    const [ wsConnected,    setWsConnected,   ] = React.useState(false)
    const [ todoModel,      setTodoModel,     ] = React.useState([])
+   const [ todoDiscarded,  setTodoDiscarded, ] = React.useState([])
    const [ addedTasks,     setAddedTasks,    ] = React.useState([])
    const [ screenSize,     setScreenSize,    ] = React.useState(undefined)
    const [ websocket,      setWebsocket,     ] = React.useState(undefined)
@@ -24,6 +25,7 @@ export function ContextProvider({ children }) {
          wsConnected,      setWsConnected,
          screenSize,       setScreenSize,          
          todoModel,        setTodoModel,
+         todoDiscarded,    setTodoDiscarded,
          websocket,        setWebsocket,
          addedTasks,       setAddedTasks,
       }}>{children}</Context.Provider>

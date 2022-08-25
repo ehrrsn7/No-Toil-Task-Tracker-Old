@@ -1,15 +1,15 @@
 import React            from "react"
-import { deleteAll }    from "../crud"
+import { deleteAll, deleteRow }    from "../crud"
 import { useContext }   from "../../../contexts/contextProvider"
 
 export default function DeleteAllDiscardedForm() {
-   const { todoModel, setTodoModel } = useContext()
+   const { todoDiscarded } = useContext()
 
    return <form id="DeleteDiscardedPartsForm">
       <button className="deleteButton" 
       onClick={event => {
          event.preventDefault()
-         deleteAll("discarded", todoModel, setTodoModel)
+         deleteAll(todoDiscarded)
       }}> 
       
          <p>Remove All Discarded Parts</p>
