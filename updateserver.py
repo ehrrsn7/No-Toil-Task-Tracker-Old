@@ -7,7 +7,7 @@ if __name__ == "__main__":
    os.system(f"pip install --upgrade pip")
    os.system(f"pip install -r requirements.txt")
    # now that django is updated, reset/update django project migrations
-   manage.main([sys.argv[0], "migrate", "api", "zero"])  # reset
+   # manage.main([sys.argv[0], "migrate", "api", "zero"])  # reset
    manage.main([sys.argv[0], "makemigrations"])          # update
    manage.main([sys.argv[0], "migrate"])                 # execute update
 
