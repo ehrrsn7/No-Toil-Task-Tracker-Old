@@ -34,12 +34,10 @@ if __name__ == "__main__":
          try:
             # change dir to djangoapp and update npm packages
             print(">> NPM")
-            os.system("cd djangoapp")
-            os.chdir(cwd + "/djangoapp")
+            os.chdir(os.getcwd() + "/djangoapp")
             os.system(f"npm install npm@latest")
             os.system(f"npm install --legacy-peer-deps")
             os.system(f"npm outdated")
-            os.system(f"cd ..")
          except:
             print(">> NPM ERROR")
    except: pass
