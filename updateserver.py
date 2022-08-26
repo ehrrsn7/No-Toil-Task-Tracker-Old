@@ -26,16 +26,21 @@ if __name__ == "__main__":
       print(">> DJANGO ERROR")
 
    try:
-      if sys.argv.get(1) == "npm":
-         # change dir to djangoapp and update npm packages
-         print(">> NPM")
-         os.system("cd djangoapp")
-         os.chdir(cwd + "/djangoapp")
-         os.system(f"npm install npm@latest")
-         os.system(f"npm install --legacy-peer-deps")
-         os.system(f"npm outdated")
-         os.system(f"cd ..")
-   except:
-      print(">> NPM ERROR")
+      if "npm" in sys.argv[1]:
+         try:
+            # change dir to djangoapp and update npm packages
+            print(">> NPM")
+            os.system("cd djangoapp")
+            os.chdir(cwd + "/djangoapp")
+            os.system(f"npm install npm@latest")
+            os.system(f"npm install --legacy-peer-deps")
+            os.system(f"npm outdated")
+            os.system(f"cd ..")
+         except:
+            print(">> NPM ERROR")
+   except: pass
 
-   if sys.platform.lower() == "windows": input("--") # keep window open
+   # keep window open
+   if sys.platform.lower() in "windows": 
+      input("--") 
+   else: input("xx")
