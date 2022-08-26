@@ -25,7 +25,10 @@ if __name__ == "__main__":
    
    # python runserver.py (default)
    else:
-      import manage
-      manage.main([sys.argv[0], "runserver", f"{get_ip_address()}:8000"])
+      try:
+         import manage
+         manage.main([sys.argv[0], "runserver", f"{get_ip_address()}:8000"])
+      except:
+         print(">> DJANGO: error running server")
 
    if sys.platform.lower() == "windows": input("--") # keep window open
