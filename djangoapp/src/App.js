@@ -48,7 +48,6 @@ export const websocket = new WebSocket(websocket_uri)
 export default function App() {
    const context = useContext()
    const { sortedBy } = useContext()
-   const { setScreenSize } = useContext()
    const { wsConnected, setWsConnected } = useContext()
    const { activeSidebar, setActiveSidebar } = useContext()
    const { todoModel, setTodoModel } = useContext()
@@ -78,11 +77,6 @@ export default function App() {
             setTodoDiscarded([ invalidRow ])
          })
            
-         // dimension events
-         const resize = () => { setScreenSize(window.innerWidth) }
-         window.addEventListener("resize", resize) // runtime
-         setScreenSize(window.innerWidth) // on construct
-
          // key down events
          const onEscape = (event) => {
             if (event.code === "Escape" || event.isComposing) {
@@ -90,14 +84,6 @@ export default function App() {
                setActiveSidebar(false)
             }
          }; document.addEventListener("keydown", onEscape)
-
-         // media query events
-         const handleDarkMode = event => { 
-            setDarkMode(event.matches) 
-         }
-         window.matchMedia(
-            "(prefers-color-scheme: dark)"
-         ).addEventListener("change", handleDarkMode)
 
       }
    }, [ context ])

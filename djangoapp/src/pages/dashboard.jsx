@@ -1,16 +1,15 @@
 import React                     from "react"
+import { NavLink }               from "react-router-dom"
+import { Tooltip }               from "@mui/material"
 import { documentTitleSuffix }   from "../App"
+import { useContext }            from "../contexts/contextProvider"
 import * as buttons              from "../components/buttons"
 import { SortByDropdown }        from "../components/dropdowns"
 import { CreateTodoForm }        from "../components/forms"
 import { DashboardTodoTable }    from "../components/tables"
-import { useContext }            from "../contexts/contextProvider"
-import { NavLink } from "react-router-dom"
-import { Tooltip } from "@mui/material"
 
 export default function Dashboard() {
-   const context = useContext()
-   const { activeSidebar } = context
+   const { activeSidebar } = useContext()
    const [ selectedTask, setSelectedTask ] = React.useState(-1)
    const [ addMore, setAddMore ] = React.useState(false)
 
