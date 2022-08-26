@@ -4,6 +4,7 @@ if __name__ == "__main__":
    
    # "cd ../No-Toil-Task-Tracker"
    os.chdir(os.getcwd())
+   os.system(f"cd {os.getcwd()}")
    print("cd ", os.getcwd())
    
    try:
