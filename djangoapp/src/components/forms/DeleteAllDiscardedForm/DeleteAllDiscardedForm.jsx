@@ -3,7 +3,7 @@ import { deleteAll }    from "../crud"
 import { useContext }   from "../../../contexts/contextProvider"
 
 export default function DeleteAllDiscardedForm() {
-   const { todoDiscarded } = useContext()
+   const { todoDiscarded, activeSidebar } = useContext()
 
    return <form id="DeleteDiscardedPartsForm">
       <button className="deleteButton" 
