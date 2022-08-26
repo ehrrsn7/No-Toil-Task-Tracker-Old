@@ -26,8 +26,7 @@ if __name__ == "__main__":
       print(">> DJANGO")
       manage.main(["manage.py", "makemigrations"]) # update
       manage.main(["manage.py", "migrate"])        # execute update
-   except:
-      print(">> DJANGO ERROR")
+   except Exception as e: print(">> DJANGO ERROR\n", e)
 
    try:
       if "npm" in sys.argv[1]:
