@@ -24,9 +24,8 @@ if __name__ == "__main__":
    try:
       # now that django is updated, reset/update django project migrations
       print(">> DJANGO")
-      # manage.main([sys.argv[0], "migrate", "api", "zero"])  # reset
-      manage.main([sys.argv[0], "makemigrations"])          # update
-      manage.main([sys.argv[0], "migrate"])                 # execute update
+      manage.main(["manage.py", "makemigrations"]) # update
+      manage.main(["manage.py", "migrate"])        # execute update
    except:
       print(">> DJANGO ERROR")
 
@@ -45,4 +44,5 @@ if __name__ == "__main__":
             print(">> NPM ERROR")
    except: pass
 
+   print("update successful, press enter to exit.")
    if "win" in sys.platform: input("--") # keep window open
