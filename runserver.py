@@ -27,13 +27,11 @@ if __name__ == "__main__":
    else:
       try:
          # "cd ../No-Toil-Task-Tracker"
-         print(os.getcwd())
-         os.chdir(sys.argv[0])
-         print(os.getcwd())
+         os.chdir(os.getcwd())
+         print("cd ", os.getcwd())
          import manage
          manage.main(["manage.py", "runserver", f"{get_ip_address()}:8000"])
       except:
          print(">> DJANGO: error running server")
 
-   if sys.platform.lower() == "windows": input("--") # keep window open
-   else: input("xx")
+   if "win" in sys.platform: input("--") # keep window open

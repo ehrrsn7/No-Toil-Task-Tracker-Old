@@ -1,6 +1,11 @@
 import os, sys, manage
 
 if __name__ == "__main__": 
+   
+   # "cd ../No-Toil-Task-Tracker"
+   os.chdir(os.getcwd())
+   print("cd ", os.getcwd())
+   
    try:
       # pull all code changes
       print(">> GIT")
@@ -40,7 +45,4 @@ if __name__ == "__main__":
             print(">> NPM ERROR")
    except: pass
 
-   # keep window open
-   if sys.platform.lower() in "windows": 
-      input("--") 
-   else: input("xx")
+   if "win" in sys.platform: input("--") # keep window open
