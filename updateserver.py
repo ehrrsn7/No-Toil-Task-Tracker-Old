@@ -43,5 +43,5 @@ if __name__ == "__main__":
             print(">> NPM ERROR")
    except: pass
 
-   print("update successful, press enter to exit.")
+   print("\nUpdate successful, press enter to exit.")
    if "win" in sys.platform: input("--") # keep window open
