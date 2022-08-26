@@ -16,8 +16,8 @@ if __name__ == "__main__":
    try:
       # update python packages
       print(">> PIP")
-      os.system(f"pip install --upgrade pip")
-      os.system(f"pip install -r requirements.txt --no-warn-script-location")
+      os.system(f"pip -q install --upgrade pip")
+      os.system(f"pip -q install -r requirements.txt --no-warn-script-location")
    except:
       print(">> PIP ERROR")
 
