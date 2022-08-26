@@ -1,12 +1,12 @@
 import axios            from "axios"
 import { todo_api_url } from "../../../App"
+import { postRow } from "../crud"
 
 /************************************************************
  * On CreateTodoForm Submit
  ************************************************************/
 export async function onSubmit(event) {
    event.preventDefault()
-   console.log("on submit", event)
 
    try {
       if (!event.target.elements) throw new Error(`invalid event ${event}`)
@@ -66,11 +66,7 @@ export async function onSubmit(event) {
       }).filter(element => element !== undefined)
    
       // pull the trigger
-      chunks.forEach(chunk => {
-         axios.post(todo_api_url, chunk)
-         .then(request => console.log({request}))
-         .catch(error => {throw new Error(error)})
-      })
+      chunks.forEach(chunk => postRow(chunk, "Request:"))
 
       onReset(event)
    }
@@ -81,7 +77,6 @@ export async function onSubmit(event) {
 }
 
 export async function onReset(event) {
-   console.log("on reset", event)
    event.target.reset() // magic all knowing button
    document.querySelectorAll("form#CreateTodoForm input").forEach(node => {
       if (node.type === "checkbox") node.value = false

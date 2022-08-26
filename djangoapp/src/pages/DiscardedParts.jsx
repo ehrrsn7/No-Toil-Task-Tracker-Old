@@ -15,7 +15,7 @@ export default function DiscardedParts() {
          documentTitleSuffix + ' ' + new Date().toLocaleString()
    }, [])
 
-   return <div id="DiscardedParts" className="table-width">
+   return <div id="DiscardedParts" className="table-width" style={{padding: 0}}>
       <span id="topButtons" style={{flexWrap: "wrap"}}>
          <Buttons.BackToDashboardButton />
          <Buttons.PrintAndDeleteAllDiscardedButton />
