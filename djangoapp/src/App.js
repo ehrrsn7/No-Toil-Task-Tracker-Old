@@ -184,8 +184,6 @@ export default function App() {
          <div id="nonSidebar" 
          className={activeSidebar ? "activeSidebar" : ""} 
          onClick={() => {
-            const { activeSidebar, setActiveSidebar } = context
-            
             // click outside #sidebar to hide it
             if (activeSidebar) setActiveSidebar(false)
          }}>
