@@ -33,6 +33,8 @@ This repository is an archive of the first edition *(v1.0)* of the task tracker.
 
 - [ ] TODO (v1.0): the data currently has no way of being exported to a file or another database, like v1.1 does. Provide an export to .csv feature.
 
+- [ ] TODO (v1.0): feature from more current versions: No Toil Logo is displayed rather than React icon.
+
 The overhaul *(v1.1)* nuked the entire tech stack and the source code aside from the use of react. Instead of using django and the CRA builder, Vite and Express were used, utilizing firebase as the backend. This time, the app wasn't made by request of the company, nor does it seem to be utilized.
 
 - [ ] TODO (v1.1): currently, my instance of the repo has a file containing the firestore credentials. There is no documentation telling any other developers how to configure firestore and save the credentials into the application. This will need doing.
