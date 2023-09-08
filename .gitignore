@@ -19,3 +19,5 @@ __pycache__
 */__init__.py
 */__pycache__
 */*/.DS_Store
+djangoapp/package-lock.json
+*/package-lock.json

@@ -26,8 +26,8 @@ if __name__ == "__main__":
    try:
       # now that django is updated, reset/update django project migrations
       print(">> DJANGO")
-      manage.main(["manage.py", "makemigrations"]) # update
-      manage.main(["manage.py", "migrate"])        # execute update
+      manage.main(["manage.py", "makemigrations", "api"]) # update
+      manage.main(["manage.py", "migrate", "api"])        # execute update
    except Exception as e: print(">> DJANGO ERROR\n", e)
 
    try:
