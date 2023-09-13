@@ -54,3 +54,8 @@ Potentially, another front-end release *(v1.3)* could happen, ditching some of t
    - Filter room bagging scanner integration (Tauri desktop exclusive feature)
 - QuickBooks Integration
    - One of the more complicated/expensive ideas here is the need for this. The problem it solves is minimal, potentially could be a bit of a dud. But it would be much more ideal for productivity, since it allows the employees to draw real-time data into the application, making it more useful and introducing the need for more features.
+ 
+More new features:
+
+- UI feature: implement fade-in animations using [React Suspense](https://blog.logrocket.com/async-rendering-react-suspense/) or [the React useTransition hook](https://youtu.be/1xjSQJWejZM)
+   - "it's always a better user experience to show that the app is doing something. If it's doing nothing, there is a bit of a fear that the application is doing nothing". Maybe implement an animated icon like that seen in Visual Studio indicating the state of the building process.
